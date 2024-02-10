@@ -64,7 +64,7 @@ body {
 }
 
 .footerContainer {
-  height: 10;
+  height: 10rem;
   display: flex;
   align-items: end;
 }
