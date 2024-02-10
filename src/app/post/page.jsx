@@ -9,6 +9,7 @@ import { UserContext } from "../Context/UserContext";
 const Upload = () => {
   const [form, setForm] = useState({});
   const [image, setImage] = useState();
+  const [isPublic, setIsPublic] = useState(true);
 
   const router = useRouter();
 
@@ -28,7 +29,7 @@ const Upload = () => {
         title: form.title,
         body: form.body,
         image: image,
-        isPublic: true,
+        isPublic: isPublic,
         user: user?._id,
         username: user?.username,
       });
@@ -84,6 +85,17 @@ const Upload = () => {
           </CldUploadWidget>
 
           <h1 className="w-full max-w-lg">File is optional</h1>
+
+          <div className="w-full">
+            <select
+              className="select select-ghost w-full"
+              onChange={(e) => setIsPublic(e.target.value)}
+            >
+              <option value="true">Public</option>
+              <option value="false">Private</option>
+            </select>
+          </div>
+
           <button className="btn max-w-lg w-full" type="submit">
             Upload
           </button>
