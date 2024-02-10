@@ -62,7 +62,7 @@ const Feed = () => {
                 <div className="card-body gap-1 p-4 flex-row justify-between">
                   <div className="w-[14rem]">
                     <h2 className="card-title">{post.title}</h2>
-                    <p>{post.body}</p>
+                    <p className="max-h-24 overflow-hidden">{post.body}</p>
                     <div className="flex gap-2 text-xl">
                       {liked ? (
                         <AiFillLike size={24} />
@@ -89,7 +89,12 @@ const Feed = () => {
                     Author - {post.username ? post.username : "User"}
                   </h2>
                   <h2 className="card-title">{post.title}</h2>
-                  <p>{post.body}</p>
+                  <div className="flex items-end">
+                    <p className="max-h-24 overflow-hidden w-[17rem]">
+                      {post.body}
+                    </p>
+                    <p>....</p>
+                  </div>
                 </div>
 
                 <div className="card-actions justify-between items-center">

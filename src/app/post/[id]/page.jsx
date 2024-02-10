@@ -62,7 +62,7 @@ const Post = () => {
               <div key={x._id} className="flex flex-col gap-4">
                 <h1 className="text-3xl">{x.title}</h1>
                 <img src={x.image} className="rounded-lg" />
-                <h1 className="text-2xl">{x.body}</h1>
+                <h1 className="text-base">{x.body}</h1>
               </div>
             ))}
           </div>
