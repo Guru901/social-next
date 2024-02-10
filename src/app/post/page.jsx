@@ -1,14 +1,18 @@
 "use client";
+
 import axios from "axios";
 import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../Context/UserContext";
 
 const Upload = () => {
   const [form, setForm] = useState({});
   const [image, setImage] = useState();
 
   const router = useRouter();
+
+  const { user } = useContext(UserContext);
 
   const handleChange = (e) => {
     setForm({
@@ -24,7 +28,9 @@ const Upload = () => {
         title: form.title,
         body: form.body,
         image: image,
-        isPublic: true
+        isPublic: true,
+        user: user?._id,
+        username: user?.username,
       });
 
       if (data.success) {

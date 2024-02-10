@@ -13,8 +13,10 @@ const postSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    // required: true,
+    ref: "users",
+  },
+  username: {
+    type: String,
   },
   likes: {
     type: Number,
@@ -32,10 +34,10 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  isPublic:{
-    type:Boolean,
-    default:true
-  }
+  isPublic: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
