@@ -7,14 +7,15 @@ export function middleware(request) {
   const path = request.nextUrl.pathname;
 
   if (!token && path !== "/login") {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+    return NextResponse.redirect(new URL("/login", request.url))
   }
+
   if (!token && path !== "/register") {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   if (token && path == "/login") {
-    return NextResponse.redirect(new URL("/feed", request.nextUrl));
+    return NextResponse.redirect(new URL("/feed", request.url));
   }
 }
 
