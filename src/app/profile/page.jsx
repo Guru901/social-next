@@ -7,24 +7,23 @@ import Nav from "@/Components/Nav";
 import axios from "axios";
 
 const Profile = () => {
-  // Retrieve user information from the context
+
+  const [selectedOption, setSelectedOption] = useState("publicPosts");
+  const [publicPosts, setPublicPosts] = useState([]);
+  const [loading, setLoading] = useState(true)
+
   const { user } = useContext(UserContext);
 
-  // State to store the selected radio button
-  const [selectedOption, setSelectedOption] = useState("publicPosts");
-
-  // State to store public posts
-  const [publicPosts, setPublicPosts] = useState([]);
-
-  // Fetch user posts on component mount and when selectedOption changes
   useEffect(() => {
     const getUserPost = async () => {
+      setLoading(true)
       const { data } = await axios.post("/api/user/getPosts", {
         user: user._id,
         isPublic: selectedOption === "publicPosts",
       });
 
       setPublicPosts(data.reverse());
+      setLoading(false)
     };
 
     getUserPost();
@@ -79,20 +78,28 @@ const Profile = () => {
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-4 w-[26rem]">
-            {publicPosts.map((post) => (
-              <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
-                <Link href={`/post/${post._id}`}>
-                  <img
-                    className="object-cover w-full h-full rounded-md"
-                    src={post.image}
-                    alt=""
-                  />
-                  <p className="absolute w-32 whitespace-nowrap overflow-hidden">
-                    {post.title}
-                  </p>
-                </Link>
-              </div>
-            ))}
+            {
+              loading ? (
+                <div className="flex justify-center items-center h-[32vh] w-screen">
+                  <div className="spinner"></div>
+                </div>
+              ) : (
+                publicPosts.map((post) => (
+                  <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
+                    <Link href={`/post/${post._id}`}>
+                      <img
+                        className="object-cover w-full h-full rounded-md"
+                        src={post.image}
+                        alt=""
+                      />
+                      <p className="absolute w-32 whitespace-nowrap overflow-hidden">
+                        {post.title}
+                      </p>
+                    </Link>
+                  </div>
+                ))
+              )
+            }
           </div>
         </div>
       </div>
