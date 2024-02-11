@@ -1,9 +1,9 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-
+import { UserContext } from "../Context/UserContext";
 import Link from "next/link";
 
 const Feed = () => {
@@ -11,6 +11,7 @@ const Feed = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
+  const { user } = useContext(UserContext)
 
   const fetchPosts = async () => {
     try {
@@ -48,7 +49,8 @@ const Feed = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
-      <div className="w-screen flex justify-end pl-2">
+      <div className="w-screen flex justify-between px-2">
+        <h1 className="text-xl">{user.username}</h1>
         <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
       </div>
       {
