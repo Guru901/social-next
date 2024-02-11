@@ -39,15 +39,18 @@ const Feed = () => {
   }
 
   if (loading) {
-return (
-  <div className="w-screen h-screen flex justify-center items-center">
-          <div className="spinner"></div>
-        </div>
-)
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <div className="spinner"></div>
+      </div>
+    )
   }
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
+      <div className="w-screen flex justify-end pl-2">
+        <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
+      </div>
       {
         posts.map((post) =>
           post.image ? ( // checking if the post has image to show different styles based on image
@@ -66,9 +69,9 @@ return (
                 <div className="card-body gap-1 p-4 flex-row justify-between">
                   <div className="w-[14rem]">
 
-                  <h2 className="card-title text-white font-bold">
-                   Author - {post.username ? post.username : "User"}
-                  </h2>
+                    <h2 className="card-title text-white font-bold">
+                      Author - {post.username ? post.username : "User"}
+                    </h2>
                     <h2 className="card-title">{post.title}</h2>
                     <p className="max-h-24 overflow-hidden">{post.body}</p>
                     <div className="flex gap-2 text-xl">
