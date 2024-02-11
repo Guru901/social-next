@@ -8,7 +8,7 @@ const Footer = () => {
   const pathName = usePathname();
 
   return (
-    <div className="footerContainer">
+    <div className={`footerContainer ${pathName==="/login"||"/register"&&"hidden"}`}>
       <div className="f mt-16">
         <Link href={"/feed"}>
           <button
