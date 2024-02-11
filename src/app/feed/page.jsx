@@ -12,25 +12,25 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  const fetchPosts = async () => {
+    try {
+      // fetching posts from backend
+      // setting loading to true so that user knows the request is sent
+      setLoading(true);
+
+      const { data } = await axios.post("/api/post/allPosts", {
+        isPublic: true,
+      });
+      setPosts(data.reverse());
+      // loading set to false so that the content can render
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    }
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        // fetching posts from backend
-        // setting loading to true so that user knows the request is sent
-        setLoading(true);
-
-        const { data } = await axios.post("/api/post/allPosts", {
-          isPublic: true,
-        });
-        setPosts(data.reverse());
-        // loading set to false so that the content can render
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      }
-    };
-
     fetchPosts();
   }, []);
 
