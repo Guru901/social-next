@@ -52,7 +52,9 @@ const Login = () => {
   return (
     <div className="flex flex-col w-[100svw] h-[100svh] justify-around items-center px-5">
       {loading ? (
-        <div>Loading</div>
+        <div className="w-screen h-screen flex justify-center items-center">
+          <div className='spinner'></div>
+        </div>
       ) : (
         <>
           <div className="flex justify-between">
