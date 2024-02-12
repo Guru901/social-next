@@ -18,22 +18,22 @@ const postSchema = new mongoose.Schema({
   username: {
     type: String,
   },
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  disLikes: {
-    type: Number,
-    default: 0,
-  },
-  userLiked: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
-  userDisLiked: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
+  // likes: {
+  //   type: Number,
+  //   default: 0,
+  // },
+  // disLikes: {
+  //   type: Number,
+  //   default: 0,
+  // },
+  // userLiked: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "user",
+  // },
+  // userDisLiked: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "user",
+  // },
   isPublic: {
     type: Boolean,
     default: true,
