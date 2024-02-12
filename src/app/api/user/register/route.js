@@ -42,9 +42,13 @@ export async function POST(request) {
       success: true,
     });
 
+    // Set a reasonable expiration time, for example, 7 days from now
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+
     response.cookies.set("token", token, {
       httpOnly: true,
-      expires: 0,
+      expires: expires,
     });
 
     // Use NextResponse.json instead of Response.json

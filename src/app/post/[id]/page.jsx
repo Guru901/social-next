@@ -4,14 +4,14 @@ import Nav from "@/Components/Nav";
 import { UserContext } from "@/app/Context/UserContext";
 import axios from "axios";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 const Post = () => {
   const [post, setPost] = useState([]);
   const [form, setForm] = useState({});
   const [comments, setComments] = useState([]);
-
-  const { user } = useContext(UserContext);
+  const inpRef = useRef();
+  const [user, setUser] = useState();
 
   const pathname = usePathname();
 
@@ -30,27 +30,37 @@ const Post = () => {
     });
 
     setComments([data]);
+    inpRef.current.value = ""; // Clear the input field
+  };
+
+  const fetchPost = async () => {
+    const { data } = await axios.post(`/api/post/getPost/${postID}`, {
+      postid: postID,
+    });
+    setPost([data]);
+  };
+
+  const fetchComments = async () => {
+    const { data } = await axios.post("/api/post/getComments", {
+      postID: postID,
+    });
+
+    setComments(data.reverse());
+  };
+
+  const getUser = async () => {
+    const { data } = await axios.post("/api/user/me");
+    setUser(data);
   };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const { data } = await axios.post(`/api/post/getPost/${postID}`, {
-        postid: postID,
-      });
-      setPost([data]);
-    };
-
-    const fetchComments = async () => {
-      const { data } = await axios.post("/api/post/getComments", {
-        postID: postID,
-      });
-
-      setComments(data.reverse());
-    };
-
     fetchComments();
-    fetchPost();
   }, [comments]);
+
+  useEffect(() => {
+    getUser();
+    fetchPost();
+  }, []);
 
   return (
     <div>
@@ -76,6 +86,7 @@ const Post = () => {
                   name="comment"
                   className="input input-bordered w-full"
                   onChange={(e) => setForm({ [e.target.name]: e.target.value })}
+                  ref={inpRef}
                 />
                 <button className="btn" type="submit">
                   Comment

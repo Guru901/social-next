@@ -37,7 +37,6 @@ const Login = () => {
       if (response.data.success) {
         router.push("/feed");
         setUser(response.data.user);
-        console.log(response.data.user);
         setLogin(true);
       } else {
         setError(response.data.msg);
@@ -53,7 +52,7 @@ const Login = () => {
     <div className="flex flex-col w-[100svw] h-[100svh] justify-around items-center px-5">
       {loading ? (
         <div className="w-screen h-screen flex justify-center items-center">
-          <div className='spinner'></div>
+          <div className="spinner"></div>
         </div>
       ) : (
         <>

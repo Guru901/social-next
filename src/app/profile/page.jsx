@@ -7,27 +7,39 @@ import Nav from "@/Components/Nav";
 import axios from "axios";
 
 const Profile = () => {
-
   const [selectedOption, setSelectedOption] = useState("publicPosts");
   const [publicPosts, setPublicPosts] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const { user } = useContext(UserContext);
+  const [user, setUser] = useState();
+
+  // const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.post("/api/user/me");
+      setUser(data);
+    };
+
+    getUser();
+  }, []); // Run only once on component mount
 
   useEffect(() => {
     const getUserPost = async () => {
-      setLoading(true)
-      const { data } = await axios.post("/api/user/getPosts", {
-        user: user._id,
-        isPublic: selectedOption === "publicPosts",
-      });
+      setLoading(true);
+      if (user && user._id) {
+        const { data } = await axios.post("/api/user/getPosts", {
+          user: user._id,
+          isPublic: selectedOption === "publicPosts",
+        });
 
-      setPublicPosts(data.reverse());
-      setLoading(false)
+        setPublicPosts(data.reverse());
+        setLoading(false);
+      }
     };
 
     getUserPost();
-  }, [selectedOption]); // Include selectedOption in the dependency array
+  }, [selectedOption, user]); //  // Include selectedOption in the dependency array
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
@@ -78,28 +90,26 @@ const Profile = () => {
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-4 w-[26rem]">
-            {
-              loading ? (
-                <div className="flex justify-center items-center h-[32vh] w-screen">
-                  <div className="spinner"></div>
+            {loading ? (
+              <div className="flex justify-center items-center h-[32vh] w-screen">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              publicPosts.map((post) => (
+                <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
+                  <Link href={`/post/${post._id}`}>
+                    <img
+                      className="object-cover w-full h-full rounded-md"
+                      src={post.image}
+                      alt=""
+                    />
+                    <p className="absolute w-32 whitespace-nowrap overflow-hidden">
+                      {post.title}
+                    </p>
+                  </Link>
                 </div>
-              ) : (
-                publicPosts.map((post) => (
-                  <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
-                    <Link href={`/post/${post._id}`}>
-                      <img
-                        className="object-cover w-full h-full rounded-md"
-                        src={post.image}
-                        alt=""
-                      />
-                      <p className="absolute w-32 whitespace-nowrap overflow-hidden">
-                        {post.title}
-                      </p>
-                    </Link>
-                  </div>
-                ))
-              )
-            }
+              ))
+            )}
           </div>
         </div>
       </div>

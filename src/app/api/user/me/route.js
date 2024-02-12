@@ -1,16 +1,16 @@
-import { connect } from "@/dbconfig/connect";
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 export async function POST(request) {
   try {
-    connect();
-    const req = await request.json();
-    const { id } = req;
+    const token = request.cookies.get("token")?.value || "";
 
-    const user = User.findById(id);
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    const response = NextResponse(user);
+    const user = await User.findById(decodedToken.id);
+
+    const response = NextResponse.json(user);
 
     return response;
   } catch (error) {

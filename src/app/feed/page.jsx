@@ -11,7 +11,7 @@ const Feed = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
-  const { user } = useContext(UserContext)
+  const [user, setUser] = useState();
 
   const fetchPosts = async () => {
     try {
@@ -30,9 +30,14 @@ const Feed = () => {
       setError(true);
     }
   };
+  const getUser = async () => {
+    const { data } = await axios.post("/api/user/me");
+    setUser(data);
+  };
 
   useEffect(() => {
     fetchPosts();
+    getUser();
   }, []);
 
   if (error) {
@@ -44,20 +49,21 @@ const Feed = () => {
       <div className="w-screen h-screen flex justify-center items-center">
         <div className="spinner"></div>
       </div>
-    )
+    );
   }
 
   return (
     <>
-    <div className="flex justify-center">
-      <div className="navbar max-w-[27rem] w-screen flex justify-between px-2 items-center">
-        <h1 className="text-xl">User - {user.username}</h1>
-        <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
+      <div className="flex justify-center">
+        <div className="navbar max-w-[27rem] w-screen flex justify-between px-2 items-center">
+          <h1 className="text-xl">User - {user?.username}</h1>
+          <button className="btn btn-neutral" onClick={fetchPosts}>
+            Reload
+          </button>
+        </div>
       </div>
-    </div>
-    <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
-      {
-        posts.map((post) =>
+      <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
+        {posts.map((post) =>
           post.image ? ( // checking if the post has image to show different styles based on image
             <div
               key={post._id}
@@ -73,7 +79,6 @@ const Feed = () => {
                 </figure>
                 <div className="card-body gap-1 p-4 flex-row justify-between">
                   <div className="w-[14rem]">
-
                     <h2 className="card-title text-white font-bold">
                       Author - {post.username ? post.username : "User"}
                     </h2>
@@ -140,9 +145,8 @@ const Feed = () => {
               </div>
             </div>
           )
-        )
-      }
-    </div>
+        )}
+      </div>
     </>
   );
 };
