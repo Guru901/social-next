@@ -48,11 +48,14 @@ const Feed = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
+    <>
+    <div>
       <div className="navbar max-w-96 w-screen flex justify-between px-2 items-center">
         <h1 className="text-xl">User - {user.username}</h1>
         <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
       </div>
+    </div>
+    <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
       {
         posts.map((post) =>
           post.image ? ( // checking if the post has image to show different styles based on image
@@ -140,6 +143,7 @@ const Feed = () => {
         )
       }
     </div>
+    </>
   );
 };
 
