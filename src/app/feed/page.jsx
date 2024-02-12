@@ -49,7 +49,7 @@ const Feed = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
-      <div className="w-screen flex justify-between px-2 items-center">
+      <div className="navbar w-screen flex justify-between px-2 items-center">
         <h1 className="text-xl">User - {user.username}</h1>
         <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
       </div>
