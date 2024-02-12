@@ -49,8 +49,8 @@ const Feed = () => {
 
   return (
     <>
-    <div>
-      <div className="navbar max-w-96 w-screen flex justify-between px-2 items-center">
+    <div className="flex justify-center">
+      <div className="navbar max-w-[27rem] w-screen flex justify-between px-2 items-center">
         <h1 className="text-xl">User - {user.username}</h1>
         <button className="btn btn-neutral" onClick={fetchPosts}>Reload</button>
       </div>
