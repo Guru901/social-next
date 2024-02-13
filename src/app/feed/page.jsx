@@ -2,7 +2,12 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import {
+  AiFillExclamationCircle,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 import Link from "next/link";
 
 const Feed = () => {
@@ -33,6 +38,24 @@ const Feed = () => {
   const getUser = async () => {
     const { data } = await axios.post("/api/user/me");
     setUser(data);
+  };
+
+  const handleLike = async (id) => {
+    const { data } = await axios.put("/api/likes/like", {
+      id: id,
+      user: user._id,
+    });
+    console.log(data);
+    fetchPosts();
+  };
+
+  const handleUnLike = async (id) => {
+    const { data } = await axios.put("/api/likes/unlike", {
+      id: id,
+      user: user._id,
+    });
+    console.log(data);
+    fetchPosts();
   };
 
   useEffect(() => {
@@ -95,12 +118,27 @@ const Feed = () => {
                     <h2 className="card-title">{post.title}</h2>
                     <p className="max-h-24 overflow-hidden">{post.body}</p>
                     <div className="flex gap-2 text-xl">
-                      {liked ? (
-                        <AiFillLike size={24} />
+                      {post.likes.includes(user?._id) ? (
+                        <div className="flex flex-col items-center justifty-center">
+                          <AiFillLike
+                            size={24}
+                            onClick={() => handleUnLike(post._id)}
+                          />
+                          <h1>{post.likes.length}</h1>
+                        </div>
                       ) : (
-                        <AiOutlineLike size={24} />
+                        <div className="flex flex-col items-center justifty-center">
+                          <AiOutlineLike
+                            size={24}
+                            onClick={() => handleLike(post._id)}
+                          />
+
+                          <h1>{post.likes.length}</h1>
+                        </div>
                       )}
-                      <AiOutlineDislike />
+                      <AiOutlineDislike
+                        onClick={() => handleUnLike(post._id)}
+                      />
                     </div>
                   </div>
                   <Link href={`/post/${post._id}`}>
