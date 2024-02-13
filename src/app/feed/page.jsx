@@ -1,9 +1,8 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { UserContext } from "../Context/UserContext";
 import Link from "next/link";
 
 const Feed = () => {
@@ -72,12 +71,22 @@ const Feed = () => {
             >
               <>
                 <figure>
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="max-h-64 w-full object-cover"
-                  />
-                </figure>
+                  {post.image &&
+                  (post.image.endsWith(".mp4") ||
+                    post.image.endsWith(".mkv")) ? (
+                    <video controls className="max-h-64 w-full object-cover">
+                      <source src={post.image} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    // Otherwise, assume it's an image
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="max-h-64 w-full object-cover"
+                    />
+                  )}
+                </figure>{" "}
                 <div className="card-body gap-1 p-4 flex-row justify-between">
                   <div className="w-[14rem]">
                     <h2 className="card-title text-white font-bold">

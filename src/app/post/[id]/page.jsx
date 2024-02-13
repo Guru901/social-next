@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import axios from 'axios';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
-import Nav from '@/Components/Nav';
+import axios from "axios";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import Nav from "@/Components/Nav";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -14,7 +14,7 @@ const Post = () => {
 
   const pathname = usePathname();
 
-  const postIDArray = pathname.split('/post/');
+  const postIDArray = pathname.split("/post/");
   const postID = postIDArray.length > 1 ? postIDArray[1] : null;
 
   const fetchPost = async () => {
@@ -24,39 +24,39 @@ const Post = () => {
       });
       setPost([data]);
     } catch (error) {
-      console.error('Error fetching post:', error);
+      console.error("Error fetching post:", error);
     }
   };
- 
-  const getUser = async() => {
-    const {data} = await axios.post('/api/user/me');
+
+  const getUser = async () => {
+    const { data } = await axios.post("/api/user/me");
     setUser(data);
-  }
+  };
 
   const fetchComments = async () => {
     try {
-      const { data } = await axios.post('/api/post/getComments', {
+      const { data } = await axios.post("/api/post/getComments", {
         postID: postID,
       });
       setComments(data.reverse());
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/post/comment', {
+      await axios.post("/api/post/comment", {
         comment: form.comment,
         postID: postID,
         user: user,
-        avatar: user.avatar ? user.avatar : '',
+        avatar: user.avatar ? user.avatar : "",
       });
-      inpRef.current.value = '';
+      inpRef.current.value = "";
       fetchComments();
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      console.error("Error submitting comment:", error);
     }
   };
 
@@ -76,14 +76,28 @@ const Post = () => {
 
   return (
     <div>
-     <Nav />
+      <Nav />
       <div className="flex flex-col items-center p-6 gap-4">
         <div className="flex flex-col gap-4 mb-40">
           <div>
             {post.map((x) => (
               <div key={x._id} className="flex flex-col gap-4">
                 <h1 className="text-3xl">{x.title}</h1>
-                <img src={x.image} className="rounded-lg" alt={x.title} />
+                {x.image &&
+                (x.image.endsWith(".mp4") || x.image.endsWith(".mkv")) ? (
+                  <video
+                    controls
+                    className="rounded-lg"
+                    width="100%"
+                    height="auto"
+                  >
+                    <source src={x.image} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  // Otherwise, assume it's an image
+                  <img src={x.image} className="rounded-lg" alt={x.title} />
+                )}
                 <h1 className="text-base">{x.body}</h1>
               </div>
             ))}
@@ -125,7 +139,7 @@ const Post = () => {
                 </div>
                 <div className="flex flex-col">
                   <h1 className="font-bold text-xl w-[70vw] break-words">
-                    {comment.user ? comment.user : 'Ni Batu :)'}
+                    {comment.user ? comment.user : "Ni Batu :)"}
                   </h1>
                   <h1 className="w-[70vw] break-words">{comment.text}</h1>
                 </div>
