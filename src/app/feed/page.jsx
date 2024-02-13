@@ -5,16 +5,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { UserContext } from "../Context/UserContext";
 import Link from "next/link";
-import getLoggedInUser from "@/functions/me";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
-
-  const { setUser } = useContext(UserContext);
-  const { user } = useContext(UserContext);
+  const [user, setUser] = useState();
 
   const fetchPosts = async () => {
     try {

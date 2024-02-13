@@ -88,7 +88,7 @@ const Upload = () => {
 
           <div className="w-full">
             <select
-              className="select select-ghost w-full"
+              className="select select-bordered w-full"
               onChange={(e) => setIsPublic(e.target.value)}
             >
               <option value="true">Public</option>

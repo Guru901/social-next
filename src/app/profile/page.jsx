@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { UserContext } from "../Context/UserContext";
 import Nav from "@/Components/Nav";
 import axios from "axios";
 
@@ -10,25 +9,32 @@ const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
   const [publicPosts, setPublicPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState();
 
-  const { user } = useContext(UserContext);
+  const getUserPost = async () => {
+    setLoading(true);
+    if (user && user._id) {
+      const { data } = await axios.post("/api/user/getPosts", {
+        user: user._id,
+        isPublic: selectedOption === "publicPosts",
+      });
+
+      setPublicPosts(data.reverse());
+      setLoading(false);
+    }
+  };
+
+  const getUser = async() => {
+    const {data} = await axios.post('/api/user/me');
+    setUser(data)
+  }
+
+
+  useEffect(()=>{getUser()},[])
 
   useEffect(() => {
-    const getUserPost = async () => {
-      setLoading(true);
-      if (user && user._id) {
-        const { data } = await axios.post("/api/user/getPosts", {
-          user: user._id,
-          isPublic: selectedOption === "publicPosts",
-        });
-
-        setPublicPosts(data.reverse());
-        setLoading(false);
-      }
-    };
-
     getUserPost();
-  }, [selectedOption, user]); //  // Include selectedOption in the dependency array
+  }, [selectedOption, user]);
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">

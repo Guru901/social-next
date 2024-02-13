@@ -1,71 +1,89 @@
-"use client";
+"use client"
 
-import Nav from "@/Components/Nav";
-import { UserContext } from "@/app/Context/UserContext";
-import axios from "axios";
-import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import axios from 'axios';
+import { usePathname } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
+import Nav from '@/Components/Nav';
 
 const Post = () => {
   const [post, setPost] = useState([]);
   const [form, setForm] = useState({});
   const [comments, setComments] = useState([]);
   const inpRef = useRef();
-  const { user } = useContext(UserContext);
+  const [user, setUser] = useState();
 
   const pathname = usePathname();
 
-  // getting the id of the post from the url
-  const postIDArray = pathname.split("/post/");
+  const postIDArray = pathname.split('/post/');
   const postID = postIDArray.length > 1 ? postIDArray[1] : null;
+
+  const fetchPost = async () => {
+    try {
+      const { data } = await axios.post(`/api/post/getPost/${postID}`, {
+        postid: postID,
+      });
+      setPost([data]);
+    } catch (error) {
+      console.error('Error fetching post:', error);
+    }
+  };
+ 
+  const getUser = async() => {
+    const {data} = await axios.post('/api/user/me');
+    setUser(data);
+  }
+
+  const fetchComments = async () => {
+    try {
+      const { data } = await axios.post('/api/post/getComments', {
+        postID: postID,
+      });
+      setComments(data.reverse());
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { data } = await axios.post("/api/post/comment", {
-      comment: form.comment,
-      postID: postID,
-      user: user,
-      avatar: user.avatar ? user.avatar : "",
-    });
-
-    setComments([data]);
-    inpRef.current.value = ""; // Clear the input field
-  };
-
-  const fetchPost = async () => {
-    const { data } = await axios.post(`/api/post/getPost/${postID}`, {
-      postid: postID,
-    });
-    setPost([data]);
-  };
-
-  const fetchComments = async () => {
-    const { data } = await axios.post("/api/post/getComments", {
-      postID: postID,
-    });
-
-    setComments(data.reverse());
+    try {
+      await axios.post('/api/post/comment', {
+        comment: form.comment,
+        postID: postID,
+        user: user,
+        avatar: user.avatar ? user.avatar : '',
+      });
+      inpRef.current.value = '';
+      fetchComments();
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
   };
 
   useEffect(() => {
-    fetchComments();
-  }, [comments]);
+    const commentsInterval = setInterval(fetchComments, 1000);
+
+    return () => {
+      // Clear the interval when the component is unmounted
+      clearInterval(commentsInterval);
+    };
+  }, []); // Empty dependency array to run only on mount and unmount
 
   useEffect(() => {
+    getUser();
     fetchPost();
   }, []);
 
   return (
     <div>
-      <Nav />
+     <Nav />
       <div className="flex flex-col items-center p-6 gap-4">
         <div className="flex flex-col gap-4 mb-40">
           <div>
             {post.map((x) => (
               <div key={x._id} className="flex flex-col gap-4">
                 <h1 className="text-3xl">{x.title}</h1>
-                <img src={x.image} className="rounded-lg" />
+                <img src={x.image} className="rounded-lg" alt={x.title} />
                 <h1 className="text-base">{x.body}</h1>
               </div>
             ))}
@@ -107,7 +125,7 @@ const Post = () => {
                 </div>
                 <div className="flex flex-col">
                   <h1 className="font-bold text-xl w-[70vw] break-words">
-                    {comment.user ? comment.user : "Ni Batu :)"}
+                    {comment.user ? comment.user : 'Ni Batu :)'}
                   </h1>
                   <h1 className="w-[70vw] break-words">{comment.text}</h1>
                 </div>
