@@ -9,7 +9,7 @@ import axios from "axios";
 const Nav = () => {
   const router = useRouter();
   const logOut = async () => {
-    const { data } = await axios.get("/api/user/logout");
+    const { data } = await axios.post("/api/user/logout");
     router.push("/login");
   };
 
