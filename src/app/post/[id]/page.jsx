@@ -11,7 +11,7 @@ const Post = () => {
   const [form, setForm] = useState({});
   const [comments, setComments] = useState([]);
   const inpRef = useRef();
-  const [user, setUser] = useState();
+  const { user } = useContext(UserContext);
 
   const pathname = usePathname();
 
@@ -48,17 +48,11 @@ const Post = () => {
     setComments(data.reverse());
   };
 
-  const getUser = async () => {
-    const { data } = await axios.post("/api/user/me");
-    setUser(data);
-  };
-
   useEffect(() => {
     fetchComments();
   }, [comments]);
 
   useEffect(() => {
-    getUser();
     fetchPost();
   }, []);
 

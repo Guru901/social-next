@@ -6,19 +6,25 @@ export function middleware(request) {
 
   const path = request.nextUrl.pathname;
 
-  if (!token && path !== "/login") {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
-  }
-  if (!token && path !== "/register") {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
-  }
-
-  if (token && path == "/login") {
-    return NextResponse.redirect(new URL("/feed", request.nextUrl));
+  if (!token) {
+    if (path !== "/login" && path !== "/register") {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+  } else {
+    if (path === "/login" || path === "/register") {
+      return NextResponse.redirect(new URL("/feed", request.nextUrl));
+    }
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/feed", "/post/:path*","/post/" ,"/profile"],
+  matcher: [
+    "/feed",
+    "/post/:path*",
+    "/post/",
+    "/profile",
+    "/login",
+    "/register",
+  ],
 };

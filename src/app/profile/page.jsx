@@ -11,18 +11,7 @@ const Profile = () => {
   const [publicPosts, setPublicPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [user, setUser] = useState();
-
-  // const { user } = useContext(UserContext);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await axios.post("/api/user/me");
-      setUser(data);
-    };
-
-    getUser();
-  }, []); // Run only once on component mount
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const getUserPost = async () => {
@@ -89,7 +78,7 @@ const Profile = () => {
         </div>
 
         <div className="flex justify-center items-center">
-          <div className="flex flex-wrap justify-start items-center gap-4 w-[26rem]">
+          <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">
             {loading ? (
               <div className="flex justify-center items-center h-[32vh] w-screen">
                 <div className="spinner"></div>
