@@ -54,13 +54,12 @@ const Feed = () => {
       id: id,
       user: user._id,
     });
-    console.log(data);
     fetchPosts();
   };
 
   useEffect(() => {
-    fetchPosts();
     getUser();
+    fetchPosts();
   }, []);
 
   if (error) {
@@ -95,8 +94,8 @@ const Feed = () => {
               <>
                 <figure>
                   {post.image &&
-                  (post.image.endsWith(".mp4") ||
-                    post.image.endsWith(".mkv")) ? (
+                    (post.image.endsWith(".mp4") ||
+                      post.image.endsWith(".mkv")) ? (
                     <video controls className="max-h-64 w-full object-cover">
                       <source src={post.image} type="video/mp4" />
                       Your browser does not support the video tag.
