@@ -57,8 +57,9 @@ const Feed = () => {
     fetchPosts();
   };
 
+  useEffect(()=>{getUser()},[])
+
   useEffect(() => {
-    getUser();
     fetchPosts();
   }, []);
 
