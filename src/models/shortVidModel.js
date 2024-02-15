@@ -28,6 +28,6 @@ const postSchema = new mongoose.Schema({
   },
 });
 
-const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+const Videos = mongoose.models.Videos || mongoose.model("Videos", postSchema);
 
-export default Post;
+export default Videos;
