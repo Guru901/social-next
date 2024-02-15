@@ -13,6 +13,7 @@ const Profile = () => {
 
   const getUserPost = async () => {
     setLoading(true);
+
     if (user && user._id) {
       const { data } = await axios.post("/api/user/getPosts", {
         user: user._id,
@@ -22,15 +23,25 @@ const Profile = () => {
       setPublicPosts(data.reverse());
       setLoading(false);
     }
+
+    if (selectedOption === "likedPosts") {
+      const { data } = await axios.post("/api/likes/getLikedPosts", {
+        id: user._id,
+      });
+
+      setPublicPosts(data.reverse());
+      setLoading(false);
+    }
   };
 
-  const getUser = async() => {
-    const {data} = await axios.post('/api/user/me');
-    setUser(data)
-  }
+  const getUser = async () => {
+    const { data } = await axios.post("/api/user/me");
+    setUser(data);
+  };
 
-
-  useEffect(()=>{getUser()},[])
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     getUserPost();

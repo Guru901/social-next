@@ -62,12 +62,10 @@ const Post = () => {
 
   useEffect(() => {
     const commentsInterval = setInterval(fetchComments, 1000);
-
     return () => {
-      // Clear the interval when the component is unmounted
       clearInterval(commentsInterval);
     };
-  }, []); // Empty dependency array to run only on mount and unmount
+  }, []);
 
   useEffect(() => {
     getUser();
@@ -94,9 +92,11 @@ const Post = () => {
                     <source src={x.image} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-                ) : (
-                  // Otherwise, assume it's an image
+                ) : // Otherwise, assume it's an image
+                x.image ? (
                   <img src={x.image} className="rounded-lg" alt={x.title} />
+                ) : (
+                  ""
                 )}
                 <h1 className="text-base">{x.body}</h1>
               </div>
