@@ -10,6 +10,7 @@ import {
   AiOutlineLike,
 } from "react-icons/ai";
 import Link from "next/link";
+import VidPlayer from "@/Components/VidPlayer";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -101,7 +102,7 @@ const Feed = () => {
           <h1 className="text-xl">
             User - {user?.username ? user?.username : "Username"}
           </h1>
-          <button className="btn btn-neutral" onClick={fetchPosts}>
+          <button className="btn" onClick={fetchPosts}>
             Reload
           </button>
         </div>
@@ -118,10 +119,7 @@ const Feed = () => {
                   {post.image &&
                   (post.image.endsWith(".mp4") ||
                     post.image.endsWith(".mkv")) ? (
-                    <video controls className="max-h-64 w-full object-cover">
-                      <source src={post.image} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    <VidPlayer videoUrl={post.image} autoPlay={false} />
                   ) : (
                     <img
                       src={post.image}

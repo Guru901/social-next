@@ -104,11 +104,24 @@ const Profile = () => {
               publicPosts.map((post) => (
                 <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
                   <Link href={`/post/${post._id}`}>
-                    <img
-                      className="object-cover w-full h-full rounded-md"
-                      src={post.image}
-                      alt=""
-                    />
+                    {post.image?.endsWith(".mp4") ||
+                    post.image?.endsWith(".mkv") ? (
+                      <video
+                        className="object-cover w-full h-full rounded-md"
+                        src={post.image}
+                        alt=""
+                      />
+                    ) : post.image ? (
+                      <img
+                        className="object-cover w-full h-full rounded-md"
+                        src={post.image}
+                        alt=""
+                      />
+                    ) : (
+                      <div className="object-cover w-full h-full rounded-md border-2 border-solid border-white flex justify-center items-center text-center">
+                        <h1>Post Image here</h1>
+                      </div>
+                    )}
                     <p className="absolute w-32 whitespace-nowrap overflow-hidden">
                       {post.title}
                     </p>
