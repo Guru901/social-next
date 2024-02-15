@@ -15,7 +15,9 @@ const Nav = () => {
 
   return (
     <div>
-      <div className="navbar flex justify-between px-5 items-center w-[100svw]">
+      <div 
+        className="navbar flex justify-between px-5 items-center w-[100svw]">
+        
         <Link href={"/feed"}>
           <button>
             <FaArrowLeft size={24} />

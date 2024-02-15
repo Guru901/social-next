@@ -12,7 +12,7 @@ export async function PUT(request) {
   const post = await Post.findByIdAndUpdate(
     id,
     {
-      $addToSet: { likes: user },
+      $addToSet: { dislikes: user },
     },
     { new: true }
   );

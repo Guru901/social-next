@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
+  AiFillDislike,
   AiFillExclamationCircle,
   AiFillLike,
   AiOutlineDislike,
@@ -19,15 +20,11 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     try {
-      // fetching posts from backend
-      // setting loading to true so that user knows the request is sent
       setLoading(true);
-
       const { data } = await axios.post("/api/post/allPosts", {
         isPublic: true,
       });
       setPosts(data.reverse());
-      // loading set to false so that the content can render
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -45,8 +42,7 @@ const Feed = () => {
       id: id,
       user: user._id,
     });
-    console.log(data);
-    fetchPosts();
+    fetchPostForLikes();
   };
 
   const handleUnLike = async (id) => {
@@ -54,12 +50,35 @@ const Feed = () => {
       id: id,
       user: user._id,
     });
-    fetchPosts();
+    fetchPostForLikes();
   };
 
-  useEffect(()=>{getUser()},[])
+  const handleDisLike = async (id) => {
+    const { data } = await axios.put("/api/likes/dislike", {
+      id: id,
+      user: user._id,
+    });
+
+    fetchPostForLikes();
+  };
+
+  const handleDisUnlike = async (id) => {
+    const { data } = await axios.put("/api/likes/disunlike", {
+      id: id,
+      user: user._id,
+    });
+    fetchPostForLikes();
+  };
+
+  const fetchPostForLikes = async () => {
+    const { data } = await axios.post("/api/post/allPosts", {
+      isPublic: true,
+    });
+    setPosts(data.reverse());
+  };
 
   useEffect(() => {
+    getUser();
     fetchPosts();
   }, []);
 
@@ -79,7 +98,9 @@ const Feed = () => {
     <>
       <div className="flex justify-center">
         <div className="navbar max-w-[27rem] w-screen flex justify-between px-2 items-center">
-          <h1 className="text-xl">User - {user?.username?user?.username:"Username"}</h1>
+          <h1 className="text-xl">
+            User - {user?.username ? user?.username : "Username"}
+          </h1>
           <button className="btn btn-neutral" onClick={fetchPosts}>
             Reload
           </button>
@@ -87,7 +108,7 @@ const Feed = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
         {posts.map((post) =>
-          post.image ? ( // checking if the post has image to show different styles based on image
+          post.image ? (
             <div
               key={post._id}
               className="card max-w-96 bg-base-100 shadow-xl w-screen"
@@ -95,14 +116,13 @@ const Feed = () => {
               <>
                 <figure>
                   {post.image &&
-                    (post.image.endsWith(".mp4") ||
-                      post.image.endsWith(".mkv")) ? (
+                  (post.image.endsWith(".mp4") ||
+                    post.image.endsWith(".mkv")) ? (
                     <video controls className="max-h-64 w-full object-cover">
                       <source src={post.image} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   ) : (
-                    // Otherwise, assume it's an image
                     <img
                       src={post.image}
                       alt={post.title}
@@ -117,9 +137,9 @@ const Feed = () => {
                     </h2>
                     <h2 className="card-title">{post.title}</h2>
                     <p className="max-h-24 overflow-hidden">{post.body}</p>
-                    <div className="flex gap-2 text-xl">
+                    <div className="flex gap-2 text-xl mt-4">
                       {post.likes.includes(user?._id) ? (
-                        <div className="flex flex-col items-center justifty-center">
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
                           <AiFillLike
                             size={24}
                             onClick={() => handleUnLike(post._id)}
@@ -127,7 +147,7 @@ const Feed = () => {
                           <h1>{post.likes.length}</h1>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justifty-center">
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
                           <AiOutlineLike
                             size={24}
                             onClick={() => handleLike(post._id)}
@@ -136,9 +156,23 @@ const Feed = () => {
                           <h1>{post.likes.length}</h1>
                         </div>
                       )}
-                      <AiOutlineDislike
-                        onClick={() => handleUnLike(post._id)}
-                      />
+                      {post.dislikes.includes(user?._id) ? (
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
+                          <AiFillDislike
+                            size={24}
+                            onClick={() => handleDisUnlike(post._id)}
+                          />
+                          <h1>{post.dislikes?.length}</h1>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
+                          <AiOutlineDislike
+                            size={24}
+                            onClick={() => handleDisLike(post._id)}
+                          />
+                          <h1>{post.dislikes?.length}</h1>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <Link href={`/post/${post._id}`}>
@@ -167,23 +201,48 @@ const Feed = () => {
                 </div>
 
                 <div className="card-actions justify-between items-center">
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 text-xl mt-4">
                     <button onClick={(prev) => setLiked(!prev)}>
-                      {liked ? (
-                        <>
-                          <AiFillLike size={24} />
-                          <h1 className="text-xs">12</h1>
-                        </>
-                      ) : (
-                        <>
-                          <AiOutlineLike size={24} />
-                          <h1 className="text-xs">12</h1>
-                        </>
-                      )}
+                      <div className="flex flex-col items-center justify-center">
+                        {post.likes.includes(user?._id) ? (
+                          <div className="flex flex-col items-center justify-center">
+                            <AiFillLike
+                              size={24}
+                              onClick={() => handleUnLike(post._id)}
+                            />
+                            <h1>{post.likes.length}</h1>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center">
+                            <AiOutlineLike
+                              size={24}
+                              onClick={() => handleLike(post._id)}
+                            />
+
+                            <h1>{post.likes.length}</h1>
+                          </div>
+                        )}
+                      </div>
                     </button>
                     <button>
-                      <AiOutlineDislike size={24} />
-                      <h1 className="text-xs">12</h1>
+                      {post.dislikes.includes(user?._id) ? (
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
+                          <AiFillDislike
+                            size={24}
+                            onClick={() => handleDisUnlike(post._id)} // Fix the function name here
+                          />
+                          <h1>{post.dislikes?.length}</h1>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
+                          <AiOutlineDislike
+                            size={24}
+                            onClick={() => handleDisLike(post._id)}
+                          />
+
+                          <h1>{post.dislikes.length}</h1>
+                        </div>
+                      )}
                     </button>
                   </div>
                   <Link href={`/post/${post._id}`}>

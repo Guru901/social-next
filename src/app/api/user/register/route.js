@@ -48,7 +48,6 @@ export async function POST(request) {
 
     response.cookies.set("token", token, {
       httpOnly: true,
-      expires: expires,
     });
 
     // Use NextResponse.json instead of Response.json
