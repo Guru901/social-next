@@ -20,14 +20,19 @@ const shuffleArray = (array) => {
 // ... (previous imports and functions)
 
 const Vid = () => {
+  const [loading, setLoading] = useState(true);
+
   const [videos, setVideos] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   useEffect(() => {
     const fetchVid = async () => {
+      setLoading(true);
       const { data } = await axios.post("/api/videos/getVideos");
       setVideos(shuffleArray(data));
+      setLoading(false);
     };
+
     fetchVid();
   }, []);
 
@@ -39,6 +44,14 @@ const Vid = () => {
       setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div>

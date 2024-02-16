@@ -83,21 +83,27 @@ const Footer = () => {
           </Link>
         </div>
         <div className="h-full flex justify-center items-center">
-          <Link href={"#"}>
+          <Link href={"/search"}>
             <button className="footerbtn">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                width="22"
-                height="22"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
                 stroke="currentColor"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  d="M18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11Z"
+                  fill="none"
+                  stroke-width="2"
+                />
+                <path
+                  d="M20 20L18 18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="currentColor"
+                  stroke-linecap="round"
                 />
               </svg>
             </button>
