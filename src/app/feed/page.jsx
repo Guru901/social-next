@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
 import Spinner from "@/Components/Spinner";
+import Nav from "@/Components/Nav";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -93,14 +94,7 @@ const Feed = () => {
   return (
     <>
       <div className="flex justify-center">
-        <div className="navbar max-w-[27rem] w-screen flex justify-between px-2 items-center">
-          <h1 className="text-xl">
-            User - {user?.username ? user?.username : "Username"}
-          </h1>
-          <button className="btn" onClick={fetchPosts}>
-            Reload
-          </button>
-        </div>
+        <Nav username={user?.username} />
       </div>
       <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
         {posts.map((post) =>
