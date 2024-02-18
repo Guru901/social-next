@@ -4,6 +4,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "@/Components/Nav";
+import Spinner from "@/Components/Spinner";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -11,7 +12,7 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const inpRef = useRef();
   const [user, setUser] = useState();
-
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname();
 
   const postIDArray = pathname.split("/post/");
@@ -19,12 +20,15 @@ const Post = () => {
 
   const fetchPost = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.post(`/api/post/getPost/${postID}`, {
         postid: postID,
       });
       setPost([data]);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching post:", error);
+      setLoading(false);
     }
   };
 
@@ -71,6 +75,8 @@ const Post = () => {
     getUser();
     fetchPost();
   }, []);
+
+  if (loading) return <Spinner />;
 
   return (
     <div>

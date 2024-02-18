@@ -96,14 +96,14 @@ const Footer = () => {
                 <path
                   d="M18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11Z"
                   fill="none"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
                 <path
                   d="M20 20L18 18"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                   fill="currentColor"
-                  stroke-linecap="round"
+                  strokeLinecap="round"
                 />
               </svg>
             </button>

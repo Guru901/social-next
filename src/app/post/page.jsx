@@ -5,11 +5,13 @@ import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { UserContext } from "../Context/UserContext";
+import Spinner from "@/Components/Spinner";
 
 const Upload = () => {
   const [form, setForm] = useState({});
   const [image, setImage] = useState();
   const [isPublic, setIsPublic] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -25,6 +27,7 @@ const Upload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post("/api/post/upload", {
         title: form.title,
         body: form.body,
@@ -37,10 +40,14 @@ const Upload = () => {
       if (data.success) {
         router.push("/feed");
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <div>

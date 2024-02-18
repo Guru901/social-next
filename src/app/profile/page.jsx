@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Nav from "@/Components/Nav";
 import axios from "axios";
+import Spinner from "@/Components/Spinner";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
@@ -46,6 +47,8 @@ const Profile = () => {
   useEffect(() => {
     getUserPost();
   }, [selectedOption, user]);
+
+  if (loading) return <Spinner />;
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">

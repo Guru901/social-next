@@ -11,6 +11,7 @@ import {
 } from "react-icons/ai";
 import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
+import Spinner from "@/Components/Spinner";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -87,13 +88,7 @@ const Feed = () => {
     return <div>An error occurred</div>;
   }
 
-  if (loading) {
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
+  if (loading) return <Spinner />;
 
   return (
     <>
