@@ -4,7 +4,6 @@ import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import Spinner from "@/Components/Spinner";
 
 const shuffleArray = (array) => {
@@ -16,7 +15,7 @@ const shuffleArray = (array) => {
   return shuffledArray;
 };
 
-const VideoItem = ({ src }) => {
+const VideoItem = ({ src, controls }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ const VideoItem = ({ src }) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             videoRef.current.currentTime = 0; // Reset video to start
-            videoRef.current.muted = true; // Mute the video
             videoRef.current.play();
           } else {
             videoRef.current.pause();
@@ -49,26 +47,36 @@ const VideoItem = ({ src }) => {
   }, [src]);
 
   return (
-    <video
-      className="w-[100vw] h-[90vh] object-cover"
-      src={src}
-      ref={videoRef}
-      loop
-    ></video>
+    <div className="w-screen h-screen flex justify-center items-start">
+      <video
+        className="w-[100vw] max-w-[300px] h-[90vh] object-cover"
+        src={src}
+        ref={videoRef}
+        controls={controls}
+        loop
+      ></video>
+    </div>
   );
 };
 
 const Vid = () => {
   const [loading, setLoading] = useState(true);
-  const [videos, setVideos] = useState([
-    // Assuming you have an array of video sources
-    "/vid.mp4",
-    "https://res.cloudinary.com/djna5slqw/video/upload/v1708016188/lkomiiiaiqauo3ano8pi.mp4",
-    // Add more video sources as needed
-  ]);
+  const [videos, setVideos] = useState();
+  const getVideos = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/videos/getVideos");
+      const vids = data.map((x) => x.vid);
+      setVideos(shuffleArray(vids)); // Set the videos state
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+    setLoading(false);
+  };
 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const videoRef = useRef(null); // Declare videoRef here
+  const videoRef = useRef(null);
 
   useEffect(() => {
     const handleTimeUpdate = (event) => {
@@ -114,6 +122,12 @@ const Vid = () => {
     };
   }, [videos, currentVideoIndex]);
 
+  useEffect(() => {
+    getVideos();
+  }, []);
+
+  if (loading) return <Spinner />;
+
   return (
     <div>
       <div className="w-[100vw] h-[90vh]">
@@ -127,9 +141,9 @@ const Vid = () => {
         </div>
         <div>
           <div className="h-[92vh] carousel carousel-vertical box">
-            {videos.map((videoSrc, index) => (
+            {videos?.map((videoSrc, index) => (
               <div key={index} className="carousel-item h-full">
-                <VideoItem src={videoSrc} />
+                <VideoItem src={videoSrc} controls={true} />
               </div>
             ))}
           </div>
