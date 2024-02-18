@@ -49,7 +49,7 @@ const VideoItem = ({ src, controls }) => {
   return (
     <div className="w-screen h-screen flex justify-center items-start">
       <video
-        className="w-[100vw] max-w-[300px] h-[90vh] object-cover"
+        className="w-[100vw] max-w-[500px] h-[90vh] object-cover"
         src={src}
         ref={videoRef}
         controls={controls}
