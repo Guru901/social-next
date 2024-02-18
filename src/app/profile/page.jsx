@@ -69,7 +69,7 @@ const Profile = () => {
 
         {/* Radio buttons section */}
         <div className="flex justify-center w-[100svw] max-x-[26rem]">
-          <div className="join">
+          <div className="join w-[26rem]">
             <input
               className="join-item btn max-w-[8.66rem] w-[33%]"
               type="radio"

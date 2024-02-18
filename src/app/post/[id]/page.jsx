@@ -10,9 +10,10 @@ const Post = () => {
   const [post, setPost] = useState([]);
   const [form, setForm] = useState({});
   const [comments, setComments] = useState([]);
-  const inpRef = useRef();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  const inpRef = useRef();
   const pathname = usePathname();
 
   const postIDArray = pathname.split("/post/");

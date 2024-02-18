@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const postSchema = new mongoose.Schema({
+const vidSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -28,6 +28,6 @@ const postSchema = new mongoose.Schema({
   },
 });
 
-const Videos = mongoose.models.Videos || mongoose.model("Videos", postSchema);
+const Videos = mongoose.models.Videos || mongoose.model("Videos", vidSchema);
 
 export default Videos;

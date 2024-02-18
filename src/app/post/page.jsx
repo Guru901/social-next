@@ -12,6 +12,7 @@ const Upload = () => {
   const [image, setImage] = useState();
   const [isPublic, setIsPublic] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [isPost, setIsPost] = useState(true);
 
   const router = useRouter();
 
@@ -27,8 +28,10 @@ const Upload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const url = isPost ? "/api/post/upload" : "/api/videos/upload";
+
       setLoading(true);
-      const { data } = await axios.post("/api/post/upload", {
+      const { data } = await axios.post(url, {
         title: form.title,
         body: form.body,
         image: image,
@@ -51,8 +54,26 @@ const Upload = () => {
 
   return (
     <div>
-      <div className="w-screen h-screen flex flex-col items-center py-14 px-0 gap-8">
-        <h1 className="text-xl">Share Your Memories</h1>
+      <div className="w-screen max h-screen flex flex-col items-center py-14 px-0 gap-8">
+        <h1 className="text-xl text-center">Share Your Memories</h1>
+        <div className="join w-11/12  flex max-w-lg ">
+          <input
+            className="join-item btn w-1/2"
+            type="radio"
+            name="options"
+            aria-label="Post on Feed"
+            checked={isPost}
+            onChange={() => setIsPost(true)}
+          />
+          <input
+            className="join-item btn w-1/2"
+            type="radio"
+            name="options"
+            aria-label="Post on Short videos"
+            checked={!isPost}
+            onChange={() => setIsPost(false)}
+          />
+        </div>
         <form
           className="flex flex-col gap-3 w-11/12 justify-center items-center text-start"
           onSubmit={handleSubmit}
