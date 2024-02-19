@@ -6,12 +6,12 @@ export async function POST() {
       success: true,
     });
 
-    // deleting the token from the user's cookies
     response.cookies.set("token", "", {
       httpOnly: true,
     });
     return response;
   } catch (error) {
-    console.log(erorr.message);
+    console.log(error.message);
+    return NextResponse.json({ msg: "Error logging out" });
   }
 }

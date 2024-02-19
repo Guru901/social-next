@@ -46,7 +46,6 @@ body {
   align-items: center;
   justify-content: space-around;
   height: 4.5rem;
-  --tw-bg-opacity: 1;
   background: #1d232a;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;

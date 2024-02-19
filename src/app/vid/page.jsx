@@ -62,6 +62,7 @@ const VideoItem = ({ src, controls }) => {
 const Vid = () => {
   const [loading, setLoading] = useState(true);
   const [videos, setVideos] = useState();
+
   const getVideos = async () => {
     try {
       setLoading(true);
@@ -81,9 +82,7 @@ const Vid = () => {
   useEffect(() => {
     const handleTimeUpdate = (event) => {
       const video = event.target;
-      // Check if the video is close to the end (e.g., last 2 seconds)
       if (video.duration - video.currentTime < 2) {
-        // Update the currentVideoIndex to the next one or loop to the beginning if it's the last video
         setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
       }
     };

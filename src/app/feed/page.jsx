@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   AiFillDislike,
-  AiFillExclamationCircle,
   AiFillLike,
   AiOutlineDislike,
   AiOutlineLike,
@@ -41,7 +40,7 @@ const Feed = () => {
   };
 
   const handleLike = async (id) => {
-    const { data } = await axios.put("/api/likes/like", {
+    await axios.put("/api/likes/like", {
       id: id,
       user: user._id,
     });
@@ -49,7 +48,7 @@ const Feed = () => {
   };
 
   const handleUnLike = async (id) => {
-    const { data } = await axios.put("/api/likes/unlike", {
+    await axios.put("/api/likes/unlike", {
       id: id,
       user: user._id,
     });
@@ -57,7 +56,7 @@ const Feed = () => {
   };
 
   const handleDisLike = async (id) => {
-    const { data } = await axios.put("/api/likes/dislike", {
+    await axios.put("/api/likes/dislike", {
       id: id,
       user: user._id,
     });
@@ -66,7 +65,7 @@ const Feed = () => {
   };
 
   const handleDisUnlike = async (id) => {
-    const { data } = await axios.put("/api/likes/disunlike", {
+    await axios.put("/api/likes/disunlike", {
       id: id,
       user: user._id,
     });

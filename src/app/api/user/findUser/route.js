@@ -1,5 +1,5 @@
 import { connect } from "@/dbconfig/connect";
-import Post from "@/models/postModel";
+import User from "@/models/userModel";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -7,15 +7,16 @@ export async function POST(request) {
     connect();
 
     const req = await request.json();
+    const { user } = req;
 
-    const { user, isPublic } = req;
+    const usernameRegex = new RegExp(user, "i");
 
-    const posts = await Post.find({ user: user, isPublic: isPublic });
+    const users = await User.find({ username: { $regex: usernameRegex } });
 
-    const response = NextResponse.json(posts);
+    const response = NextResponse.json({ users });
+
     return response;
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ msg: "Error fetching posts" });
   }
 }

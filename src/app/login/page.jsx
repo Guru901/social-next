@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { UserContext } from "../Context/UserContext";
 import Spinner from "@/Components/Spinner";
 
 const Login = () => {
-  const [form, setForm] = useState({}); // user's data
+  const [form, setForm] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,6 @@ const Login = () => {
   const router = useRouter();
 
   const handleChange = (e) => {
-    // Getting username and password in the form variable to send into backend
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -30,8 +29,6 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/user/login", form);
-
-      // if everything's good send the user to /feed
 
       if (response.data.success) {
         router.push("/feed");
@@ -67,6 +64,7 @@ const Login = () => {
             className="input input-bordered w-full"
             onChange={handleChange}
           />
+
           <input
             type="password"
             placeholder="Enter Your Password.."

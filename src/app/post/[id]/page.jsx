@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
+import { FaUser } from "react-icons/fa6";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -99,8 +100,7 @@ const Post = () => {
                     <source src={x.image} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-                ) : // Otherwise, assume it's an image
-                x.image ? (
+                ) : x.image ? (
                   <img src={x.image} className="rounded-lg" alt={x.title} />
                 ) : (
                   ""
@@ -140,7 +140,9 @@ const Post = () => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-white"></div>
+                      <div className="w-full h-full ">
+                        <FaUser />
+                      </div>
                     )}
                   </div>
                 </div>

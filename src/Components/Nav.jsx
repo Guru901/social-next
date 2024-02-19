@@ -53,16 +53,16 @@ const Nav = ({ username }) => {
 
         <div className="flex gap-2">
           <button
-            className="btn rounded-full flex items-center justify-center"
+            className="btn rounded-lg flex items-center justify-center"
             onClick={logOut}
           >
-            <img src="/icons/Sign_out.svg" alt="Sign out" />
+            Logout
           </button>
           <button
-            className="btn rounded-full flex items-center justify-center"
+            className="btn rounded-lg flex items-center justify-center"
             onClick={copyUrlToClipboard}
           >
-            <img src="/icons/Share.svg" alt="Share" />
+            Share
           </button>
         </div>
       </div>
