@@ -29,7 +29,7 @@ const Feed = () => {
         isPublic: true,
       });
       setPosts(data.reverse());
-      setRecent(data.reverse());
+      setRecent(posts);
 
       setLoading(false);
     } catch (error) {
@@ -89,21 +89,19 @@ const Feed = () => {
     : posts;
 
   useEffect(() => {
-    getUser();
-    fetchPosts();
-  }, []);
-
-  useEffect(() => {
     if (byLiked) {
       setPosts((currentPosts) =>
         [...currentPosts].sort((a, b) => b.likes.length - a.likes.length)
       );
-      console.log(byLiked);
     } else {
-      setPosts(recent.reverse());
-      console.log("nice");
+      setPosts(recent);
     }
   }, [byLiked]);
+
+  useEffect(() => {
+    getUser();
+    fetchPosts();
+  }, []);
 
   if (error) {
     return <div>An error occurred</div>;
