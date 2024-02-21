@@ -6,6 +6,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
 import { FaUser } from "react-icons/fa6";
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -15,6 +21,7 @@ const Post = () => {
   const [loading, setLoading] = useState(true);
 
   const inpRef = useRef();
+  const toastRef = useRef();
   const pathname = usePathname();
 
   const postIDArray = pathname.split("/post/");
@@ -66,6 +73,61 @@ const Post = () => {
     }
   };
 
+  const handleLike = async (id) => {
+    await axios.put("/api/likes/like", {
+      id: id,
+      user: user._id,
+    });
+    fetchPostForLikes();
+  };
+
+  const handleUnLike = async (id) => {
+    await axios.put("/api/likes/unlike", {
+      id: id,
+      user: user._id,
+    });
+    fetchPostForLikes();
+  };
+
+  const handleDisLike = async (id) => {
+    await axios.put("/api/likes/dislike", {
+      id: id,
+      user: user._id,
+    });
+
+    fetchPostForLikes();
+  };
+
+  const handleDisUnlike = async (id) => {
+    await axios.put("/api/likes/disunlike", {
+      id: id,
+      user: user._id,
+    });
+    fetchPostForLikes();
+  };
+
+  const copyUrlToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toastRef.current.style.display = "block";
+      setInterval(() => {
+        toastRef.current.style.display = "none";
+      }, 1000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+  const fetchPostForLikes = async () => {
+    try {
+      const { data } = await axios.post(`/api/post/getPost/${postID}`, {
+        postid: postID,
+      });
+      setPost([data]);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
+
   useEffect(() => {
     const commentsInterval = setInterval(fetchComments, 1000);
     return () => {
@@ -106,6 +168,60 @@ const Post = () => {
                   ""
                 )}
                 <h1 className="text-base">{x.body}</h1>
+                <div className="flex gap-4  p-2 rounded-xl">
+                  <div className="flex items-center gap-1">
+                    {x.likes.includes(user?._id) ? (
+                      <div className="flex items-center justify-center gap-1">
+                        <AiFillLike
+                          size={28}
+                          onClick={() => handleUnLike(x._id)}
+                          className="cursor-pointer"
+                        />
+                        <h1 className="text-xl">{x.likes.length}</h1>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center gap-1">
+                        <AiOutlineLike
+                          size={28}
+                          onClick={() => handleLike(x._id)}
+                          className="cursor-pointer"
+                        />
+
+                        <h1 className="text-xl">{x.likes.length}</h1>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1  mt-1">
+                    {x.dislikes.includes(user?._id) ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <AiFillDislike
+                          size={28}
+                          onClick={() => handleDisUnlike(x._id)}
+                          className="cursor-pointer"
+                        />
+                        <h1 className="text-xl">{x.dislikes.length}</h1>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center gap-2">
+                        <AiOutlineDislike
+                          size={28}
+                          onClick={() => handleDisLike(x._id)}
+                          className="cursor-pointer"
+                        />
+
+                        <h1 className="text-xl">{x.dislikes.length}</h1>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <button
+                      className="btn rounded-lg flex items-center justify-center h-8 py-0 min-h-8"
+                      onClick={copyUrlToClipboard}
+                    >
+                      Share
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -155,6 +271,15 @@ const Post = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <div
+        className="toast toast-top toast-center"
+        ref={toastRef}
+        style={{ display: "none" }}
+      >
+        <div className="alert alert-success">
+          <span>URL copied</span>
         </div>
       </div>
     </div>

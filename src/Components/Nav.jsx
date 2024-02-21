@@ -15,29 +15,6 @@ const Nav = ({ username }) => {
   };
   const pathName = usePathname();
 
-  const copyUrlToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      toast.success("URL copied", {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        style: {
-          width: "60vw",
-          display: "flex",
-          margin: "auto",
-          alignItems: "center",
-        },
-      });
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-    }
-  };
   return (
     <div>
       <div className="navbar flex justify-between px-4 items-center w-[100svw]">
@@ -57,12 +34,6 @@ const Nav = ({ username }) => {
             onClick={logOut}
           >
             Logout
-          </button>
-          <button
-            className="btn rounded-lg flex items-center justify-center"
-            onClick={copyUrlToClipboard}
-          >
-            Share
           </button>
         </div>
       </div>

@@ -15,6 +15,7 @@ import Nav from "@/Components/Nav";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const [byLiked, setByLiked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -27,6 +28,7 @@ const Feed = () => {
         isPublic: true,
       });
       setPosts(data.reverse());
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -79,10 +81,26 @@ const Feed = () => {
     setPosts(data.reverse());
   };
 
+  const sortedPosts = byLiked
+    ? [...posts].sort((a, b) => b.likes.length - a.likes.length)
+    : posts;
+
   useEffect(() => {
     getUser();
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    if (byLiked) {
+      setPosts((currentPosts) =>
+        [...currentPosts].sort((a, b) => b.likes.length - a.likes.length)
+      );
+      console.log(byLiked);
+    } else {
+      fetchPostForLikes();
+      console.log("nice");
+    }
+  }, [byLiked]);
 
   if (error) {
     return <div>An error occurred</div>;
@@ -95,8 +113,17 @@ const Feed = () => {
       <div className="flex justify-center">
         <Nav username={user?.username} />
       </div>
+      <div className="mt-2 flex w-screen max-w-96 justify-end items-center">
+        <select
+          className="select select-bordered max-w-xs"
+          onChange={(e) => setByLiked(e.target.value === "true")}
+        >
+          <option value={false}>Most Recent</option>
+          <option value={true}>Most liked</option>
+        </select>
+      </div>
       <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
-        {posts.map((post) =>
+        {sortedPosts.map((post) =>
           post.image ? (
             <div
               key={post._id}
