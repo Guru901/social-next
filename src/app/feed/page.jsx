@@ -20,6 +20,7 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState();
+  const [recent, setRecent] = useState([]);
 
   const fetchPosts = async () => {
     try {
@@ -28,6 +29,7 @@ const Feed = () => {
         isPublic: true,
       });
       setPosts(data.reverse());
+      setRecent(data.reverse());
 
       setLoading(false);
     } catch (error) {
@@ -79,6 +81,7 @@ const Feed = () => {
       isPublic: true,
     });
     setPosts(data.reverse());
+    setRecent(data.reverse());
   };
 
   const sortedPosts = byLiked
@@ -97,7 +100,7 @@ const Feed = () => {
       );
       console.log(byLiked);
     } else {
-      fetchPostForLikes();
+      setPosts(recent.reverse());
       console.log("nice");
     }
   }, [byLiked]);
