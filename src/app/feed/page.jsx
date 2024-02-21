@@ -29,7 +29,6 @@ const Feed = () => {
         isPublic: true,
       });
       setPosts(data.reverse());
-      setRecent(posts);
 
       setLoading(false);
     } catch (error) {
@@ -81,7 +80,6 @@ const Feed = () => {
       isPublic: true,
     });
     setPosts(data.reverse());
-    setRecent(data.reverse());
   };
 
   const sortedPosts = byLiked
@@ -94,7 +92,7 @@ const Feed = () => {
         [...currentPosts].sort((a, b) => b.likes.length - a.likes.length)
       );
     } else {
-      setPosts(recent);
+      fetchPostForLikes();
     }
   }, [byLiked]);
 
