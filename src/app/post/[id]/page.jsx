@@ -147,7 +147,7 @@ const Post = () => {
       <Nav />
       <div className="flex flex-col items-center p-6 gap-4">
         <div className="flex flex-col gap-4 mb-40">
-          <div>
+          <div className="px-2">
             {post.map((x) => (
               <div key={x._id} className="flex flex-col gap-4">
                 <h1 className="text-3xl">{x.title}</h1>
@@ -167,7 +167,7 @@ const Post = () => {
                 ) : (
                   ""
                 )}
-                <h1 className="text-base">{x.body}</h1>
+                <pre className="text-base">{x.body}</pre>
                 <div className="flex gap-4  p-2 rounded-xl">
                   <div className="flex items-center gap-1">
                     {x.likes.includes(user?._id) ? (

@@ -3,8 +3,7 @@
 import axios from "axios";
 import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
-import { UserContext } from "../Context/UserContext";
+import React, { useEffect, useState } from "react";
 import Spinner from "@/Components/Spinner";
 
 const Upload = () => {
@@ -13,10 +12,13 @@ const Upload = () => {
   const [isPublic, setIsPublic] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isPost, setIsPost] = useState(true);
-
+  const [user, setUser] = useState();
   const router = useRouter();
 
-  const { user } = useContext(UserContext);
+  const getUser = async () => {
+    const { data } = await axios.post("/api/user/me");
+    setUser(data);
+  };
 
   const handleChange = (e) => {
     setForm({
@@ -49,6 +51,10 @@ const Upload = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   if (loading) return <Spinner />;
 

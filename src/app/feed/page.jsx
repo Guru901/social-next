@@ -20,7 +20,6 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState();
-  const [recent, setRecent] = useState([]);
 
   const fetchPosts = async () => {
     try {
@@ -38,48 +37,80 @@ const Feed = () => {
   };
 
   const getUser = async () => {
-    const { data } = await axios.post("/api/user/me");
-    setUser(data);
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleLike = async (id) => {
-    await axios.put("/api/likes/like", {
-      id: id,
-      user: user._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/like", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occured try logging in again");
+    }
   };
 
   const handleUnLike = async (id) => {
-    await axios.put("/api/likes/unlike", {
-      id: id,
-      user: user._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/unlike", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occured try logging in again");
+    }
   };
 
   const handleDisLike = async (id) => {
-    await axios.put("/api/likes/dislike", {
-      id: id,
-      user: user._id,
-    });
+    try {
+      await axios.put("/api/likes/dislike", {
+        id: id,
+        user: user._id,
+      });
 
-    fetchPostForLikes();
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occured try logging in again");
+    }
   };
 
   const handleDisUnlike = async (id) => {
-    await axios.put("/api/likes/disunlike", {
-      id: id,
-      user: user._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/disunlike", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occured try logging in again");
+    }
   };
 
   const fetchPostForLikes = async () => {
-    const { data } = await axios.post("/api/post/allPosts", {
-      isPublic: true,
-    });
-    setPosts(data.reverse());
+    try {
+      const { data } = await axios.post("/api/post/allPosts", {
+        isPublic: true,
+      });
+      setPosts(data.reverse());
+    } catch (error) {
+      console.log(error);
+      setError("An error occured try logging in again");
+    }
   };
 
   const sortedPosts = byLiked
