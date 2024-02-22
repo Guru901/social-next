@@ -30,13 +30,13 @@ const Search = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <Nav />
-      <div className="max-w-xs flex flex-col items-center py-5 gap-2">
+      <div className="max-w-96 flex flex-col items-center py-5 gap-2">
         <h1 className="w-full flex self-start text-xl">Search</h1>
-        <div className="w-screen flex justify-center ">
+        <div className="w-screen flex justify-center mt-4">
           <input
             type="text"
             placeholder="Type here"
-            className="input input-bordered w-full max-w-xs"
+            className="input input-bordered w-full max-w-96"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
@@ -46,7 +46,11 @@ const Search = () => {
               <div className="card-body flex flex-row p-4 gap-8">
                 {user.avatar ? (
                   <div className="h-16 w-16 rounded-full overflow-hidden">
-                    <img src={user.avatar} alt="" />
+                    <img
+                      src={user.avatar}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ) : (
                   <div className="h-16 w-16 rounded-full bg-white"></div>

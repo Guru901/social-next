@@ -54,7 +54,7 @@ const Home = () => {
         });
 
         if (data.success) {
-          router.push("/feed");
+          router.push("/profile");
           setLogin(true);
           setLoading(false);
         } else {

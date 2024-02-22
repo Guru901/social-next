@@ -125,9 +125,6 @@ const Profile = () => {
                         <h1>Post Image here</h1>
                       </div>
                     )}
-                    <p className="absolute w-32 whitespace-nowrap overflow-hidden">
-                      {post.title}
-                    </p>
                   </Link>
                 </div>
               ))

@@ -31,7 +31,7 @@ const Login = () => {
       const response = await axios.post("/api/user/login", form);
 
       if (response.data.success) {
-        router.push("/feed");
+        router.push("/profile");
         setUser(response.data.user);
         setLogin(true);
       } else {
