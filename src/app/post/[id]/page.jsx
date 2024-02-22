@@ -167,7 +167,7 @@ const Post = () => {
                 ) : (
                   ""
                 )}
-                <pre className="text-base">{x.body}</pre>
+                <p className="text-base">{x.body}</p>
                 <div className="flex gap-4  p-2 rounded-xl">
                   <div className="flex items-center gap-1">
                     {x.likes.includes(user?._id) ? (
