@@ -2,7 +2,7 @@ import Post from "@/models/postModel";
 import { connect } from "mongoose";
 import { NextResponse } from "next/server";
 
-export async function POST(request, response) {
+export async function POST(request) {
   try {
     connect();
 
