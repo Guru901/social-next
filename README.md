@@ -4,7 +4,7 @@ Social Media App with Complete Anonymity
 
 ## Description
 
-This social media app is designed to prioritize user privacy and anonymity. Built with Next.js, it offers a platform where users can interact without revealing their true identities. This project is currently in a phase where external contributions are not accepted, and it is hosted and accessible for use and it's also in active devolopment phase but you can still use it here - https://social-next-noice.vercel.app/
+This social media app is designed to prioritize user privacy and anonymity. Built with Next.js, it offers a platform where users can interact without revealing their true identities. This project is currently in a phase where external contributions are not accepted, and it is hosted and accessible for use and it's also in active devolopment phase but you can still use it here - https://social-next-swart.vercel.app/
 
 ## Features
 

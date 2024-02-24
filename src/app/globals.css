@@ -59,7 +59,7 @@ body {
 }
 
 .navbar {
-  padding: 0.5rem 1.5rem;
+  padding: 1rem 1.5rem;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
@@ -101,4 +101,12 @@ body {
 
 a {
   height: min-content;
+}
+
+.settings {
+  padding: 1rem;
+}
+
+.setting {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }

@@ -3,7 +3,7 @@
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import axios from "axios";
 
 const Nav = ({ username, redirect = "/feed" }) => {
@@ -15,27 +15,16 @@ const Nav = ({ username, redirect = "/feed" }) => {
   const pathName = usePathname();
 
   return (
-    <div>
-      <div className="navbar flex justify-between px-4 items-center w-[100svw]">
-        {pathName === "/feed" ? (
-          <h1 className="text-xl">{"User - " + username}</h1>
-        ) : (
-          <Link href={redirect}>
-            <button>
-              <FaArrowLeft size={24} />
-            </button>
-          </Link>
-        )}
-
-        <div className="flex gap-2">
-          <button
-            className="btn rounded-lg flex items-center justify-center"
-            onClick={logOut}
-          >
-            Logout
+    <div className="navbar flex justify-between px-4 items-center w-[100svw]">
+      {pathName === "/feed" ? (
+        <h1 className="text-xl">{"User - " + username}</h1>
+      ) : (
+        <Link href={redirect}>
+          <button>
+            <FaArrowLeft size={24} />
           </button>
-        </div>
-      </div>
+        </Link>
+      )}
     </div>
   );
 };

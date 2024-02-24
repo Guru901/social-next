@@ -2,16 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Nav from "@/Components/Nav";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
+import { FaArrowLeft, FaGear } from "react-icons/fa6";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
   const [publicPosts, setPublicPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
-  const [hoveredPostIndex, setHoveredPostIndex] = useState(null);
 
   const getUserPost = async () => {
     setLoading(true);
@@ -41,14 +40,6 @@ const Profile = () => {
     setUser(data);
   };
 
-  const handleMouseOver = (index) => {
-    setHoveredPostIndex(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredPostIndex(null);
-  };
-
   useEffect(() => {
     getUser();
   }, []);
@@ -61,7 +52,18 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav redirect={"/profile"} />
+      <div className="navbar flex justify-between px-4 items-center w-[100svw]">
+        <Link href="/feed">
+          <button>
+            <FaArrowLeft size={24} />
+          </button>
+        </Link>
+        <Link href={"/settings"}>
+          <button>
+            <FaGear size={20} />
+          </button>
+        </Link>
+      </div>
       <div className="flex gap-8 items-center px-8">
         <div className="w-40 h-40 rounded-full bg-[#A6ADBB] overflow-hidden">
           <img
