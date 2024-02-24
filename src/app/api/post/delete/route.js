@@ -7,17 +7,15 @@ export async function POST(request) {
     connect();
 
     const req = await request.json();
+    const { id } = req;
 
-    const { user, isPublic } = req;
+    await Post.findOneAndDelete({ _id: id });
 
-    const posts = await Post.find({ user: user, isPublic: isPublic }).select(
-      "image"
-    );
+    const response = NextResponse.json({ success: true });
 
-    const response = NextResponse.json(posts);
     return response;
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ msg: "Error fetching posts" });
+    // It's a good practice to return an error response in case of failure
   }
 }

@@ -5,12 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import axios from "axios";
-import { toast } from "react-toastify";
 
-const Nav = ({ username }) => {
+const Nav = ({ username, redirect = "/feed" }) => {
   const router = useRouter();
   const logOut = async () => {
-    const { data } = await axios.post("/api/user/logout");
+    await axios.post("/api/user/logout");
     router.push("/login");
   };
   const pathName = usePathname();
@@ -21,7 +20,7 @@ const Nav = ({ username }) => {
         {pathName === "/feed" ? (
           <h1 className="text-xl">{"User - " + username}</h1>
         ) : (
-          <Link href={"/feed"}>
+          <Link href={redirect}>
             <button>
               <FaArrowLeft size={24} />
             </button>

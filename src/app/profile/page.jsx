@@ -11,6 +11,7 @@ const Profile = () => {
   const [publicPosts, setPublicPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
+  const [hoveredPostIndex, setHoveredPostIndex] = useState(null);
 
   const getUserPost = async () => {
     setLoading(true);
@@ -40,6 +41,14 @@ const Profile = () => {
     setUser(data);
   };
 
+  const handleMouseOver = (index) => {
+    setHoveredPostIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredPostIndex(null);
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -52,7 +61,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav />
+      <Nav redirect={"/profile"} />
       <div className="flex gap-8 items-center px-8">
         <div className="w-40 h-40 rounded-full bg-[#A6ADBB] overflow-hidden">
           <img
@@ -99,36 +108,32 @@ const Profile = () => {
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">
-            {loading ? (
-              <div className="flex justify-center items-center h-[32vh] w-screen">
-                <div className="spinner"></div>
-              </div>
-            ) : (
-              publicPosts.map((post) => (
-                <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
-                  <Link href={`/post/${post._id}`}>
-                    {post.image?.endsWith(".mp4") ||
-                    post.image?.endsWith(".mkv") ? (
-                      <video
-                        className="object-cover w-full h-full rounded-md"
-                        src={post.image}
-                        alt=""
-                      />
-                    ) : post.image ? (
+            {publicPosts.map((post, index) => (
+              <div
+                key={post._id}
+                className="h-52 w-32 mt-5 profile-post-img relative"
+              >
+                {post.image ? (
+                  <div className="h-52">
+                    <Link href={`/post/${post._id}`}>
                       <img
                         className="object-cover w-full h-full rounded-md"
                         src={post.image}
                         alt=""
                       />
-                    ) : (
-                      <div className="object-cover w-full h-full rounded-md border-2 border-solid border-white flex justify-center items-center text-center">
-                        <h1>Post Image here</h1>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="object-cover w-full h-full rounded-md border-2  border-solid border-white flex justify-center items-center text-center relative">
+                    <Link href={`/post/${post._id}`}>
+                      <div className="h-52 flex justify-center items-center w-full cursor-pointer">
+                        <h1>Post Image here</h1>z
                       </div>
-                    )}
-                  </Link>
-                </div>
-              ))
-            )}
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>

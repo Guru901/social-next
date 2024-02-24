@@ -1,10 +1,21 @@
 import Post from "@/models/postModel";
 import { connect } from "mongoose";
+import { NextResponse } from "next/server";
 
-export async function GET(request, response) {
-  //   connect();
+export async function POST(request, response) {
+  try {
+    connect();
 
-  //   const id = req.params;
+    const req = await request.json();
 
-  return Response.json({ msg: "nice" });
+    const { id } = req;
+
+    const posts = await Post.find({ user: id, isPublic: true }).select("image");
+
+    const response = NextResponse.json({ posts });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: "error occured" });
+  }
 }

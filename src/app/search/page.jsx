@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Nav from "@/Components/Nav";
+import Link from "next/link";
 
 const Search = () => {
   const [loading, setLoading] = useState(false);
@@ -43,21 +44,23 @@ const Search = () => {
         <div className="w-full flex flex-col gap-2">
           {users.map((user) => (
             <div className="card w-full bg-base-100 shadow-xl" key={user._id}>
-              <div className="card-body flex flex-row p-4 gap-8">
-                {user.avatar ? (
-                  <div className="h-16 w-16 rounded-full overflow-hidden">
-                    <img
-                      src={user.avatar}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="h-16 w-16 rounded-full bg-white"></div>
-                )}
+              <Link href={`/user/${user._id}`}>
+                <div className="card-body flex flex-row p-4 gap-8">
+                  {user.avatar ? (
+                    <div className="h-16 w-16 rounded-full overflow-hidden">
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-16 w-16 rounded-full bg-white"></div>
+                  )}
 
-                <div className="card-title">{user.username}</div>
-              </div>
+                  <div className="card-title">{user.username}</div>
+                </div>
+              </Link>
             </div>
           ))}
         </div>

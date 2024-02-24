@@ -13,6 +13,8 @@ import {
   AiOutlineLike,
 } from "react-icons/ai";
 
+import { useRouter } from "next/navigation";
+
 const Post = () => {
   const [post, setPost] = useState([]);
   const [form, setForm] = useState({});
@@ -23,6 +25,7 @@ const Post = () => {
   const inpRef = useRef();
   const toastRef = useRef();
   const pathname = usePathname();
+  const router = useRouter();
 
   const postIDArray = pathname.split("/post/");
   const postID = postIDArray.length > 1 ? postIDArray[1] : null;
@@ -54,6 +57,16 @@ const Post = () => {
       setComments(data.reverse());
     } catch (error) {
       console.error("Error fetching comments:", error);
+    }
+  };
+
+  const deletePostt = async () => {
+    const { data } = await axios.post("/api/post/delete", {
+      id: post[0]._id,
+    });
+
+    if (data.success) {
+      router.push("/feed");
     }
   };
 
@@ -213,13 +226,23 @@ const Post = () => {
                       </div>
                     )}
                   </div>
-                  <div>
+                  <div className="flex gap-2">
                     <button
-                      className="btn rounded-lg flex items-center justify-center h-8 py-0 min-h-8"
+                      className="btn rounded-lg flex items-center justify-center h-10 py-0 min-h-10"
                       onClick={copyUrlToClipboard}
                     >
                       Share
                     </button>
+                    {x.user === user._id && (
+                      <div>
+                        <button
+                          className="btn min-h-10 h-10"
+                          onClick={deletePostt}
+                        >
+                          Delete Post
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
