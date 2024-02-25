@@ -60,7 +60,7 @@ const Post = () => {
     }
   };
 
-  const deletePostt = async () => {
+  const deletePost = async () => {
     const { data } = await axios.post("/api/post/delete", {
       id: post[0]?._id,
     });
@@ -233,11 +233,11 @@ const Post = () => {
                     >
                       Share
                     </button>
-                    {x.user === user._id && (
+                    {x?.user === user?._id && (
                       <div>
                         <button
                           className="btn min-h-10 h-10"
-                          onClick={deletePostt}
+                          onClick={deletePost}
                         >
                           Delete Post
                         </button>
