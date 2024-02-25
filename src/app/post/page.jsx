@@ -107,7 +107,7 @@ const Upload = () => {
             {({ open }) => {
               return (
                 <button type="button" onClick={() => open()}>
-                  <div className=" file-input file-input-bordered w-[93svw] h-[2rem]">
+                  <div className=" file-input file-input-bordered w-[93svw] h-[2rem] max-w-lg">
                     <div className="w-[8rem] bg-[#2A323C] h-full rounded-s-md flex items-center justify-center">
                       <h1 className="font-bold text-sm">CHOOSE FILE</h1>
                     </div>
@@ -120,9 +120,9 @@ const Upload = () => {
 
           <h1 className="w-full max-w-lg">File is optional</h1>
 
-          <div className="w-full">
+          <div className="w-full flex justify-center items-center">
             <select
-              className="select select-bordered w-full"
+              className="select select-bordered w-full max-w-lg"
               onChange={(e) => setIsPublic(e.target.value)}
             >
               <option value="true">Public</option>
