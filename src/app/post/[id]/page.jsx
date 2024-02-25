@@ -62,7 +62,7 @@ const Post = () => {
 
   const deletePostt = async () => {
     const { data } = await axios.post("/api/post/delete", {
-      id: post[0]._id,
+      id: post[0]?._id,
     });
 
     if (data.success) {
