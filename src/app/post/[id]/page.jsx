@@ -77,7 +77,7 @@ const Post = () => {
         comment: form.comment,
         postID: postID,
         user: user,
-        avatar: user.avatar ? user.avatar : "",
+        avatar: user?.avatar ? user?.avatar : "",
       });
       inpRef.current.value = "";
       fetchComments();
