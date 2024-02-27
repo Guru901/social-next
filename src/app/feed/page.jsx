@@ -12,7 +12,6 @@ import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
 import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
-import { useRouter } from "next/navigation";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -21,8 +20,6 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState();
-
-  const router = useRouter();
 
   const fetchPosts = async () => {
     try {
@@ -47,7 +44,7 @@ const Feed = () => {
       setLoading(false);
     } catch (error) {
       console.log(error);
-      router.push("/feed");
+      setLoading(false);
     }
   };
 
