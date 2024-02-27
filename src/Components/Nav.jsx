@@ -17,13 +17,26 @@ const Nav = ({ username, redirect = "/feed" }) => {
   return (
     <div className="navbar flex justify-between px-4 items-center w-[100svw]">
       {pathName === "/feed" ? (
-        <h1 className="text-xl">{"User - " + username}</h1>
-      ) : (
+        <>
+          <h1 className="text-xl">{"User - " + username}</h1>
+          <Link href={"/settings"}>
+            <button>
+              <FaGear size={20} />
+            </button>
+          </Link>
+        </>
+      ) : (<>
         <Link href={redirect}>
           <button>
             <FaArrowLeft size={24} />
           </button>
         </Link>
+        <Link href={"/settings"}>
+          <button>
+            <FaGear size={20} />
+          </button>
+        </Link>
+      </>
       )}
     </div>
   );
