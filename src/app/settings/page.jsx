@@ -1,9 +1,18 @@
+"use client";
+
 import React from "react";
 import Nav from "../../Components/Nav";
 import { FaBell, FaFeather, FaGears, FaUser } from "react-icons/fa6";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Settings = () => {
+  const router = useRouter();
+  const logOut = async () => {
+    await axios.post("/api/user/logout");
+    router.push("/login");
+  };
   return (
     <div>
       <Nav />
@@ -14,7 +23,10 @@ const Settings = () => {
               <div>
                 <FaUser />
               </div>
-              <div className="mt-1">Edit Profile</div>
+              <div className="flex flex-col">
+                <div className="mt-1">Edit Profile</div>
+                <p className="text-xs">still can't change username</p>
+              </div>
             </div>
           </Link>
         </div>
@@ -24,7 +36,9 @@ const Settings = () => {
               <div>
                 <FaGears />
               </div>
-              <div>Account</div>
+              <div className="flex flex-col">
+                <div>Account</div>
+              </div>
             </div>
           </Link>
         </div>
@@ -34,7 +48,9 @@ const Settings = () => {
               <div>
                 <FaBell />
               </div>
-              <div>Notifications</div>
+              <div className="flex flex-col">
+                <div>Notifications</div>
+              </div>
             </div>
           </Link>
         </div>
@@ -44,32 +60,26 @@ const Settings = () => {
               <div>
                 <FaFeather />
               </div>
-              <div>Give Feedback</div>
-              <p>ni diya to bhoot le jaayenge</p>
+              <div className="flex flex-col">
+                <div>Give Feedback</div>
+                <p className="text-xs">ni diya to bhoot le jaayenge</p>
+              </div>
             </div>
           </Link>
         </div>
+
         <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/feature">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaFeather />
-              </div>
-              <div>Give Feedback</div>
-              <p>ni diya to bhoot le jaayenge</p>
+          <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+            <div>
+              <FaFeather />
             </div>
-          </Link>
-        </div>
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/feature">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaFeather />
-              </div>
-              <div>Give Feedback</div>
-              <p>ni diya to bhoot le jaayenge</p>
+            <div className="flex flex-col">
+              <button className="w-[80vw] flex justify-start" onClick={logOut}>
+                Logout
+              </button>
+              <p className="text-xs">gaddari karbe</p>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>
