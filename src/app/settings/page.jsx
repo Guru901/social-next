@@ -19,7 +19,7 @@ const Settings = () => {
       <div className="settings flex gap-2 flex-col">
         <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/profile">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
               <div>
                 <FaUser />
               </div>
@@ -32,7 +32,7 @@ const Settings = () => {
         </div>
         <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/account">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
               <div>
                 <FaGears />
               </div>
@@ -44,22 +44,37 @@ const Settings = () => {
         </div>
         <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/profile">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
               <div>
                 <FaBell />
               </div>
-              <div className="flex flex-col">
-                <div>Notifications</div>
-              </div>
+              <div>Notifications</div>
             </div>
           </Link>
         </div>
         <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/feature">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
+              <div>
+                <FaFeather />
+=======
+              <div className="flex flex-col">
+                <div>Notifications</div>
+              </div>
+              <div>Give Feedback</div>
+              <p className="text-xs">ni diya to bhoot le jaayenge</p>
+=======
+            </div>
+          </Link>
+        </div>
+        <div className="setting flex flex-row p-4 gap-8">
+          <Link href="/settings/feature">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
               <div>
                 <FaFeather />
               </div>
+              <div>Give Feedback</div>
+              <p className="text-xs">ni diya to bhoot le jaayenge</p>
               <div className="flex flex-col">
                 <div>Give Feedback</div>
                 <p className="text-xs">ni diya to bhoot le jaayenge</p>
@@ -69,6 +84,15 @@ const Settings = () => {
         </div>
 
         <div className="setting flex flex-row p-4 gap-8">
+          <Link href="/settings/feature">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
+              <div>
+                <FaFeather />
+              </div>
+              <div>Give Feedback</div>
+              <p className="text-xs">ni diya to bhoot le jaayenge</p>
+            </div>
+          </Link>
           <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
             <div>
               <FaFeather />
