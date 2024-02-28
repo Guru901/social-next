@@ -57,13 +57,12 @@ const Settings = () => {
             <div className="card-title flex justify-start items-center gap-4 cursor-pointer flex-col">
               <div>
                 <FaFeather />
-=======
-              <div className="flex flex-col">
-                <div>Notifications</div>
+                <div className="flex flex-col">
+                  <div>Notifications</div>
+                </div>
+                <div>Give Feedback</div>
+                <p className="text-xs">ni diya to bhoot le jaayenge</p>
               </div>
-              <div>Give Feedback</div>
-              <p className="text-xs">ni diya to bhoot le jaayenge</p>
-=======
             </div>
           </Link>
         </div>
