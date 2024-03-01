@@ -114,3 +114,13 @@ a {
 .setting-btn {
   width: 100%;
 }
+
+.meme-toast {
+  position: absolute;
+  width: 80vw;
+  display: block;
+  margin: auto;
+}
+.meme-toast > span {
+  font-size: 14px;
+}

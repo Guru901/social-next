@@ -9,15 +9,22 @@ const Nav = ({ username, redirect = "/feed" }) => {
   const pathName = usePathname();
 
   return (
-    <div className="navbar flex justify-between px-4 items-center w-[100svw]">
+    <div className="navbar flex justify-between px-4 items-center w-[100svw] relative">
       {pathName === "/feed" ? (
         <>
           <h1 className="text-xl">{"User - " + username}</h1>
-          <Link href={"/settings"}>
-            <button>
-              <FaGear size={20} />
-            </button>
-          </Link>
+          <div className="flex gap-5">
+            <Link href={"/meme"}>
+              <button>
+                <img src="/icons/Random.svg" alt="" />
+              </button>
+            </Link>
+            <Link href={"/settings"}>
+              <button>
+                <FaGear size={20} />
+              </button>
+            </Link>
+          </div>
         </>
       ) : (
         <>
@@ -26,11 +33,18 @@ const Nav = ({ username, redirect = "/feed" }) => {
               <FaArrowLeft size={24} />
             </button>
           </Link>
-          <Link href={"/settings"}>
-            <button>
-              <FaGear size={20} />
-            </button>
-          </Link>
+          <div className="flex gap-5">
+            <Link href={"/meme"}>
+              <button>
+                <img src="/icons/Random.svg" alt="" />
+              </button>
+            </Link>
+            <Link href={"/settings"}>
+              <button>
+                <FaGear size={20} />
+              </button>
+            </Link>
+          </div>
         </>
       )}
     </div>

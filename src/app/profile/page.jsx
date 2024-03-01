@@ -5,6 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
+import Nav from "@/Components/Nav";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
@@ -52,7 +53,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <div className="navbar flex justify-between px-4 items-center w-[100svw]">
+      {/* <div className="navbar flex justify-between px-4 items-center w-[100svw]">
         <Link href="/feed">
           <button>
             <FaArrowLeft size={24} />
@@ -63,7 +64,8 @@ const Profile = () => {
             <FaGear size={20} />
           </button>
         </Link>
-      </div>
+      </div> */}
+      <Nav />
       <div className="flex gap-8 items-center px-8">
         <div className="w-40 h-40 rounded-full bg-[#A6ADBB] overflow-hidden">
           <img
