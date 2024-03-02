@@ -280,7 +280,7 @@ const Post = () => {
                       />
                     ) : (
                       <div className="w-full h-full ">
-                        <FaUser />
+                        <FaUser size={20}/>
                       </div>
                     )}
                   </div>
