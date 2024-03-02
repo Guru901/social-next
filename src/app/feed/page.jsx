@@ -77,17 +77,24 @@ const Feed = () => {
     }
   };
 
-  const getUser = async () => {
+  const getUser = async (retryCount = 3) => {
     try {
       setLoading(true);
       const { data } = await axios.post("/api/user/me");
       setUser(data);
       setLoading(false);
     } catch (error) {
-      setError("Error occured");
+      console.error(error);
+  
+      if (error.response && error.response.status === 504 && retryCount > 0) {
+        console.log(`Retrying getUser... Attempts left: ${retryCount}`);
+        setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
+      } else {
+        setError("Error occurred");
+      }
     }
   };
-
+  
   const handleDisUnlike = async (id) => {
     try {
       await axios.put("/api/likes/disunlike", {
