@@ -10,7 +10,9 @@ export async function POST(request) {
 
     const { id } = req;
 
-    const posts = await Post.find({ user: id, isPublic: true }).select("image");
+    const posts = await Post.find({ username: id, isPublic: true }).select(
+      "image"
+    );
 
     const response = NextResponse.json({ posts });
     return response;

@@ -1,7 +1,8 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   AiFillDislike,
   AiFillLike,
@@ -20,9 +21,6 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState();
-  const [showToast, setShowToast] = useState(true);
-
-  const toastRef = useRef();
 
   const fetchPosts = async () => {
     try {
@@ -36,18 +34,6 @@ const Feed = () => {
     } catch (error) {
       console.log(error);
       setError(true);
-    }
-  };
-
-  const getUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setUser(data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
     }
   };
 
@@ -91,6 +77,17 @@ const Feed = () => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      setError("Error occured");
+    }
+  };
+
   const handleDisUnlike = async (id) => {
     try {
       await axios.put("/api/likes/disunlike", {
@@ -116,12 +113,6 @@ const Feed = () => {
     }
   };
 
-  const removeToast = () => {
-    setTimeout(() => {
-      setShowToast(false);
-    }, 1200);
-  };
-
   const sortedPosts = byLiked
     ? [...posts].sort((a, b) => b.likes.length - a.likes.length)
     : posts;
@@ -134,12 +125,15 @@ const Feed = () => {
     } else {
       fetchPostForLikes();
     }
+
+    if (user?.username === undefined) {
+      getUser();
+    }
   }, [byLiked]);
 
   useEffect(() => {
     getUser();
     fetchPosts();
-    removeToast();
   }, []);
 
   if (error) {
@@ -153,13 +147,6 @@ const Feed = () => {
       <div className="flex justify-center">
         <Nav username={user?.username} />
       </div>
-      {showToast && (
-        <div className="flex w-screen justify-center" ref={toastRef}>
-          <div className="alert alert-success meme-toast">
-            <span>Click on the random icon for a meme</span>
-          </div>
-        </div>
-      )}
       <div className="mt-2 flex w-screen max-w-96 justify-end items-center">
         <select
           className="select select-bordered max-w-xs"

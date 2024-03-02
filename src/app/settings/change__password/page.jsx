@@ -3,17 +3,34 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
-import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import Nav from "@/Components/Nav";
 
-const EditProfile = () => {
+const ChangePassword = () => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [avatar, setAvatar] = useState("");
+  const [form, setForm] = useState();
   const [error, setError] = useState("");
 
   const router = useRouter();
+
+  const pswdCheck = () => {
+    if (form.newPassword !== form.confPassword) {
+      setError("Passwords dont match");
+      if (form.newPassword.length < 5) {
+        setError("Password Should atleat be of 6 characters");
+        return false;
+      }
+    } else return true;
+  };
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const getUser = async () => {
     try {
@@ -27,20 +44,28 @@ const EditProfile = () => {
     }
   };
 
-  const handleAvatarChange = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/editAvatar", {
-        avatar,
-      });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (pswdCheck()) {
+      try {
+        setLoading(true);
+        const { data } = await axios.post("/api/user/editProfile", {
+          avatar: avatar,
+          oldPass: form.currPassword,
+          newPass: form.newPassword,
+        });
 
-      if (data.success) {
-        router.push("/profile");
+        if (data.success) {
+          router.push("/profile");
+          setLoading(false);
+        } else {
+          setError(data.msg);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
         setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
     }
   };
 
@@ -63,26 +88,6 @@ const EditProfile = () => {
             />
           </div>
           <div className="min-w-full flex justify-center flex-col items-center gap-2">
-            <div className="flex gap-12">
-              <CldUploadWidget
-                uploadPreset="cf72ckgk"
-                onSuccess={(results) => {
-                  setAvatar(results.info.secure_url);
-                }}
-              >
-                {({ open }) => {
-                  return (
-                    <button
-                      type="button"
-                      onClick={() => open()}
-                      className="underline"
-                    >
-                      Change avatar
-                    </button>
-                  );
-                }}
-              </CldUploadWidget>
-            </div>
             <div className="flex flex-col justify-center items-center gap-12">
               <div className="flex flex-col gap-4 items-center justify-center">
                 <div className="flex gap-2">
@@ -101,9 +106,35 @@ const EditProfile = () => {
                     }`}
                   </h1>
                 </div>
-                <button className="btn" onClick={handleAvatarChange}>
-                  Confirm Avatar
-                </button>
+              </div>
+
+              <div className="flex flex-col items-center justify-center gap-3">
+                <h1>Change your password</h1>
+                <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+                  <input
+                    type="password"
+                    className="input input-bordered w-80"
+                    placeholder="Current Password"
+                    name="currPassword"
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="password"
+                    className="input input-bordered w-80"
+                    placeholder="New Password"
+                    name="newPassword"
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="password"
+                    className="input input-bordered w-80"
+                    placeholder="Confirm New Password"
+                    name="confPassword"
+                    onChange={handleChange}
+                  />
+                  <p className="text-sm">{error}</p>
+                  <input type="submit" className="btn" />
+                </form>
               </div>
             </div>
           </div>
@@ -113,4 +144,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default ChangePassword;

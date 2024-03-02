@@ -31,6 +31,19 @@ const Settings = () => {
           </Link>
         </div>
         <div className="setting flex flex-row p-4 gap-8">
+          <Link href="/settings/change__password">
+            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+              <div>
+                <FaUser />
+              </div>
+              <div className="flex flex-col">
+                <div className="mt-1">Change password</div>
+                <p className="text-xs">still can't change username</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/account">
             <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
               <div>

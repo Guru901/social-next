@@ -6,45 +6,68 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Spinner from "@/Components/Spinner";
+import { useRouter } from "next/navigation";
 
 const User = () => {
   const [user, setUser] = useState();
+  const [userLogin, setUserLogin] = useState();
   const [selectedOption, setSelectedOption] = useState("publicPosts");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const pathName = usePathname();
+  const router = useRouter();
 
   const id = pathName.split("/")[2];
 
-  const getUser = async () => {
+  const getUserSearch = async () => {
     const { data } = await axios.post("/api/user/getUser", {
       id,
     });
-    setUser(data);
+    setUser(data[0]);
+
     setLoading(false);
   };
 
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setUserLogin(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const getUserPosts = async () => {
+    try {
+      const { data } = await axios.post("/api/post/getPost", {
+        id,
+      });
+
+      setPosts(data.posts.reverse());
+    } catch (error) {
+      console.error("Error fetching user posts:", error);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const getUserPosts = async () => {
-      try {
-        const { data } = await axios.post("/api/post/getPost", {
-          id,
-        });
-
-        setPosts(data.posts.reverse());
-      } catch (error) {
-        console.error("Error fetching user posts:", error);
-        setLoading(false);
-      }
-    };
-
     getUser();
     getUserPosts();
+    getUserSearch();
   }, []);
 
   if (loading) {
     return <Spinner />;
+  }
+
+  // if (userLogin.username === user.username) {
+  // }
+
+  if (userLogin.username === user?.username) {
+    router.push("/profile");
   }
 
   return (
@@ -124,7 +147,7 @@ const User = () => {
                     />
                   ) : (
                     <div className="object-cover w-full h-full rounded-md border-2 border-solid border-white flex justify-center items-center text-center">
-                      <h1>Post Image here</h1>
+                      <h1>Post Doesnt have image</h1>
                     </div>
                   )}
                 </Link>

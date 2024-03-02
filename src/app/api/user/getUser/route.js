@@ -10,7 +10,7 @@ export async function POST(request) {
 
     const { id } = req;
 
-    const user = await User.findById(id).select("-password").select("-posts");
+    const user = await User.find({ username: id }).select("-password");
 
     const response = NextResponse.json(user);
 

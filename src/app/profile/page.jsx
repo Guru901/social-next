@@ -22,6 +22,7 @@ const Profile = () => {
         isPublic: selectedOption === "publicPosts",
       });
 
+      console.log(data);
       setPublicPosts(data.reverse());
       setLoading(false);
     }
@@ -120,18 +121,27 @@ const Profile = () => {
                 {post.image ? (
                   <div className="h-52">
                     <Link href={`/post/${post._id}`}>
-                      <img
-                        className="object-cover w-full h-full rounded-md"
-                        src={post.image}
-                        alt=""
-                      />
+                      {post.image.endsWith(".mp4") ||
+                      post.image.endsWith(".mkv") ? (
+                        <video
+                          className="object-cover w-full h-full rounded-md"
+                          src={post.image}
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          className="object-cover w-full h-full rounded-md"
+                          src={post.image}
+                          alt=""
+                        />
+                      )}
                     </Link>
                   </div>
                 ) : (
                   <div className="object-cover w-full h-full rounded-md border-2  border-solid border-white flex justify-center items-center text-center relative">
                     <Link href={`/post/${post._id}`}>
                       <div className="h-52 flex justify-center items-center w-full cursor-pointer">
-                        <h1>Post Image here</h1>
+                        <h1>Post Doesnt have image</h1>
                       </div>
                     </Link>
                   </div>
