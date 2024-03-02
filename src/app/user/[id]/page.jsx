@@ -24,7 +24,7 @@ const User = () => {
     const { data } = await axios.post("/api/user/getUser", {
       id,
     });
-    setUser(data[0]);
+    setUser(data);
 
     setLoading(false);
   };

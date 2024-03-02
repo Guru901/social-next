@@ -44,7 +44,7 @@ const Search = () => {
         <div className="w-full flex flex-col gap-2">
           {users.map((user) => (
             <div className="card w-full bg-base-100 shadow-xl" key={user._id}>
-              <Link href={`/user/${user.username}`}>
+              <Link href={`/user/${user._id}`}>
                 <div className="card-body flex flex-row p-4 gap-8">
                   {user.avatar ? (
                     <div className="h-16 w-16 rounded-full overflow-hidden">
