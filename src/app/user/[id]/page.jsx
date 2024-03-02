@@ -37,7 +37,7 @@ const User = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-  
+
       if (error.response && error.response.status === 504 && retryCount > 0) {
         console.log(`Retrying getUser... Attempts left: ${retryCount}`);
         setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
@@ -69,13 +69,6 @@ const User = () => {
     return <Spinner />;
   }
 
-  // if (userLogin.username === user.username) {
-  // }
-
-  if (userLogin.username === user?.username) {
-    router.push("/profile");
-  }
-
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
       <Nav redirect={"/search"} />
@@ -96,7 +89,9 @@ const User = () => {
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
           <button className="btn">Add Friend</button>
-          <button className="btn  mr-5">Message</button>
+          <Link href={`/chat/${user._id}`}>
+            <button className="btn  mr-5">Message</button>
+          </Link>
         </div>
       </div>
 
