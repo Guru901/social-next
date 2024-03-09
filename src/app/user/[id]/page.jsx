@@ -51,7 +51,7 @@ const User = () => {
         id,
       });
 
-      setPosts(data.posts.reverse());
+      setPosts(data.reverse());
     } catch (error) {
       console.error("Error fetching user posts:", error);
       setLoading(false);
@@ -111,7 +111,7 @@ const User = () => {
         <div className="divider m-0"></div>
 
         {/* Radio buttons section */}
-        <div className="flex justify-center w-[100svw] max-x-[26rem]">
+        {/* <div className="flex justify-center w-[100svw] max-x-[26rem]">
           <div className="join w-[26rem]">
             <input
               className="join-item btn max-w-[8.66rem] w-[33%]"
@@ -138,7 +138,7 @@ const User = () => {
               onChange={() => setSelectedOption("likedPosts")}
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">

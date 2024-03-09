@@ -36,7 +36,7 @@ const Profile = () => {
     }
   };
 
-  const getUser = async (retryCount = 3) => {
+  const getUser = async () => {
     try {
       setLoading(true);
       const { data } = await axios.post("/api/user/me");
@@ -44,13 +44,6 @@ const Profile = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-
-      if (error.response && error.response.status === 504 && retryCount > 0) {
-        console.log(`Retrying getUser... Attempts left: ${retryCount}`);
-        setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
-      } else {
-        setError("Error occurred");
-      }
     }
   };
 
