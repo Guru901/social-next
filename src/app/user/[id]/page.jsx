@@ -128,11 +128,11 @@ const User = () => {
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
           {friend ? (
-            <button className="btn" onClick={addFriend}>
+            <button className="btn" disabled>
               {friendBtn}
             </button>
           ) : (
-            <button className="btn" disabled>
+            <button className="btn" onClick={addFriend}>
               {friendBtn}
             </button>
           )}
