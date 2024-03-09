@@ -7,12 +7,12 @@ export function middleware(request) {
   const path = request.nextUrl.pathname;
 
   if (!token) {
-    if (path !== "/login" && path !== "/register") {
+    if (path !== "/login" && path !== "/") {
       return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
   } else {
-    if (path === "/login" || path === "/register") {
-      return NextResponse.redirect(new URL("/feed", request.nextUrl));
+    if (path === "/login" || path === "/") {
+      return NextResponse.redirect(new URL("/profile", request.nextUrl));
     }
   }
 }
@@ -27,5 +27,6 @@ export const config = {
     "/login",
     "/register",
     "/chat",
+    "/search"
   ],
 };
