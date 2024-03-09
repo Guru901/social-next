@@ -31,7 +31,7 @@ const Nav = ({ username, redirect = "/feed" }) => {
       {pathName === "/feed" || pathName === "/profile" ? (
         <>
           <div className="flex justify-between items-center w-full">
-            <h1 className="text-xl">{"Hi " + username}</h1>
+            <h1 className="text-xl">{"Hi, " + username}</h1>
             <div className="flex gap-5 items-center">
               <Link href={"/notifications"}>
                 <button>
