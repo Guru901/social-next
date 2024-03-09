@@ -45,24 +45,6 @@ const User = () => {
     }
   };
 
-  const getUser = async (retryCount = 3) => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setUser(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-
-      if (error.response && error.response.status === 504 && retryCount > 0) {
-        console.log(`Retrying getUser... Attempts left: ${retryCount}`);
-        setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
-      } else {
-        setError("Error occurred");
-      }
-    }
-  };
-
   const getUserPosts = async () => {
     try {
       const { data } = await axios.post("/api/post/getPost", {
@@ -88,7 +70,6 @@ const User = () => {
   };
 
   useEffect(() => {
-    getUser();
     getUserPosts();
     getLoggedInUser();
     getUserSearch();
@@ -120,7 +101,7 @@ const User = () => {
           <button className="btn" onClick={addFriend}>
             {friend ? "Friend Added!" : "Add Friend"}
           </button>
-          <Link href={`/chat/${user._id}`}>
+          <Link href={`/chat/${user?._id}`}>
             <button className="btn  mr-5">Message</button>
           </Link>
         </div>
