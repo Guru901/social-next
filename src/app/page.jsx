@@ -27,10 +27,6 @@ const Home = () => {
     });
   };
 
-  const nice = () => {
-    const nicee = await axios
-  }
-
   const pswdCheck = () => {
     if (form.password.length < 6) {
       setError("Password must be atleast 6 characters");
