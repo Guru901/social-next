@@ -64,6 +64,7 @@ body {
   border-bottom-right-radius: 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   height: 4rem !important;
+  width: 100vw;
 }
 
 .vidNav {

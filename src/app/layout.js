@@ -1,11 +1,11 @@
-import { JetBrains_Mono } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "@/Components/Footer";
 import UserContextProvider from "./Context/UserContextProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const inter = JetBrains_Mono({ subsets: ["latin"] });
+const inter = Open_Sans({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Ni Batu 😏",

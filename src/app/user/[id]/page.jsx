@@ -16,6 +16,7 @@ const User = () => {
   const [friend, setFriend] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
+  const [friendBtn, setFriendBtn] = useState("Add Friend");
 
   const pathName = usePathname();
   const router = useRouter();
@@ -72,6 +73,7 @@ const User = () => {
       userId: user._id,
       type: "friendAdd",
     });
+    setFriendBtn("Friend Added!");
   };
 
   const checkFriend = async () => {
@@ -81,6 +83,9 @@ const User = () => {
         loggedInUser: loggedInUser?._id,
       });
       setIsFriend(data.success);
+      if (data.success) {
+        setFriendBtn("Friends Already");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -123,12 +128,12 @@ const User = () => {
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
           {friend ? (
-            <button className="btn" disabled={true}>
-              Friend Added!
+            <button className="btn" onClick={addFriend}>
+              {friendBtn}
             </button>
           ) : (
-            <button className="btn" onClick={addFriend}>
-              Add Friend
+            <button className="btn" disabled>
+              {friendBtn}
             </button>
           )}
           <Link href={`/chat/${user?._id}`}>
