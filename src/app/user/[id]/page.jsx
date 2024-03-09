@@ -10,23 +10,39 @@ import { useRouter } from "next/navigation";
 
 const User = () => {
   const [user, setUser] = useState();
-  const [userLogin, setUserLogin] = useState();
   const [selectedOption, setSelectedOption] = useState("publicPosts");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [friend, setFriend] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState();
 
   const pathName = usePathname();
   const router = useRouter();
 
   const id = pathName.split("/")[2];
 
-  const getUserSearch = async () => {
-    const { data } = await axios.post("/api/user/getUser", {
-      id,
-    });
-    setUser(data);
+  const getLoggedInUser = async () => {
+    try {
+      const { data } = await axios.post("/api/user/me");
+      setLoggedInUser(data);
+    } catch (error) {
+      alert("ERROR");
+    }
+  };
 
-    setLoading(false);
+  const getUserSearch = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/getUser", {
+        id,
+      });
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      alert("ERROR");
+      setLoading(false);
+    }
   };
 
   const getUser = async (retryCount = 3) => {
@@ -59,9 +75,22 @@ const User = () => {
       setLoading(false);
     }
   };
+
+  const addFriend = async () => {
+    const { data } = await axios.post("/api/user/addFriend", {
+      from: loggedInUser?.username,
+      fromAvatar: loggedInUser?.avatar,
+      userId: user._id,
+      type: "friendAdd",
+    });
+
+    console.log(data);
+  };
+
   useEffect(() => {
     getUser();
     getUserPosts();
+    getLoggedInUser();
     getUserSearch();
   }, []);
 
@@ -88,7 +117,9 @@ const User = () => {
           </div>
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
-          <button className="btn">Add Friend</button>
+          <button className="btn" onClick={addFriend}>
+            {friend ? "Friend Added!" : "Add Friend"}
+          </button>
           <Link href={`/chat/${user._id}`}>
             <button className="btn  mr-5">Message</button>
           </Link>

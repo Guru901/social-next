@@ -66,28 +66,32 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      {/* <div className="navbar flex justify-between px-4 items-center w-[100svw]">
-        <Link href="/feed">
-          <button>
-            <FaArrowLeft size={24} />
-          </button>
-        </Link>
-        <Link href={"/settings"}>
-          <button>
-            <FaGear size={20} />
-          </button>
-        </Link>
-      </div> */}
-      <Nav />
-      <div className="flex gap-8 items-center px-8">
-        <div className="w-40 h-40 rounded-full bg-[#A6ADBB] overflow-hidden">
-          <img
-            className="w-full h-full object-cover"
-            src={user?.avatar ? user.avatar : ""}
-            alt={user?.username}
-          />
+      <Nav username={user?.username} />
+      <div className="flex gap-8 items-center px-8 justify-evenly">
+        <div className="flex flex-col gap-2">
+          <div className="avatar">
+            <div className="w-24 rounded-full">
+              <img src={user?.avatar ? user.avatar : ""} />
+            </div>
+          </div>
+          <div>
+            <h1 className="text-2xl">
+              {user?.username ? user.username : "User"}
+            </h1>
+          </div>
         </div>
-        <h1 className="text-2xl">{user?.username ? user.username : "User"}</h1>
+        <div>
+          <div>
+            <h1 className="text-center text-lg">{user?.friends?.length}</h1>
+            <h1 className="text-center text-lg">Frnds</h1>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h1 className="text-center text-lg">{publicPosts?.length}</h1>
+            <h1 className="text-center text-lg">Posts</h1>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 w-full overflow-hidden">
