@@ -26,9 +26,7 @@ const User = () => {
     try {
       const { data } = await axios.post("/api/user/me");
       setLoggedInUser(data);
-    } catch (error) {
-      alert("ERROR");
-    }
+    } catch (error) {}
   };
 
   const getUserSearch = async () => {
@@ -40,20 +38,29 @@ const User = () => {
       setUser(data);
       setLoading(false);
     } catch (error) {
-      alert("ERROR");
       setLoading(false);
     }
   };
 
   const getUserPosts = async () => {
-    try {
-      const { data } = await axios.post("/api/post/getPost", {
-        id,
+    setLoading(true);
+
+    if (user && user._id) {
+      const { data } = await axios.post("/api/user/getPosts", {
+        user: user._id,
+        isPublic: selectedOption === "publicPosts",
       });
 
       setPosts(data.reverse());
-    } catch (error) {
-      console.error("Error fetching user posts:", error);
+      setLoading(false);
+    }
+
+    if (selectedOption === "likedPosts") {
+      const { data } = await axios.post("/api/likes/getLikedPosts", {
+        id: user._id,
+      });
+
+      setPosts(data.reverse());
       setLoading(false);
     }
   };
@@ -65,15 +72,32 @@ const User = () => {
       userId: user._id,
       type: "friendAdd",
     });
+  };
 
-    console.log(data);
+  const checkFriend = async () => {
+    try {
+      const { data } = await axios.post("/api/user/checkFriend", {
+        id,
+        loggedInUser: loggedInUser?._id,
+      });
+      setIsFriend(data.success);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    getUserPosts();
     getLoggedInUser();
     getUserSearch();
   }, []);
+
+  useEffect(() => {
+    checkFriend();
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    getUserPosts();
+  }, [selectedOption, user]);
 
   if (loading) {
     return <Spinner />;
@@ -98,11 +122,19 @@ const User = () => {
           </div>
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
-          <button className="btn" onClick={addFriend}>
-            {friend ? "Friend Added!" : "Add Friend"}
-          </button>
+          {friend ? (
+            <button className="btn" disabled={true}>
+              Friend Added!
+            </button>
+          ) : (
+            <button className="btn" onClick={addFriend}>
+              Add Friend
+            </button>
+          )}
           <Link href={`/chat/${user?._id}`}>
-            <button className="btn  mr-5">Message</button>
+            <button className="btn  mr-5" disabled={true}>
+              Message
+            </button>
           </Link>
         </div>
       </div>
@@ -111,34 +143,38 @@ const User = () => {
         <div className="divider m-0"></div>
 
         {/* Radio buttons section */}
-        {/* <div className="flex justify-center w-[100svw] max-x-[26rem]">
-          <div className="join w-[26rem]">
-            <input
-              className="join-item btn max-w-[8.66rem] w-[33%]"
-              type="radio"
-              name="options"
-              aria-label="Public Posts"
-              checked={selectedOption === "publicPosts"}
-              onChange={() => setSelectedOption("publicPosts")}
-            />
-            <input
-              className="join-item btn max-w-[8.66rem] w-[33%]"
-              type="radio"
-              name="options"
-              aria-label="Private Posts"
-              checked={selectedOption === "privatePosts"}
-              onChange={() => setSelectedOption("privatePosts")}
-            />
-            <input
-              className="join-item btn max-w-[8.66rem] w-[33%]"
-              type="radio"
-              name="options"
-              aria-label="Liked Posts"
-              checked={selectedOption === "likedPosts"}
-              onChange={() => setSelectedOption("likedPosts")}
-            />
+        {isFriend ? (
+          <div className="flex justify-center w-[100svw] max-x-[26rem]">
+            <div className="join w-[26rem]">
+              <input
+                className="join-item btn max-w-[8.66rem] w-[33%]"
+                type="radio"
+                name="options"
+                aria-label="Public Posts"
+                checked={selectedOption === "publicPosts"}
+                onChange={() => setSelectedOption("publicPosts")}
+              />
+              <input
+                className="join-item btn max-w-[8.66rem] w-[33%]"
+                type="radio"
+                name="options"
+                aria-label="Private Posts"
+                checked={selectedOption === "privatePosts"}
+                onChange={() => setSelectedOption("privatePosts")}
+              />
+              <input
+                className="join-item btn max-w-[8.66rem] w-[33%]"
+                type="radio"
+                name="options"
+                aria-label="Liked Posts"
+                checked={selectedOption === "likedPosts"}
+                onChange={() => setSelectedOption("likedPosts")}
+              />
+            </div>
           </div>
-        </div> */}
+        ) : (
+          ""
+        )}
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">

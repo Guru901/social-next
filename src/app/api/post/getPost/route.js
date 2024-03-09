@@ -8,9 +8,17 @@ export async function POST(request) {
 
     const req = await request.json();
 
-    const { id } = req;
+    const { id, selectedOption } = req;
 
-    const posts = await Post.find({ user: id, isPublic: true }).select("image");
+    if (selectedOption === "publicPosts") {
+      const posts = await Post.find({ user: id, isPublic: true }).select(
+        "image"
+      );
+    } else {
+      const posts = await Post.find({ user: id, isPublic: false }).select(
+        "image"
+      );
+    }
 
     const response = NextResponse.json(posts);
     return response;
