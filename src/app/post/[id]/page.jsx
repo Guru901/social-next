@@ -52,7 +52,7 @@ const Post = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-  
+
       if (error.response && error.response.status === 504 && retryCount > 0) {
         console.log(`Retrying getUser... Attempts left: ${retryCount}`);
         setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
@@ -196,14 +196,14 @@ const Post = () => {
                 <p className="text-base">{x.body}</p>
                 <div className="flex gap-4  p-2 rounded-xl">
                   <div className="flex items-center gap-1">
-                    {x.likes.includes(user?._id) ? (
+                    {x?.likes?.includes(user?._id) ? (
                       <div className="flex items-center justify-center gap-1">
                         <AiFillLike
                           size={28}
                           onClick={() => handleUnLike(x._id)}
                           className="cursor-pointer"
                         />
-                        <h1 className="text-xl">{x.likes.length}</h1>
+                        <h1 className="text-xl">{x?.likes?.length}</h1>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center gap-1">
@@ -213,19 +213,19 @@ const Post = () => {
                           className="cursor-pointer"
                         />
 
-                        <h1 className="text-xl">{x.likes.length}</h1>
+                        <h1 className="text-xl">{x?.likes?.length}</h1>
                       </div>
                     )}
                   </div>
                   <div className="flex items-center gap-1  mt-1">
-                    {x.dislikes.includes(user?._id) ? (
+                    {x?.dislikes?.includes(user?._id) ? (
                       <div className="flex items-center justify-center gap-2">
                         <AiFillDislike
                           size={28}
                           onClick={() => handleDisUnlike(x._id)}
                           className="cursor-pointer"
                         />
-                        <h1 className="text-xl">{x.dislikes.length}</h1>
+                        <h1 className="text-xl">{x?.dislikes?.length}</h1>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center gap-2">
@@ -235,7 +235,7 @@ const Post = () => {
                           className="cursor-pointer"
                         />
 
-                        <h1 className="text-xl">{x.dislikes.length}</h1>
+                        <h1 className="text-xl">{x?.dislikes?.length}</h1>
                       </div>
                     )}
                   </div>
