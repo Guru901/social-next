@@ -22,7 +22,7 @@ const Nav = ({ username, redirect = "/feed" }) => {
     },
     {
       title: "Edit Profile",
-      path: "/settings/edit",
+      path: "/settings/profile",
     },
   ];
 
