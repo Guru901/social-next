@@ -27,5 +27,6 @@ export const config = {
     "/register",
     "/chat",
     "/search",
+    "/change__password",
   ],
 };
