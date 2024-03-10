@@ -19,13 +19,13 @@ export function middleware(request) {
 // See "Matching Paths" below to learn more
 export const config = {
   matcher: [
-    // "/feed",
-    // "/post/:path*",
-    // "/post/",
-    // "/profile",
-    // "/login",
-    // "/register",
-    // "/chat",
-    // "/search"
+    "/feed",
+    "/post/:path*",
+    "/post/",
+    "/profile",
+    "/login",
+    "/register",
+    "/chat",
+    "/search"
   ],
 };
