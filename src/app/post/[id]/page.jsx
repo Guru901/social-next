@@ -14,6 +14,7 @@ import {
 } from "react-icons/ai";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -171,7 +172,7 @@ const Post = () => {
   return (
     <div>
       <Nav />
-      <div className="flex flex-col items-center p-6 gap-4">
+      <div className="flex flex-col items-center p-2 gap-4">
         <div className="flex flex-col gap-4 mb-40">
           <div className="px-2">
             {post.map((x) => (
@@ -189,7 +190,13 @@ const Post = () => {
                     Your browser does not support the video tag.
                   </video>
                 ) : x.image ? (
-                  <img src={x.image} className="rounded-lg" alt={x.title} />
+                  <Image
+                    src={x.image}
+                    className="rounded-lg"
+                    width={358}
+                    height={158}
+                    alt={x.title}
+                  />
                 ) : (
                   ""
                 )}

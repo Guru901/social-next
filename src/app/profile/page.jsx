@@ -6,6 +6,7 @@ import axios from "axios";
 import Spinner from "@/Components/Spinner";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import Nav from "@/Components/Nav";
+import Image from "next/image";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
@@ -64,7 +65,11 @@ const Profile = () => {
         <div className="flex flex-col gap-2">
           <div className="avatar">
             <div className="w-24 rounded-full">
-              <img src={user?.avatar ? user.avatar : ""} />
+              <Image
+                src={user?.avatar ? user.avatar : ""}
+                width={96}
+                height={96}
+              />
             </div>
           </div>
           <div>
@@ -138,8 +143,11 @@ const Profile = () => {
                           alt=""
                         />
                       ) : (
-                        <img
-                          className="object-cover w-full h-full rounded-md"
+                        <Image
+                          className="rounded-md h-full object-cover"
+                          width={128}
+                          height={208}
+                          sizes="(max-width: 768px) 100vw, 33vw"
                           src={post.image}
                           alt=""
                         />

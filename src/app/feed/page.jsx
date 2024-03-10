@@ -13,6 +13,7 @@ import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
 import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
+import Image from "next/image";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -169,10 +170,12 @@ const Feed = () => {
                     post.image.endsWith(".mkv")) ? (
                     <VidPlayer videoUrl={post.image} autoPlay={false} />
                   ) : (
-                    <img
+                    <Image
                       src={post.image}
                       alt={post.title}
-                      className="max-h-64 w-full object-cover"
+                      width={256}
+                      height={128}
+                      className="w-full max-h-60 object-cover"
                     />
                   )}
                 </figure>{" "}

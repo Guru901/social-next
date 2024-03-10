@@ -26,6 +26,6 @@ export const config = {
     "/login",
     "/register",
     "/chat",
-    "/search"
+    "/search",
   ],
 };
