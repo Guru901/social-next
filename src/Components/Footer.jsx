@@ -43,7 +43,12 @@ const Footer = () => {
     >
       <div className="f mt-16 btm-nav">
         {footerItems.map((footerItem) => (
-          <div className="flex items-center h-full w-full justify-center">
+          <div
+            className={`flex items-center h-full w-full justify-center ${
+              footerItem.path === "/vid" ? "vidIcon" : ""
+            }
+          `}
+          >
             <Link href={footerItem.path}>
               <Image width={25} height={25} src={footerItem.icon} />
             </Link>
