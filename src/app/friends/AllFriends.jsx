@@ -34,8 +34,6 @@ const AllFriends = () => {
         loggedInUser: loggedInUser?._id,
       });
       setFriends(data);
-      console.log(data);
-
       setloading(false);
     } catch (error) {
       console.log(error);
