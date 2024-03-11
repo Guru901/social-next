@@ -52,11 +52,11 @@ const AllFriends = () => {
   return (
     <div>
       <Nav />
-      <div className="flex justify-center gap-3 py-5">
+      <div className="flex justify-center gap-3 py-5 w-[100vw]">
         {Array.isArray(friends) && friends.length > 0
           ? friends.map((friend) => (
               <Link href={`/user/${friend._id}`} key={friend._id}>
-                <div className="card w-48 bg-base-100 shadow-xl image-full">
+                <div className="card w-[45vw] max-w-48 bg-base-100 shadow-xl image-full">
                   <figure>
                     {friend.avatar ? (
                       <Image
@@ -73,8 +73,8 @@ const AllFriends = () => {
                       />
                     )}
                   </figure>
-                  <div className="card-body">
-                    <h2 className="card-title w-full h-full flex items-end justify-center text-3xl">
+                  <div className="card-body friendCard">
+                    <h2 className="card-title w-full h-full flex items-end justify-center text-xl sm:text-3xl">
                       {friend.username}
                     </h2>
                   </div>

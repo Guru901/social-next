@@ -136,3 +136,9 @@ a {
 .friendAvatar {
   height: 13rem !important;
 }
+
+@media (max-width: 450px) {
+  .friendCard {
+    width: 45vw;
+  }
+}
