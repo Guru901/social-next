@@ -19,7 +19,6 @@ const AllFriends = () => {
       setLoggedInUser(data);
       setloading(false);
     } catch (error) {
-      console.log(error);
       setloading(false);
     }
   };
