@@ -83,6 +83,9 @@ const Feed = () => {
       setLoading(true);
       const { data } = await axios.post("/api/user/me");
       setUser(data);
+      if (!data.username) {
+        getUser();
+      }
       setLoading(false);
     } catch (error) {
       console.error(error);

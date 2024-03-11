@@ -6,6 +6,8 @@ import Spinner from "@/Components/Spinner";
 import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import Nav from "@/Components/Nav";
+import Image from "next/image";
+import { FaUser } from "react-icons/fa6";
 
 const EditProfile = () => {
   const [user, setUser] = useState();
@@ -23,7 +25,7 @@ const EditProfile = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-  
+
       if (error.response && error.response.status === 504 && retryCount > 0) {
         console.log(`Retrying getUser... Attempts left: ${retryCount}`);
         setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
@@ -58,16 +60,24 @@ const EditProfile = () => {
 
   return (
     <div>
-      <Nav redirect="/settings" />
+      <Nav />
       <div className="py-6">
         <div className="max-w-screen flex items-center justify-center flex-col gap-2">
-          <div className="w-52 h-52 rounded-full overflow-hidden flex justify-center items-center">
-            <img
-              className="object-cover"
-              src={avatar ? avatar : user?.avatar}
-              alt={user?.username}
-            />
-          </div>
+          {user?.avatar ? (
+            <div className="w-52 h-52 rounded-full overflow-hidden flex justify-center items-center">
+              <Image
+                width={208}
+                height={208}
+                className="object-cover"
+                src={avatar ? avatar : user?.avatar}
+                alt={user?.username}
+              />
+            </div>
+          ) : (
+            <div className="w-52 h-52 rounded-full overflow-hidden flex justify-center items-center">
+              <FaUser size={100} />
+            </div>
+          )}
           <div className="min-w-full flex justify-center flex-col items-center gap-2">
             <div className="flex gap-12">
               <CldUploadWidget

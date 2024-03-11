@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Spinner from "@/Components/Spinner";
 import { useRouter } from "next/navigation";
+import { FaUser } from "react-icons/fa6";
+import Image from "next/image";
 
 const User = () => {
   const [user, setUser] = useState();
@@ -110,15 +112,25 @@ const User = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav redirect={"/search"} />
+      <Nav />
       <div>
         <div className="flex gap-8 items-center px-8">
-          <div className="w-36 h-36 rounded-full bg-[#A6ADBB] overflow-hidden">
-            <img
-              className="w-full h-full object-cover"
-              src={user?.avatar ? user.avatar : ""}
-              alt={user?.username}
-            />
+          <div className="flex flex-col gap-2">
+            {user?.avatar ? (
+              <div className="avatar">
+                <div className="w-24 rounded-full">
+                  <Image
+                    src={user?.avatar ? user.avatar : ""}
+                    width={96}
+                    height={96}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden">
+                <FaUser size={70} />
+              </div>
+            )}
           </div>
           <div>
             <h1 className="text-2xl">

@@ -40,7 +40,7 @@ const ChangePassword = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-  
+
       if (error.response && error.response.status === 504 && retryCount > 0) {
         console.log(`Retrying getUser... Attempts left: ${retryCount}`);
         setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
@@ -83,7 +83,7 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <Nav redirect="/settings" />
+      <Nav />
       <div className="py-6">
         <div className="max-w-screen flex items-center justify-center flex-col gap-2">
           <div className="w-52 h-52 rounded-full overflow-hidden flex justify-center items-center">

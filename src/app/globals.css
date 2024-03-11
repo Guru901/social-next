@@ -77,9 +77,12 @@ body {
 }
 
 .footerContainer {
-  height: 10rem;
   display: flex;
   align-items: end;
+  height: 10rem;
+  bottom: 0;
+  width: 100vw;
+  position: fixed;
 }
 
 @media (max-width: 425px) {
@@ -128,4 +131,8 @@ a {
 
 .vidIcon {
   padding-top: 0.5rem;
+}
+
+.friendAvatar {
+  height: 13rem !important;
 }

@@ -6,8 +6,9 @@ import Link from "next/link";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
 
-const Nav = ({ username, redirect = "/feed" }) => {
+const Nav = ({ username }) => {
   const pathName = usePathname();
+  const router = useRouter();
 
   const [showDropDown, setShowDropDown] = useState(false);
 
@@ -25,6 +26,10 @@ const Nav = ({ username, redirect = "/feed" }) => {
       path: "/settings/profile",
     },
   ];
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-hidden px-4">
@@ -69,11 +74,9 @@ const Nav = ({ username, redirect = "/feed" }) => {
         </>
       ) : (
         <div className="flex justify-between w-full items-center">
-          <Link href={redirect}>
-            <button>
-              <FaArrowLeft size={24} />
-            </button>
-          </Link>
+          <button onClick={handleBack}>
+            <FaArrowLeft size={24} />
+          </button>
           <div className="flex gap-5 items-center">
             <Link href={"/notifications"}>
               <button>

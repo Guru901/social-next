@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
-import { FaArrowLeft, FaGear } from "react-icons/fa6";
+import { FaArrowLeft, FaGear, FaUser } from "react-icons/fa6";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
 
@@ -63,15 +63,22 @@ const Profile = () => {
       <Nav username={user?.username} />
       <div className="flex gap-8 items-center px-8 justify-evenly">
         <div className="flex flex-col gap-2">
-          <div className="avatar">
-            <div className="w-24 rounded-full">
-              <Image
-                src={user?.avatar ? user.avatar : ""}
-                width={96}
-                height={96}
-              />
+          {user?.avatar ? (
+            <div className="avatar">
+              <div className="w-24 rounded-full">
+                <Image
+                  src={user?.avatar ? user.avatar : ""}
+                  width={96}
+                  height={96}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden">
+              <FaUser size={70} />
+            </div>
+          )}
+
           <div>
             <h1 className="text-2xl">
               {user?.username ? user.username : "User"}

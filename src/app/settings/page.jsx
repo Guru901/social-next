@@ -15,7 +15,7 @@ const Settings = () => {
   };
   return (
     <div>
-      <Nav redirect="/profile" />
+      <Nav />
       <div className="settings flex gap-2 flex-col">
         <div className="setting flex flex-row p-4 gap-8">
           <Link href="/settings/profile">
