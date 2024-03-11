@@ -63,6 +63,7 @@ const Login = () => {
             name="username"
             className="input input-bordered w-full"
             onChange={handleChange}
+            required
           />
 
           <input
@@ -71,6 +72,7 @@ const Login = () => {
             name="password"
             className="input input-bordered w-full"
             onChange={handleChange}
+            required
           />
 
           <div className="flex flex-col text-xs gap-1">

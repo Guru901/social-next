@@ -87,6 +87,7 @@ const Home = () => {
           name="username"
           className="input input-bordered w-full"
           onChange={handleChange}
+          required
         />
         <input
           type="password"
@@ -94,6 +95,7 @@ const Home = () => {
           name="password"
           className="input input-bordered w-full"
           onChange={handleChange}
+          required
         />
         <input
           type="password"
@@ -101,6 +103,7 @@ const Home = () => {
           name="password"
           className="input input-bordered w-full"
           onChange={(e) => setPswd(e.target.value)}
+          required
         />
         <CldUploadWidget
           uploadPreset="cf72ckgk"
