@@ -6,12 +6,12 @@ import Spinner from "@/Components/Spinner";
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/Components/Nav";
-import { FaUser } from "react-icons/fa6";
 
 const AllFriends = () => {
   const [loggedInUser, setLoggedInUser] = useState();
   const [loading, setloading] = useState(true);
   const [friends, setFriends] = useState([]);
+
   const getLoggedInUser = async () => {
     try {
       setloading(true);

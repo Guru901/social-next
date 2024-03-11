@@ -25,9 +25,7 @@ export async function POST(request) {
     await newUser.save();
 
     const tokenData = {
-      id: newUser._id,
       username: newUser.username,
-      password: newUser.password,
     };
 
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET);

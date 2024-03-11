@@ -48,6 +48,7 @@ const Footer = () => {
               footerItem.path === "/vid" ? "vidIcon" : ""
             }
           `}
+            key={footerItem.icon}
           >
             <Link href={footerItem.path}>
               <Image width={25} height={25} src={footerItem.icon} />

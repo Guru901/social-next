@@ -8,7 +8,7 @@ export async function POST(request) {
 
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken.id);
+    const user = await User.findOne({ username: decodedToken.username });
 
     const response = NextResponse.json(user);
 

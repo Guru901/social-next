@@ -28,7 +28,6 @@ const VideoList = ({ videoUrls }) => {
     <div>
       {videoUrls.map((videoUrl, index) => (
         <div key={index} ref={index === 0 ? inViewRef : undefined}>
-          {/* Your video content goes here */}
           <video ref={videoRefs[index]} controls width="300" height="200">
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.

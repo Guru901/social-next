@@ -70,6 +70,7 @@ const Profile = () => {
                   src={user?.avatar ? user.avatar : ""}
                   width={96}
                   height={96}
+                  alt={user?.username}
                 />
               </div>
             </div>
@@ -156,7 +157,7 @@ const Profile = () => {
                           height={208}
                           sizes="(max-width: 768px) 100vw, 33vw"
                           src={post.image}
-                          alt=""
+                          alt={post?.title}
                         />
                       )}
                     </Link>
