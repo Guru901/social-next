@@ -52,7 +52,7 @@ const AllFriends = () => {
   return (
     <div>
       <Nav />
-      <div className="flex justify-center gap-3 py-5 w-[100vw]">
+      <div className="flex flex-wrap justify-center gap-3 py-5 w-[100vw]">
         {Array.isArray(friends) && friends.length > 0
           ? friends.map((friend) => (
               <Link href={`/user/${friend._id}`} key={friend._id}>

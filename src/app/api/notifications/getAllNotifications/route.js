@@ -11,7 +11,10 @@ export async function POST(request) {
 
     const { id } = req;
 
-    const notifications = await Notifications.find({ to: id });
+    const notifications = await Notifications.find({
+      to: id,
+      isAccepted: false,
+    });
 
     if (notifications) {
       const response = NextResponse.json(notifications);

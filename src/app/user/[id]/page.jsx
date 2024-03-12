@@ -1,7 +1,7 @@
 "use client";
 
 import Nav from "@/Components/Nav";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -19,6 +19,8 @@ const User = () => {
   const [isFriend, setIsFriend] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState();
   const [friendBtn, setFriendBtn] = useState("Add Friend");
+
+  const addBtnRef = useRef();
 
   const pathName = usePathname();
   const router = useRouter();
@@ -144,7 +146,12 @@ const User = () => {
               {friendBtn}
             </button>
           ) : (
-            <button className="btn" onClick={addFriend}>
+            <button
+              className="btn"
+              onClick={addFriend}
+              ref={addBtnRef}
+              disabled={friendBtn === "Friends Already"}
+            >
               {friendBtn}
             </button>
           )}

@@ -3,8 +3,10 @@
 import axios from "axios";
 import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/Components/Spinner";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 const Upload = () => {
   const [form, setForm] = useState({});
@@ -13,7 +15,50 @@ const Upload = () => {
   const [loading, setLoading] = useState(false);
   const [isPost, setIsPost] = useState(true);
   const [user, setUser] = useState();
+  const [picker, setPicker] = useState();
+
+  const pickerRef = useRef();
+
   const router = useRouter();
+
+  const emojiSvg = (
+    <svg
+      id="emoji"
+      viewBox="0 0 72 72"
+      className="w-6 h-6 opacity-70"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="color">
+        <circle cx="36.0001" cy="36" r="22.9999" fill="currentColor" />
+      </g>
+      <g id="hair" />
+      <g id="skin" />
+      <g id="skin-shadow" />
+      <g id="line">
+        <circle
+          cx="36"
+          cy="36"
+          r="23"
+          fill="none"
+          stroke="#000000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+        <path
+          fill="none"
+          stroke="#000000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M45.8149,44.9293 c-2.8995,1.6362-6.2482,2.5699-9.8149,2.5699s-6.9153-0.9336-9.8149-2.5699"
+        />
+        <path d="M30,31c0,1.6568-1.3448,3-3,3c-1.6553,0-3-1.3433-3-3c0-1.6552,1.3447-3,3-3C28.6552,28,30,29.3448,30,31" />
+        <path d="M48,31c0,1.6568-1.3447,3-3,3s-3-1.3433-3-3c0-1.6552,1.3447-3,3-3S48,29.3448,48,31" />
+      </g>
+    </svg>
+  );
+
   const getUser = async (retryCount = 3) => {
     try {
       setLoading(true);
@@ -22,7 +67,7 @@ const Upload = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-  
+
       if (error.response && error.response.status === 504 && retryCount > 0) {
         console.log(`Retrying getUser... Attempts left: ${retryCount}`);
         setTimeout(() => getUser(retryCount - 1), 1000); // You can adjust the delay and retry count as needed
@@ -63,6 +108,18 @@ const Upload = () => {
     }
   };
 
+  const handleEmojiSelect = (emoji) => {
+    setForm({
+      ...form,
+      title: `${form.title || ""}${emoji.native}`,
+    });
+  };
+
+  const selectEmoji = (e) => {
+    e.preventDefault();
+    setPicker(!picker);
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -95,13 +152,29 @@ const Upload = () => {
           className="flex flex-col gap-3 w-11/12 justify-center items-center text-start"
           onSubmit={handleSubmit}
         >
-          <input
-            onChange={handleChange}
-            type="text"
-            placeholder="Title..."
-            name="title"
-            className="input input-bordered w-full max-w-lg"
-          />
+          <label className="relative max-w-lg input input-bordered flex items-center gap-2 w-full">
+            <input
+              onChange={handleChange}
+              type="text"
+              placeholder="Title..."
+              value={form.title}
+              name="title"
+              className="w-full max-w-lg bg-transparent"
+            />
+            <button onClick={selectEmoji}>{emojiSvg}</button>
+          </label>
+          <div>
+            {picker && (
+              <div className="absolute right-0" ref={pickerRef}>
+                <Picker
+                  theme={"dark"}
+                  data={data}
+                  onEmojiSelect={handleEmojiSelect}
+                  maxFrequentRows={0}
+                />
+              </div>
+            )}
+          </div>
           <textarea
             onChange={handleChange}
             name="body"

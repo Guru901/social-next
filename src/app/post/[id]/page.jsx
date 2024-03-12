@@ -15,6 +15,8 @@ import {
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -22,14 +24,66 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [picker, setPicker] = useState();
 
   const inpRef = useRef();
+  const pickerRef = useRef();
   const toastRef = useRef();
   const pathname = usePathname();
   const router = useRouter();
 
   const postIDArray = pathname.split("/post/");
   const postID = postIDArray.length > 1 ? postIDArray[1] : null;
+
+  const emojiSvg = (
+    <svg
+      id="emoji"
+      viewBox="0 0 72 72"
+      className="w-6 h-6 opacity-70"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="color">
+        <circle cx="36.0001" cy="36" r="22.9999" fill="currentColor" />
+      </g>
+      <g id="hair" />
+      <g id="skin" />
+      <g id="skin-shadow" />
+      <g id="line">
+        <circle
+          cx="36"
+          cy="36"
+          r="23"
+          fill="none"
+          stroke="#000000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+        <path
+          fill="none"
+          stroke="#000000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M45.8149,44.9293 c-2.8995,1.6362-6.2482,2.5699-9.8149,2.5699s-6.9153-0.9336-9.8149-2.5699"
+        />
+        <path d="M30,31c0,1.6568-1.3448,3-3,3c-1.6553,0-3-1.3433-3-3c0-1.6552,1.3447-3,3-3C28.6552,28,30,29.3448,30,31" />
+        <path d="M48,31c0,1.6568-1.3447,3-3,3s-3-1.3433-3-3c0-1.6552,1.3447-3,3-3S48,29.3448,48,31" />
+      </g>
+    </svg>
+  );
+
+  const selectEmoji = (e) => {
+    e.preventDefault();
+    setPicker(!picker);
+  };
+
+  const handleEmojiSelect = (emoji) => {
+    setForm({
+      ...form,
+      comment: `${form.comment || ""}${emoji.native}`,
+    });
+  };
 
   const fetchPost = async () => {
     try {
@@ -87,13 +141,15 @@ const Post = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setPicker(false);
+
       await axios.post("/api/post/comment", {
         comment: form.comment,
         postID: postID,
         user: user,
         avatar: user?.avatar ? user?.avatar : "",
       });
-      inpRef.current.value = "";
+      form.comment = "";
       fetchComments();
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -170,19 +226,19 @@ const Post = () => {
   if (loading) return <Spinner />;
 
   return (
-    <div>
+    <div className="w-full flex flex-col justify-center pl-1">
       <Nav />
       <div className="flex flex-col items-center p-2 gap-4">
         <div className="flex flex-col gap-4 mb-40">
           <div className="px-2">
             {post.map((x) => (
-              <div key={x._id} className="flex flex-col gap-4">
+              <div key={x._id} className="flex flex-col gap-4 justify-center">
                 <h1 className="text-3xl">{x.title}</h1>
                 {x.image &&
                 (x.image.endsWith(".mp4") || x.image.endsWith(".mkv")) ? (
                   <video
                     controls
-                    className="rounded-lg"
+                    className="rounded-lg mx-auto"
                     width="100%"
                     height="auto"
                   >
@@ -192,7 +248,7 @@ const Post = () => {
                 ) : x.image ? (
                   <Image
                     src={x.image}
-                    className="rounded-lg"
+                    className="rounded-lg mx-auto"
                     width={358}
                     height={158}
                     alt={x.title}
@@ -270,20 +326,39 @@ const Post = () => {
           </div>
           <div className="flex flex-col gap-4">
             <h1 className="text-xl">Comments - </h1>
-            <div className="flex">
+            <div className="flex flex-col items-center">
               <form className="flex gap-2" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  placeholder="Enter Your Comment.."
-                  name="comment"
-                  className="input input-bordered w-full"
-                  onChange={(e) => setForm({ [e.target.name]: e.target.value })}
-                  ref={inpRef}
-                />
+                <label className="relative w-[60vw] max-w-xl input input-bordered flex items-center gap-2 justify-between">
+                  <input
+                    type="text"
+                    value={form.comment}
+                    onChange={(e) =>
+                      setForm({ [e.target.name]: e.target.value })
+                    }
+                    ref={inpRef}
+                    name="comment"
+                    className="w-xl bg-transparent"
+                    placeholder="Enter Your Comment.."
+                  />
+                  <button onClick={selectEmoji}>{emojiSvg}</button>
+                </label>
                 <button className="btn" type="submit">
                   Comment
                 </button>
               </form>
+
+              <div>
+                {picker && (
+                  <div className="absolute right-0" ref={pickerRef}>
+                    <Picker
+                      theme={"dark"}
+                      data={data}
+                      onEmojiSelect={handleEmojiSelect}
+                      maxFrequentRows={0}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
             {comments.map((comment, index) => (
               <div

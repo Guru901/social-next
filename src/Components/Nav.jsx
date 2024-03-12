@@ -57,7 +57,7 @@ const Nav = ({ username }) => {
           </div>
           <div className="flex w-full justify-end">
             {showDropDown && (
-              <div className="absolute top-0 right-0 bg-[#2A323C] z-50 w-36 rounded-md p-4 flex flex-col gap-3">
+              <div className="absolute top-3 right-0 bg-[#2A323C] z-50 w-36 rounded-md p-4 flex flex-col gap-3">
                 {dropDownMenu.map((x) => (
                   <div
                     key={x.path}
