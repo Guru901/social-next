@@ -80,9 +80,7 @@ body {
   display: flex;
   align-items: end;
   height: 10rem;
-  bottom: 0;
   width: 100vw;
-  position: fixed;
 }
 
 @media (max-width: 425px) {
