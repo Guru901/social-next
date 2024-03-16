@@ -15,7 +15,6 @@
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.0.0",
     "dotenv": "^16.4.1",
-    "emoji-mart": "^5.5.2",
     "gsap": "^3.12.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
@@ -23,12 +22,7 @@
     "next-cloudinary": "^5.20.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.0.1",
-    "react-intersection-observer": "^9.8.0",
-    "react-player": "^2.14.1",
-    "react-toastify": "^10.0.4",
-    "react-waypoint": "^10.3.0",
-    "socket.io": "^4.7.4"
+    "react-icons": "^5.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

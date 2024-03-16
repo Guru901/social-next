@@ -68,7 +68,12 @@ const Footer = () => {
             key={footerItem.icon}
           >
             <Link href={footerItem.path}>
-              <Image width={25} height={25} src={footerItem.icon} />
+              <Image
+                width={25}
+                height={25}
+                src={footerItem.icon}
+                alt={footerItem?.label}
+              />
               {/* {isSidebar && footerItem.label} */}
             </Link>
           </div>

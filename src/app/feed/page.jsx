@@ -14,6 +14,7 @@ import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
 import "./feed.css";
+import { getDateDifference } from "@/functions/getDate";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -47,7 +48,7 @@ const Feed = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occured try logging in again");
+      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -60,7 +61,7 @@ const Feed = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occured try logging in again");
+      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -74,7 +75,7 @@ const Feed = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occured try logging in again");
+      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -100,7 +101,7 @@ const Feed = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occured try logging in again");
+      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -112,7 +113,7 @@ const Feed = () => {
       setPosts(data.reverse());
     } catch (error) {
       console.log(error);
-      setError("An error occured try logging in again");
+      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -227,9 +228,16 @@ const Feed = () => {
                       )}
                     </div>
                   </div>
-                  <Link href={`/post/${post._id}`}>
-                    <button className="btn btn-neutral">See more</button>
-                  </Link>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <Link href={`/post/${post._id}`}>
+                      <button className="btn btn-neutral">See more</button>
+                    </Link>
+                    <div>
+                      <h1 className="text-sm font-bold">
+                        {getDateDifference(post?.createdAt)?.toLocaleString()}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
               </>
             </div>
@@ -248,7 +256,6 @@ const Feed = () => {
                     <p className="max-h-24 overflow-hidden w-[17rem]">
                       {post.body}
                     </p>
-                    <p>....</p>
                   </div>
                 </div>
 
@@ -297,9 +304,16 @@ const Feed = () => {
                       )}
                     </button>
                   </div>
-                  <Link href={`/post/${post._id}`}>
-                    <button className="btn btn-neutral">See more</button>
-                  </Link>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <Link href={`/post/${post._id}`}>
+                      <button className="btn btn-neutral">See more</button>
+                    </Link>
+                    <div>
+                      <h1 className="text-sm font-bold">
+                        {getDateDifference(post?.createdAt)?.toLocaleString()}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,10 +1,9 @@
 "use client";
 
-import { FaArrowLeft } from "react-icons/fa6";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
+import Nav from "@/Components/Nav";
 
 const shuffleArray = (array) => {
   const shuffledArray = [...array];
@@ -68,7 +67,7 @@ const Vid = () => {
       setLoading(true);
       const { data } = await axios.post("/api/videos/getVideos");
       const vids = data.map((x) => x.vid);
-      setVideos(shuffleArray(vids)); // Set the videos state
+      setVideos(shuffleArray(vids));
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -92,7 +91,7 @@ const Vid = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const video = videoRef.current;
-            video.currentTime = 0; // Reset video to start
+            video.currentTime = 0;
             video.play();
             video.addEventListener("timeupdate", handleTimeUpdate);
           } else {
@@ -105,7 +104,7 @@ const Vid = () => {
         });
       },
       {
-        threshold: 0.5, // Adjust based on when you want the video to play
+        threshold: 0.5,
       }
     );
 
@@ -130,14 +129,7 @@ const Vid = () => {
   return (
     <div>
       <div className="w-[100vw] h-[90vh]">
-        <div className="vidNav flex justify-between px-5 items-center w-[100vw] fixed top-0 left-0 z-50">
-          <Link href={"/feed"}>
-            <button>
-              <FaArrowLeft size={24} />
-            </button>
-          </Link>
-          <button className="btn px-4">Logout</button>
-        </div>
+        <Nav />
         <div>
           <div className="h-[92vh] carousel carousel-vertical box">
             {videos?.map((videoSrc, index) => (

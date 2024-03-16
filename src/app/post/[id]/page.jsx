@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { getDateDifference } from "@/functions/getDate";
 
 const Post = () => {
   const [post, setPost] = useState([]);
@@ -24,7 +25,7 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [picker, setPicker] = useState();
+  const [picker, setPicker] = useState(false); // set initial state for picker
 
   const inpRef = useRef();
   const pickerRef = useRef();
@@ -149,7 +150,7 @@ const Post = () => {
         user: user,
         avatar: user?.avatar ? user?.avatar : "",
       });
-      form.comment = "";
+      setForm({ comment: "" });
       fetchComments();
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -159,7 +160,7 @@ const Post = () => {
   const handleLike = async (id) => {
     await axios.put("/api/likes/like", {
       id: id,
-      user: user._id,
+      user: user?._id,
     });
     fetchPostForLikes();
   };
@@ -167,7 +168,7 @@ const Post = () => {
   const handleUnLike = async (id) => {
     await axios.put("/api/likes/unlike", {
       id: id,
-      user: user._id,
+      user: user?._id,
     });
     fetchPostForLikes();
   };
@@ -175,7 +176,7 @@ const Post = () => {
   const handleDisLike = async (id) => {
     await axios.put("/api/likes/dislike", {
       id: id,
-      user: user._id,
+      user: user?._id,
     });
 
     fetchPostForLikes();
@@ -184,7 +185,7 @@ const Post = () => {
   const handleDisUnlike = async (id) => {
     await axios.put("/api/likes/disunlike", {
       id: id,
-      user: user._id,
+      user: user?._id,
     });
     fetchPostForLikes();
   };
@@ -192,14 +193,11 @@ const Post = () => {
   const copyUrlToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      toastRef.current.style.display = "block";
-      setInterval(() => {
-        toastRef.current.style.display = "none";
-      }, 1000);
     } catch (err) {
       console.error("Failed to copy: ", err);
     }
   };
+
   const fetchPostForLikes = async () => {
     try {
       const { data } = await axios.post(`/api/post/getPost/${postID}`, {
@@ -233,7 +231,7 @@ const Post = () => {
           <div className="px-2">
             {post.map((x) => (
               <div key={x._id} className="flex flex-col gap-4 justify-center">
-                <h1 className="text-3xl">{x.title}</h1>
+                <h1 className="text-3xl">{x?.title}</h1>
                 {x.image &&
                 (x.image.endsWith(".mp4") || x.image.endsWith(".mkv")) ? (
                   <video
@@ -259,7 +257,7 @@ const Post = () => {
                 <p className="text-base">{x.body}</p>
                 <div className="flex gap-4  p-2 rounded-xl">
                   <div className="flex items-center gap-1">
-                    {x?.likes?.includes(user?._id) ? (
+                    {user && x?.likes?.includes(user?._id) ? (
                       <div className="flex items-center justify-center gap-1">
                         <AiFillLike
                           size={28}
@@ -275,13 +273,12 @@ const Post = () => {
                           onClick={() => handleLike(x._id)}
                           className="cursor-pointer"
                         />
-
                         <h1 className="text-xl">{x?.likes?.length}</h1>
                       </div>
                     )}
                   </div>
                   <div className="flex items-center gap-1  mt-1">
-                    {x?.dislikes?.includes(user?._id) ? (
+                    {user && x?.dislikes?.includes(user?._id) ? (
                       <div className="flex items-center justify-center gap-2">
                         <AiFillDislike
                           size={28}
@@ -297,7 +294,6 @@ const Post = () => {
                           onClick={() => handleDisLike(x._id)}
                           className="cursor-pointer"
                         />
-
                         <h1 className="text-xl">{x?.dislikes?.length}</h1>
                       </div>
                     )}
@@ -321,6 +317,9 @@ const Post = () => {
                     )}
                   </div>
                 </div>
+                <h1 className="text-sm font-bold">
+                  {getDateDifference(x.createdAt)?.toLocaleString()}
+                </h1>
               </div>
             ))}
           </div>
@@ -333,7 +332,7 @@ const Post = () => {
                     type="text"
                     value={form.comment}
                     onChange={(e) =>
-                      setForm({ [e.target.name]: e.target.value })
+                      setForm({ ...form, comment: e.target.value })
                     }
                     ref={inpRef}
                     name="comment"
@@ -391,11 +390,7 @@ const Post = () => {
           </div>
         </div>
       </div>
-      <div
-        className="toast toast-top toast-center"
-        ref={toastRef}
-        style={{ display: "none" }}
-      >
+      <div ref={toastRef} style={{ display: "none" }}>
         <div className="alert alert-success">
           <span>URL copied</span>
         </div>

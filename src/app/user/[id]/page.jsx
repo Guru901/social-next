@@ -125,6 +125,7 @@ const User = () => {
                     src={user?.avatar ? user.avatar : ""}
                     width={96}
                     height={96}
+                    alt={user?.username}
                   />
                 </div>
               </div>

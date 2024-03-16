@@ -32,7 +32,6 @@ const AllNotifications = () => {
           id: loggedInUser?._id,
         }
       );
-      console.log(data);
       setNotifications(data.reverse());
       setLoading(false);
     } catch (error) {
@@ -48,7 +47,6 @@ const AllNotifications = () => {
         from: from,
         notificationId: notificationId,
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

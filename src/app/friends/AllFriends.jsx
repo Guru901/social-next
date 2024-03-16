@@ -53,35 +53,35 @@ const AllFriends = () => {
     <div>
       <Nav />
       <div className="flex flex-wrap justify-center gap-3 py-5 w-[100vw]">
-        {Array.isArray(friends) && friends.length > 0
-          ? friends.map((friend) => (
-              <Link href={`/user/${friend?._id}`} key={friend?._id}>
-                <div className="card w-[45vw] max-w-48 bg-base-100 shadow-xl image-full ">
-                  <figure>
-                    {friend?.avatar ? (
-                      <Image
-                        src={friend.avatar}
-                        width={384}
-                        height={208}
-                        className="friendAvatar"
-                        alt={friend.username}
-                      />
-                    ) : (
-                      <img
-                        className="h-full w-full object-cover"
-                        src={dummyAvatar}
-                      />
-                    )}
-                  </figure>
-                  <div className="card-body friendCard">
-                    <h2 className="card-title w-full h-full flex items-end justify-center text-xl sm:text-3xl">
-                      {friend?.username}
-                    </h2>
-                  </div>
+        {Array.isArray(friends) &&
+          friends.length > 0 &&
+          friends.map((friend) => (
+            <Link href={`/user/${friend?._id}`} key={friend?._id}>
+              <div className="card w-[45vw] max-w-48 bg-base-100 shadow-xl image-full ">
+                <figure>
+                  {friend?.avatar ? (
+                    <Image
+                      src={friend.avatar}
+                      width={384}
+                      height={208}
+                      className="friendAvatar"
+                      alt={friend.username}
+                    />
+                  ) : (
+                    <img
+                      className="h-full w-full object-cover"
+                      src={dummyAvatar}
+                    />
+                  )}
+                </figure>
+                <div className="card-body friendCard">
+                  <h2 className="card-title w-full h-full flex items-end justify-center text-xl sm:text-3xl">
+                    {friend?.username}
+                  </h2>
                 </div>
-              </Link>
-            ))
-          : "You dont have any friends lonely af :)"}
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );

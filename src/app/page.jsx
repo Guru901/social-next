@@ -28,11 +28,6 @@ const Home = () => {
   };
 
   const pswdCheck = () => {
-    if (form.password.length < 6) {
-      setError("Password must be atleast 6 characters");
-      return false;
-    }
-
     if (pswd !== form.password) {
       setError("Passwords don't match");
       return false;
@@ -96,6 +91,7 @@ const Home = () => {
           className="input input-bordered w-full"
           onChange={handleChange}
           required
+          minLength={6}
         />
         <input
           type="password"
@@ -104,6 +100,7 @@ const Home = () => {
           className="input input-bordered w-full"
           onChange={(e) => setPswd(e.target.value)}
           required
+          minLength={6}
         />
         <CldUploadWidget
           uploadPreset="cf72ckgk"
