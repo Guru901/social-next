@@ -227,7 +227,7 @@ const Post = () => {
     <div className="w-full flex flex-col justify-center pl-1">
       <Nav />
       <div className="flex flex-col items-center p-2 gap-4">
-        <div className="flex flex-col gap-4 mb-40">
+        <div className="flex flex-col gap-4">
           <div className="px-2">
             {post.map((x) => (
               <div key={x._id} className="flex flex-col gap-4 justify-center">
