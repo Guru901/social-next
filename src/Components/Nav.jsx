@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
+// import "./navigation.css";
 
 const Nav = ({ username }) => {
   const pathName = usePathname();

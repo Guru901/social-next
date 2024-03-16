@@ -1,0 +1,13 @@
+@media (min-width: 600px) {
+  .f {
+    flex-direction: column !important;
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    width: 10rem;
+    border-radius: 0;
+  }
+  .navbar {
+    margin-left: 10rem;
+  }
+}

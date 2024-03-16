@@ -167,7 +167,7 @@ const User = () => {
         <div className="divider m-0"></div>
 
         {/* Radio buttons section */}
-        {isFriend ? (
+        {isFriend && (
           <div className="flex justify-center w-[100svw] max-x-[26rem]">
             <div className="join w-[26rem]">
               <input
@@ -196,8 +196,6 @@ const User = () => {
               />
             </div>
           </div>
-        ) : (
-          ""
         )}
 
         <div className="flex justify-center items-center">

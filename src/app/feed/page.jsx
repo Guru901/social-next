@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   AiFillDislike,
   AiFillLike,
@@ -14,6 +13,7 @@ import VidPlayer from "@/Components/VidPlayer";
 import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
+import "./feed.css";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -159,12 +159,12 @@ const Feed = () => {
           <option value={true}>Most liked</option>
         </select>
       </div>
-      <div className="flex flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
+      <div className="flex feedContainer flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
         {sortedPosts.map((post) =>
           post.image ? (
             <div
               key={post._id}
-              className="card max-w-96 bg-base-100 shadow-xl w-screen"
+              className="card max-w-96 bg-base-100 shadow-xl w-screen singlePost"
             >
               <>
                 <figure>
@@ -235,7 +235,7 @@ const Feed = () => {
             </div>
           ) : (
             <div
-              className="card max-w-96 w-[100vw] bg-base-100 shadow-xl"
+              className="card max-w-96 w-[100vw] bg-base-100 shadow-xl singlePost"
               key={post._id}
             >
               <div className="card-body flex flex-col justify-between items-stretch p-4">

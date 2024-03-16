@@ -1,0 +1,29 @@
+/*.flexContainer {
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start;
+}
+
+@media (min-width: 600px) {
+  .feedContainer {
+    padding-left: 30vw;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: start;
+  }
+  .singlePost {
+    height: min-content;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feedContainer {
+    padding-left: 7vw;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .singlePost {
+    height: min-content;
+  }
+}
+*/

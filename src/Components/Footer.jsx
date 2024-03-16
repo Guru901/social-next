@@ -1,35 +1,52 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+// import "./navigation.css";
 
 const Footer = () => {
   const pathName = usePathname();
+  const [isSidebar, setIsSidebar] = useState();
 
   const footerItems = [
     {
       path: "/feed",
       icon: "/icons/home.webp",
+      label: "Home",
     },
     {
       path: "/vid",
       icon: "/icons/vid.webp",
+      label: "Videos",
     },
     {
       path: "/post",
       icon: "/icons/post.webp",
+      label: "Upload",
     },
     {
       path: "/search",
       icon: "/icons/search.webp",
+      label: "Search",
     },
     {
       path: "/profile",
       icon: "/icons/user.webp",
+      label: "Profile",
     },
   ];
+
+  useEffect(() => {
+    const width = window.innerWidth >= 1024;
+
+    if (width) {
+      setIsSidebar(true);
+    } else {
+      setIsSidebar(false);
+    }
+  }, []);
 
   return (
     <div
@@ -52,6 +69,7 @@ const Footer = () => {
           >
             <Link href={footerItem.path}>
               <Image width={25} height={25} src={footerItem.icon} />
+              {/* {isSidebar && footerItem.label} */}
             </Link>
           </div>
         ))}
