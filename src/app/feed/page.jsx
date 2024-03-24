@@ -129,16 +129,18 @@ const Feed = () => {
     } else {
       fetchPostForLikes();
     }
-
-    if (user?.username === undefined) {
-      getUser();
-    }
   }, [byLiked]);
 
   useEffect(() => {
     getUser();
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    if (user?.username === undefined) {
+      getUser();
+    }
+  }, [user]);
 
   if (error) {
     return <div>An error occurred</div>;

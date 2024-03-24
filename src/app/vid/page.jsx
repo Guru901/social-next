@@ -48,7 +48,7 @@ const VideoItem = ({ src, controls }) => {
   return (
     <div className="w-screen h-screen flex justify-center items-start">
       <video
-        className="w-[100vw] max-w-[500px] h-[90vh] object-cover"
+        className="w-[100vw] max-w-[500px] h-[93vh] object-cover"
         src={src}
         ref={videoRef}
         controls={controls}
@@ -61,13 +61,14 @@ const VideoItem = ({ src, controls }) => {
 const Vid = () => {
   const [loading, setLoading] = useState(true);
   const [videos, setVideos] = useState();
+  const [vidData, setVidData] = useState();
 
   const getVideos = async () => {
     try {
       setLoading(true);
       const { data } = await axios.post("/api/videos/getVideos");
       const vids = data.map((x) => x.vid);
-      setVideos(shuffleArray(vids));
+      setVidData(data);
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -128,13 +129,12 @@ const Vid = () => {
 
   return (
     <div>
-      <div className="w-[100vw] h-[90vh]">
-        <Nav />
+      <div className="w-[100vw] h-[93vh]">
         <div>
-          <div className="h-[92vh] carousel carousel-vertical box">
-            {videos?.map((videoSrc, index) => (
+          <div className="h-[93vh] carousel carousel-vertical box">
+            {vidData?.map((viddata, index) => (
               <div key={index} className="carousel-item h-full">
-                <VideoItem src={videoSrc} controls={true} />
+                <VideoItem src={viddata.vid} controls={true} />
               </div>
             ))}
           </div>

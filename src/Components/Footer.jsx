@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-// import "./navigation.css";
 
 const Footer = () => {
   const pathName = usePathname();
@@ -58,7 +57,7 @@ const Footer = () => {
           : ""
       }`}
     >
-      <div className="f mt-16 btm-nav">
+      <div className={`f mt-16 btm-nav ${pathName === "/vid" && "vidFooter"}`}>
         {footerItems.map((footerItem) => (
           <div
             className={`flex items-center h-full w-full justify-center ${

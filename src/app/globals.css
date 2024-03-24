@@ -140,3 +140,8 @@ a {
     width: 45vw;
   }
 }
+
+.vidFooter {
+  height: auto !important;
+  padding: 0.5rem 0;
+}
