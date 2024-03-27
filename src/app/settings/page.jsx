@@ -9,92 +9,67 @@ import axios from "axios";
 
 const Settings = () => {
   const router = useRouter();
+
   const logOut = async () => {
     await axios.post("/api/user/logout");
     router.push("/login");
   };
+
+  const settingsItems = [
+    {
+      title:"Edit Profile",
+      desc: "still can't change username",
+      icon: <FaUser/>,
+      link: "/settings/profile"
+    },
+    {
+      title:"Change Password",
+      desc: "still can't change username",
+      icon: <FaUser/>,
+      link: "/settings/change__password"
+    },
+    {
+      title:"Account",
+      icon: <FaGears/>,
+      link: "/settings/account"
+    },
+    {
+      title:"Notifications",
+      icon: <FaBell/>,
+      link: "/settings/account"
+    },
+    {
+      title:"Give Feedback",
+      icon: <FaFeather/>,
+      desc:"Ni diya to bhoot le jaayege",
+      link: "/settings/account"
+    },
+    {
+      title:"Logout",
+      icon: <FaGears/>,
+      link: "/settings/account"
+    },
+  ]
   return (
     <div>
       <Nav />
       <div className="settings flex gap-2 flex-col">
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/profile">
+        {settingsItems?.map(item=>(
+         <div className="setting flex flex-row p-4 gap-8">
+          <Link href={item.link}>
             <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
               <div>
-                <FaUser />
+                {item?.icon}
               </div>
               <div className="flex flex-col">
-                <div className="mt-1">Edit Profile</div>
-                <p className="text-xs">still can't change username</p>
+                <div className="mt-1">{item.title}</div>
+                <p className="text-xs">{item?.desc}</p>
               </div>
             </div>
           </Link>
         </div>
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/change__password">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaUser />
-              </div>
-              <div className="flex flex-col">
-                <div className="mt-1">Change password</div>
-                <p className="text-xs">still can't change username</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/account">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaGears />
-              </div>
-              <div className="flex flex-col">
-                <div>Account</div>
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/profile">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaBell />
-              </div>
-              <div className="flex flex-col">
-                <div>Notifications</div>
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="setting flex flex-row p-4 gap-8">
-          <Link href="/settings/feature">
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                <FaFeather />
-              </div>
-              <div className="flex flex-col">
-                <div>Give Feedback</div>
-                <p className="text-xs">ni diya to bhoot le jaayenge</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        <div className="setting flex flex-row p-4 gap-8">
-          <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-            <div>
-              <FaFeather />
-            </div>
-            <div className="flex flex-col">
-              <button className="w-[80vw] flex justify-start" onClick={logOut}>
-                Logout
-              </button>
-              <p className="text-xs">gaddari karbe</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        ))}
+     </div>
     </div>
   );
 };

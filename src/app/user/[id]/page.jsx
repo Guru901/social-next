@@ -25,13 +25,31 @@ const User = () => {
   const pathName = usePathname();
   const router = useRouter();
 
+  const PostItems = [
+    {
+      lable: "Public Posts",
+      selectedOption: "publicPosts",
+      selected:true
+    },
+    {
+      lable: "Private Posts",
+      selectedOption: "privatePosts"
+    },
+    {
+      lable: "Liked Posts",
+      selectedOption: "likedPosts"
+    },
+  ]
+
+
+
   const id = pathName.split("/")[2];
 
   const getLoggedInUser = async () => {
     try {
       const { data } = await axios.post("/api/user/me");
       setLoggedInUser(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getUserSearch = async () => {
@@ -167,34 +185,20 @@ const User = () => {
       <div className="flex flex-col gap-4 w-full overflow-hidden">
         <div className="divider m-0"></div>
 
-        {/* Radio buttons section */}
         {isFriend && (
           <div className="flex justify-center w-[100svw] max-x-[26rem]">
             <div className="join w-[26rem]">
-              <input
-                className="join-item btn max-w-[8.66rem] w-[33%]"
-                type="radio"
-                name="options"
-                aria-label="Public Posts"
-                checked={selectedOption === "publicPosts"}
-                onChange={() => setSelectedOption("publicPosts")}
-              />
-              <input
-                className="join-item btn max-w-[8.66rem] w-[33%]"
-                type="radio"
-                name="options"
-                aria-label="Private Posts"
-                checked={selectedOption === "privatePosts"}
-                onChange={() => setSelectedOption("privatePosts")}
-              />
-              <input
-                className="join-item btn max-w-[8.66rem] w-[33%]"
-                type="radio"
-                name="options"
-                aria-label="Liked Posts"
-                checked={selectedOption === "likedPosts"}
-                onChange={() => setSelectedOption("likedPosts")}
-              />
+              {PostItems.map(postItem => (
+                <input
+                  className="join-item btn max-w-[8.66rem] w-[33%]"
+                  name="options"
+                  type="radio"
+                  aria-label={postItem.lable}
+                  checked={selectedOption === postItem.selectedOption}
+                  onChange={() => setSelectedOption(postItem.selectedOption)}
+                  />
+                ))
+              }
             </div>
           </div>
         )}
@@ -205,7 +209,7 @@ const User = () => {
               <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
                 <Link href={`/post/${post._id}`}>
                   {post.image?.endsWith(".mp4") ||
-                  post.image?.endsWith(".mkv") ? (
+                    post.image?.endsWith(".mkv") ? (
                     <video
                       className="object-cover w-full h-full rounded-md"
                       src={post.image}

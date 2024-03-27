@@ -20,7 +20,7 @@ const getDateDifference = (dateString) => {
     // If more than a day, return the number of days ago
     return `${days} day${days > 1 ? "s" : ""} ago`;
   } else if (hours >= 1) {
-    // If more than an hour, return the number of hours ago
+    // If more than an hour, return the number of hours ago the post was posted
     return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   } else if (minutes >= 1) {
     // If more than a minute, return the number of minutes ago
