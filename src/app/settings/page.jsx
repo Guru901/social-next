@@ -17,59 +17,57 @@ const Settings = () => {
 
   const settingsItems = [
     {
-      title:"Edit Profile",
+      title: "Edit Profile",
       desc: "still can't change username",
-      icon: <FaUser/>,
-      link: "/settings/profile"
+      icon: <FaUser />,
+      link: "/settings/profile",
     },
     {
-      title:"Change Password",
+      title: "Change Password",
       desc: "still can't change username",
-      icon: <FaUser/>,
-      link: "/settings/change__password"
+      icon: <FaUser />,
+      link: "/settings/change__password",
     },
     {
-      title:"Account",
-      icon: <FaGears/>,
-      link: "/settings/account"
+      title: "Account",
+      icon: <FaGears />,
+      link: "/settings/account",
     },
     {
-      title:"Notifications",
-      icon: <FaBell/>,
-      link: "/settings/account"
+      title: "Notifications",
+      icon: <FaBell />,
+      link: "/settings/account",
     },
     {
-      title:"Give Feedback",
-      icon: <FaFeather/>,
-      desc:"Ni diya to bhoot le jaayege",
-      link: "/settings/feedback"
+      title: "Give Feedback",
+      icon: <FaFeather />,
+      desc: "Ni diya to bhoot le jaayege",
+      link: "/settings/feedback",
     },
     {
-      title:"Logout",
-      icon: <FaGears/>,
-      link: "/settings/account"
+      title: "Logout",
+      icon: <FaGears />,
+      function: logOut,
     },
-  ]
+  ];
   return (
     <div>
       <Nav />
       <div className="settings flex gap-2 flex-col">
-        {settingsItems?.map(item=>(
-         <div className="setting flex flex-row p-4 gap-8">
-          <Link href={item.link}>
-            <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-              <div>
-                {item?.icon}
+        {settingsItems?.map((item) => (
+          <div className="setting flex flex-row p-4 gap-8">
+            <Link href={item?.link} onChange={item?.function}>
+              <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+                <div>{item?.icon}</div>
+                <div className="flex flex-col">
+                  <div className="mt-1">{item.title}</div>
+                  <p className="text-xs">{item?.desc}</p>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <div className="mt-1">{item.title}</div>
-                <p className="text-xs">{item?.desc}</p>
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
         ))}
-     </div>
+      </div>
     </div>
   );
 };
