@@ -42,7 +42,7 @@ const Settings = () => {
       title:"Give Feedback",
       icon: <FaFeather/>,
       desc:"Ni diya to bhoot le jaayege",
-      link: "/settings/account"
+      link: "/settings/feedback"
     },
     {
       title:"Logout",
