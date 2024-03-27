@@ -47,7 +47,6 @@ const Settings = () => {
     {
       title: "Logout",
       icon: <FaGears />,
-      function: logOut,
     },
   ];
   return (
@@ -56,15 +55,26 @@ const Settings = () => {
       <div className="settings flex gap-2 flex-col">
         {settingsItems?.map((item) => (
           <div className="setting flex flex-row p-4 gap-8">
-            <Link href={item?.link} onChange={item?.function}>
-              <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
-                <div>{item?.icon}</div>
-                <div className="flex flex-col">
-                  <div className="mt-1">{item.title}</div>
-                  <p className="text-xs">{item?.desc}</p>
+            {item.link ?(
+              <Link href={item?.link}>
+                <div className="card-title flex justify-start items-center gap-4 cursor-pointer">
+                  <div>{item?.icon}</div>
+                  <div className="flex flex-col">
+                    <div className="mt-1">{item.title}</div>
+                    <p className="text-xs">{item?.desc}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            ):(
+                <div className="card-title flex justify-start items-center gap-4 cursor-pointer" onClick={logOut}>
+                  <div>{item?.icon}</div>
+                  <div className="flex flex-col">
+                    <div className="mt-1">{item.title}</div>
+                    <p className="text-xs">{item?.desc}</p>
+                  </div>
+                </div>
+            )}
+
           </div>
         ))}
       </div>

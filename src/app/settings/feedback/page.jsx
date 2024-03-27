@@ -26,9 +26,8 @@ const Feedback = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      router.push("/settings");
       setForm({
         ...form,
         user: user.username,
@@ -36,6 +35,8 @@ const Feedback = () => {
 
       const { data } = await axios.post("/api/user/feedback", form);
       console.log(data);
+      router.push("/settings");
+
     } catch (error) {
       console.log(error);
     }
