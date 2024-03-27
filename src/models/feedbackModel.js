@@ -13,6 +13,9 @@ const feedbackSchema = mongoose.Schema({
   demandedThing: {
     type: String,
   },
+  somethingElse: {
+    type: String,
+  },
   givenBy: {
     type: String,
   },

@@ -54,6 +54,10 @@ const Feedback = () => {
       label: "What is the feature(s) you want in this app",
       name: "demandedThing",
     },
+    {
+      label: "Something Else?",
+      name: "somethingElse",
+    },
   ];
 
   useEffect(() => {

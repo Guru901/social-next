@@ -6,7 +6,14 @@ export async function POST(request) {
   connect();
 
   const req = await request.json();
-  const { demandedThing, dislikedThing, likedThing, overallRating, user } = req;
+  const {
+    demandedThing,
+    dislikedThing,
+    likedThing,
+    overallRating,
+    user,
+    somethingElse,
+  } = req;
 
   const feedback = await Feedback.create({
     demandedThing: demandedThing,
@@ -14,6 +21,7 @@ export async function POST(request) {
     likedThing: likedThing,
     overallRating: overallRating,
     givenBy: user,
+    somethingElse: somethingElse,
   });
 
   const response = NextResponse.json(feedback);
