@@ -29,19 +29,17 @@ const User = () => {
     {
       lable: "Public Posts",
       selectedOption: "publicPosts",
-      selected:true
+      selected: true,
     },
     {
       lable: "Private Posts",
-      selectedOption: "privatePosts"
+      selectedOption: "privatePosts",
     },
     {
       lable: "Liked Posts",
-      selectedOption: "likedPosts"
+      selectedOption: "likedPosts",
     },
-  ]
-
-
+  ];
 
   const id = pathName.split("/")[2];
 
@@ -49,7 +47,7 @@ const User = () => {
     try {
       const { data } = await axios.post("/api/user/me");
       setLoggedInUser(data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getUserSearch = async () => {
@@ -188,7 +186,7 @@ const User = () => {
         {isFriend && (
           <div className="flex justify-center w-[100svw] max-x-[26rem]">
             <div className="join w-[26rem]">
-              {PostItems.map(postItem => (
+              {PostItems.map((postItem) => (
                 <input
                   className="join-item btn max-w-[8.66rem] w-[33%]"
                   name="options"
@@ -196,9 +194,8 @@ const User = () => {
                   aria-label={postItem.lable}
                   checked={selectedOption === postItem.selectedOption}
                   onChange={() => setSelectedOption(postItem.selectedOption)}
-                  />
-                ))
-              }
+                />
+              ))}
             </div>
           </div>
         )}
@@ -209,7 +206,7 @@ const User = () => {
               <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
                 <Link href={`/post/${post._id}`}>
                   {post.image?.endsWith(".mp4") ||
-                    post.image?.endsWith(".mkv") ? (
+                  post.image?.endsWith(".mkv") ? (
                     <video
                       className="object-cover w-full h-full rounded-md"
                       src={post.image}

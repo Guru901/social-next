@@ -22,8 +22,8 @@ body {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: radial-gradient(farthest-side, #646ee3 94%, #0000) top/9px 9px
-      no-repeat,
+  background:
+    radial-gradient(farthest-side, #646ee3 94%, #0000) top/9px 9px no-repeat,
     conic-gradient(#0000 30%, #646ee3);
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 9px), #000 0);
   animation: spinner-c7wet2 1s infinite linear;
@@ -144,4 +144,15 @@ a {
 .vidFooter {
   height: auto !important;
   padding: 0.5rem 0;
+}
+
+.dropDown {
+  z-index: 100;
+  top: 64px;
+  right: 6px;
+  transition: 0.2s;
+  background: #14191e;
+}
+.dropDownItem:hover {
+  background: #2a323c;
 }

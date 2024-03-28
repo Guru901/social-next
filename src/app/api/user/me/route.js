@@ -16,7 +16,7 @@ export async function POST(request) {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password");
 
     const response = NextResponse.json(user);
 

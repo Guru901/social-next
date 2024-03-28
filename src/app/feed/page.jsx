@@ -23,15 +23,40 @@ const Feed = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState();
+  const [selectedOption, setSelectedOption] = useState("global");
 
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/post/allPosts", {
-        isPublic: true,
-      });
-      setPosts(data.reverse());
 
+      if (selectedOption === "global") {
+        const { data } = await axios.post("/api/post/allPosts", {
+          isPublic: true,
+        });
+
+        setPosts(data.reverse());
+      } else {
+        const { data } = await axios.post("/api/post/friendsPost", {
+          user: user._id,
+        });
+
+        const postsWithCreatedAt = data.posts.filter((post) => post.createdAt);
+        const postsWithoutCreatedAt = data.posts
+          .filter((post) => !post.createdAt)
+          .reverse();
+
+        // Sort posts with createdAt in descending order of createdAt
+        postsWithCreatedAt.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+
+        // Concatenate sorted posts with createdAt and posts without createdAt
+        const sortedPosts = [...postsWithCreatedAt, ...postsWithoutCreatedAt];
+
+        setPosts(sortedPosts);
+
+        console.log(data);
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -117,24 +142,25 @@ const Feed = () => {
     }
   };
 
-  const sortedPosts = byLiked
-    ? [...posts].sort((a, b) => b.likes.length - a.likes.length)
-    : posts;
-
-  useEffect(() => {
-    if (byLiked) {
-      setPosts((currentPosts) =>
-        [...currentPosts].sort((a, b) => b.likes.length - a.likes.length)
-      );
-    } else {
-      fetchPostForLikes();
-    }
-  }, [byLiked]);
+  const PostItems = [
+    {
+      lable: "Gloabal",
+      selectedOption: "global",
+    },
+    {
+      lable: "Friends",
+      selectedOption: "friends",
+    },
+  ];
 
   useEffect(() => {
     getUser();
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [selectedOption]);
 
   useEffect(() => {
     if (user?.username === undefined) {
@@ -151,19 +177,24 @@ const Feed = () => {
   return (
     <>
       <div className="flex justify-center">
-        <Nav username={user?.username} />
+        <Nav username={user?.username} userAvatar={user?.avatar} />
       </div>
-      <div className="mt-2 flex w-screen max-w-96 justify-end items-center">
-        <select
-          className="select select-bordered max-w-xs"
-          onChange={(e) => setByLiked(e.target.value === "true")}
-        >
-          <option value={false}>Most Recent</option>
-          <option value={true}>Most liked</option>
-        </select>
+      <div className="mt-2 flex w-screen max-w-96 justify-between items-center mx-auto">
+        <div className="join w-[10rem]">
+          {PostItems.map((postItem) => (
+            <input
+              className="join-item btn w-[50%] p-1 h-min"
+              name="options"
+              type="radio"
+              aria-label={postItem.lable}
+              checked={selectedOption === postItem.selectedOption}
+              onChange={() => setSelectedOption(postItem.selectedOption)}
+            />
+          ))}
+        </div>
       </div>
       <div className="flex feedContainer flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
-        {sortedPosts.map((post) =>
+        {posts?.map((post) =>
           post.image ? (
             <div
               key={post._id}
@@ -193,13 +224,13 @@ const Feed = () => {
                     <h2 className="card-title">{post.title}</h2>
                     <p className="max-h-24 overflow-hidden">{post.body}</p>
                     <div className="flex gap-2 text-xl mt-4">
-                      {post.likes.includes(user?._id) ? (
+                      {post?.likes?.includes(user?._id) ? (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
                           <AiFillLike
                             size={24}
                             onClick={() => handleUnLike(post._id)}
                           />
-                          <h1>{post.likes.length}</h1>
+                          <h1>{post?.likes?.length}</h1>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
@@ -208,16 +239,16 @@ const Feed = () => {
                             onClick={() => handleLike(post._id)}
                           />
 
-                          <h1>{post.likes.length}</h1>
+                          <h1>{post?.likes?.length}</h1>
                         </div>
                       )}
-                      {post.dislikes.includes(user?._id) ? (
+                      {post?.dislikes?.includes(user?._id) ? (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
                           <AiFillDislike
                             size={24}
                             onClick={() => handleDisUnlike(post._id)}
                           />
-                          <h1>{post.dislikes?.length}</h1>
+                          <h1>{post?.dislikes?.length}</h1>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
@@ -265,13 +296,13 @@ const Feed = () => {
                   <div className="flex gap-2 text-xl mt-4">
                     <button onClick={(prev) => setLiked(!prev)}>
                       <div className="flex flex-col items-center justify-center">
-                        {post.likes.includes(user?._id) ? (
+                        {post?.likes?.includes(user?._id) ? (
                           <div className="flex flex-col items-center justify-center">
                             <AiFillLike
                               size={24}
                               onClick={() => handleUnLike(post._id)}
                             />
-                            <h1>{post.likes.length}</h1>
+                            <h1>{post?.likes?.length}</h1>
                           </div>
                         ) : (
                           <div className="flex flex-col items-center justify-center">
@@ -280,19 +311,19 @@ const Feed = () => {
                               onClick={() => handleLike(post._id)}
                             />
 
-                            <h1>{post.likes.length}</h1>
+                            <h1>{post?.likes?.length}</h1>
                           </div>
                         )}
                       </div>
                     </button>
                     <button>
-                      {post.dislikes.includes(user?._id) ? (
+                      {post?.dislikes?.includes(user?._id) ? (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
                           <AiFillDislike
                             size={24}
                             onClick={() => handleDisUnlike(post._id)}
                           />
-                          <h1>{post.dislikes?.length}</h1>
+                          <h1>{post?.dislikes?.length}</h1>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center cursor-pointer">
@@ -301,7 +332,7 @@ const Feed = () => {
                             onClick={() => handleDisLike(post._id)}
                           />
 
-                          <h1>{post.dislikes.length}</h1>
+                          <h1>{post?.dislikes?.length}</h1>
                         </div>
                       )}
                     </button>
@@ -319,7 +350,7 @@ const Feed = () => {
                 </div>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </>
