@@ -70,7 +70,9 @@ const Chat = () => {
   if (error) return error;
 
   return (
+    
     <div>
+    <div id="main">
       <Nav />
       <div className="flex items-center gap-4 p-3">
         {anotherUser?.avatar ? (
@@ -112,6 +114,7 @@ const Chat = () => {
         <button className="btn w-[28%]" onClick={postMessage}>
           Send
         </button>
+      </div>
       </div>
     </div>
   );

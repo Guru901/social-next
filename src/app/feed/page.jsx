@@ -13,7 +13,6 @@ import VidPlayer from "@/Components/VidPlayer";
 import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
-import "./feed.css";
 import { getDateDifference } from "@/functions/getDate";
 
 const Feed = () => {
@@ -177,7 +176,7 @@ const Feed = () => {
   return (
     <>
       <div className="flex justify-center">
-        <Nav username={user?.username} userAvatar={user?.avatar} />
+        <Nav />
       </div>
       <div className="mt-2 flex w-screen max-w-96 justify-between items-center mx-auto">
         <div className="join w-[10rem]">

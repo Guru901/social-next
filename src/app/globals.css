@@ -151,8 +151,9 @@ a {
   top: 64px;
   right: 6px;
   transition: 0.2s;
-  background: #14191e;
+  background: #232a33;
 }
+
 .dropDownItem:hover {
-  background: #2a323c;
+  background: oklch(var(--b3));
 }
