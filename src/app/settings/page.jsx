@@ -51,7 +51,6 @@ const Settings = () => {
   ];
   return (
     <div>
-      <Nav />
       <div className="settings flex gap-2 flex-col">
         {settingsItems?.map((item) => (
           <div className="setting flex flex-row p-4 gap-8">

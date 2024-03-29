@@ -64,7 +64,7 @@ const AllNotifications = () => {
 
   return (
     <div>
-      <Nav />
+      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar}/>
       <div>
         {notifications?.length > 0 ? (
           <div>

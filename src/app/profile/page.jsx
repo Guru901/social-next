@@ -76,7 +76,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav  />
+      <Nav username={user?.username} avatar={user?.avatar}/>
       <div className="flex gap-8 items-center px-8 justify-evenly">
         <div className="flex flex-col gap-2">
           {user?.avatar ? (

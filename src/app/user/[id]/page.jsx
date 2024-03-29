@@ -130,7 +130,7 @@ const User = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav />
+      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar}/>
       <div>
         <div className="flex gap-8 items-center px-8">
           <div className="flex flex-col gap-2">

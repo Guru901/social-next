@@ -30,7 +30,7 @@ const Search = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Nav />
+      <Nav username={""}/>
       <div className="max-w-96 flex flex-col items-center py-5 gap-2">
         <h1 className="w-full flex self-start text-xl">Search</h1>
         <div className="w-screen flex justify-center mt-4">

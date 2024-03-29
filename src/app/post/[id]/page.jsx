@@ -225,7 +225,7 @@ const Post = () => {
 
   return (
     <div className="w-full flex flex-col justify-center pl-1">
-      <Nav />
+      <Nav username={user?.username} avatar={user?.avatar}/>
       <div className="flex flex-col items-center p-2 gap-4">
         <div className="flex flex-col gap-4">
           <div className="px-2">

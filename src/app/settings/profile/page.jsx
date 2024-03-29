@@ -53,7 +53,7 @@ const EditProfile = () => {
 
   return (
     <div>
-      <Nav />
+      <Nav username={user?.username} avatar={user?.avatar}/>
       <div className="py-6">
         <div className="max-w-screen flex items-center justify-center flex-col gap-2">
           {user?.avatar ? (

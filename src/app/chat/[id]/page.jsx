@@ -73,7 +73,7 @@ const Chat = () => {
     
     <div>
     <div id="main">
-      <Nav />
+      <Nav username={user.username} avatar={user?.avatar}/>
       <div className="flex items-center gap-4 p-3">
         {anotherUser?.avatar ? (
           <div className="w-16 h-16 rounded-full overflow-hidden">

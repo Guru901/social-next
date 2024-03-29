@@ -176,7 +176,7 @@ const Feed = () => {
   return (
     <>
       <div className="flex justify-center">
-        <Nav />
+        <Nav username={user?.username} avatar={user?.avatar} />
       </div>
       <div className="mt-2 flex w-screen max-w-96 justify-between items-center mx-auto">
         <div className="join w-[10rem]">

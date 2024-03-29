@@ -51,7 +51,7 @@ const AllFriends = () => {
   if (loading) return <Spinner />;
   return (
     <div>
-      <Nav />
+      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar}/>
       <div className="flex flex-wrap justify-center gap-3 py-5 w-[100vw]">
         {Array.isArray(friends) &&
           friends.length > 0 &&

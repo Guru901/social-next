@@ -31,7 +31,6 @@ const Memes = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Nav />
       <p className="px-3">Reload for another meme</p>
       <div className="flex flex-col justify-start items-center h-screen">
         <img src={meme.url} className="max-w-[100svw] w-100vw max-h-[90vh] " />
