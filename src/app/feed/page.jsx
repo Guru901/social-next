@@ -31,6 +31,7 @@ const Feed = () => {
       if (selectedOption === "global") {
         const { data } = await axios.post("/api/post/allPosts", {
           isPublic: true,
+          topic: "general",
         });
 
         setPosts(data.reverse());

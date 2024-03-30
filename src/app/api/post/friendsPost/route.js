@@ -24,7 +24,7 @@ export async function POST(request) {
   for (let i = 0; i < friends.length; i++) {
     const friend = friends[i];
 
-    const post = await Post.find({ user: friend });
+    const post = await Post.find({ user: friend, topic: "general" });
 
     for (let p = 0; p < post.length; p++) {
       posts.push(post[p]);
