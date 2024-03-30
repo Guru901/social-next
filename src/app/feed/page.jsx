@@ -208,7 +208,8 @@ const Feed = () => {
                     <VidPlayer videoUrl={post.image} autoPlay={false} />
                   ) : (
                     post.image.endsWith(".png") ||
-                    (post.image.endsWith(".jpg") && (
+                    post.image.endsWith(".jpg") ||
+                    (post.image.endsWith(".jpeg") && (
                       <Image
                         src={post.image}
                         alt={post.title}

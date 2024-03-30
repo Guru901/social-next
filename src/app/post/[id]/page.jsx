@@ -225,12 +225,15 @@ const Post = () => {
 
   return (
     <div className="w-full flex flex-col justify-center pl-1">
-      <Nav username={user?.username} avatar={user?.avatar}/>
+      <Nav username={user?.username} avatar={user?.avatar} />
       <div className="flex flex-col items-center p-2 gap-4">
         <div className="flex flex-col gap-4">
           <div className="px-2">
             {post.map((x) => (
-              <div key={x._id} className="flex flex-col gap-4 justify-center">
+              <div
+                key={x._id}
+                className="flex flex-col gap-4 justify-center w-screen max-w-96 overflow-hidden"
+              >
                 <h1 className="text-3xl">{x?.title}</h1>
                 {x.image &&
                 (x.image.endsWith(".mp4") || x.image.endsWith(".mkv")) ? (
@@ -254,7 +257,10 @@ const Post = () => {
                 ) : (
                   ""
                 )}
-                <p className="text-base">{x.body}</p>
+                <div>
+                  <p className="text-base">{x.body}</p>
+                </div>
+
                 <div className="flex gap-4  p-2 rounded-xl">
                   <div className="flex items-center gap-1">
                     {user && x?.likes?.includes(user?._id) ? (

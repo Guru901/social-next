@@ -3,6 +3,7 @@
 import axios from "axios";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   AiFillDislike,
   AiFillLike,
@@ -74,7 +75,8 @@ const FetchTopicPosts = () => {
                       <VidPlayer videoUrl={post.image} autoPlay={false} />
                     ) : (
                       post.image.endsWith(".png") ||
-                      (post.image.endsWith(".jpg") && (
+                      post.image.endsWith(".jpg") ||
+                      (post.image.endsWith(".jpeg") && (
                         <Image
                           src={post.image}
                           alt={post.title}

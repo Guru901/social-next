@@ -101,7 +101,7 @@ const Nav = ({ username, avatar }) => {
   };
 
   return (
-    <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-hidden px-4">
+    <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-clip px-4">
       <div className="flex justify-between items-center w-full">
         <div style={{ zIndex: 50 }}>
           <button onClick={ToogleNav}>

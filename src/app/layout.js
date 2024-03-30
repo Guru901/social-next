@@ -1,6 +1,5 @@
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import Footer from "@/Components/Footer";
 import UserContextProvider from "./Context/UserContextProvider";
 
 const inter = Open_Sans({ subsets: ["latin"] });
