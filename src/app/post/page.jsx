@@ -86,6 +86,10 @@ const Upload = () => {
       title: "Questions",
       value: "questions",
     },
+    {
+      title: "Music",
+      value: "music",
+    },
   ];
 
   const getUser = async () => {
