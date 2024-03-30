@@ -55,27 +55,27 @@ const Nav = ({ username, avatar }) => {
     {
       title: "Music",
       icon: <FaMusic />,
-      path: "/topic/random",
+      path: "/topic/music",
     },
     {
       title: "Anime",
       icon: <SiMyanimelist size={20} />,
-      path: "/topic/random",
+      path: "/topic/anime",
     },
     {
       title: "Movies",
       icon: <MdLocalMovies size={20} />,
-      path: "/topic/random",
+      path: "/topic/movies",
     },
     {
       title: "Games",
       icon: <CgGames size={20} />,
-      path: "/topic/random",
+      path: "/topic/games",
     },
     {
       title: "Questions",
       icon: <LiaQuestionSolid size={20} />,
-      path: "/topic/random",
+      path: "/topic/questions",
     },
   ];
 

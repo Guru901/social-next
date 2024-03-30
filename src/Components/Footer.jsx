@@ -53,8 +53,8 @@ const Footer = () => {
         pathName === "/login"
           ? "hidden"
           : "" || pathName === "/"
-          ? "hidden"
-          : ""
+            ? "hidden"
+            : ""
       }`}
     >
       <div className={`f mt-16 btm-nav ${pathName === "/vid" && "vidFooter"}`}>
@@ -72,6 +72,7 @@ const Footer = () => {
                 height={25}
                 src={footerItem.icon}
                 alt={footerItem?.label}
+                priority={true}
               />
               {/* {isSidebar && footerItem.label} */}
             </Link>

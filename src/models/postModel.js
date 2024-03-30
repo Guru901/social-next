@@ -27,8 +27,14 @@ const postSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    topic: {
+      type: String,
+      required: true,
+      default: "general",
+      index: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Post = mongoose.models.Post || mongoose.model("Post", postSchema);

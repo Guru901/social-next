@@ -8,7 +8,7 @@ export async function POST(request) {
 
     const req = await request.json();
 
-    const { title, body, image, user, username, isPublic } = req;
+    const { title, body, image, user, username, isPublic, topic } = req;
 
     const newPost = await Post.create({
       title: title,
@@ -17,6 +17,7 @@ export async function POST(request) {
       user: user,
       username: username,
       isPublic: isPublic,
+      topic: topic,
     });
     await newPost.save();
 

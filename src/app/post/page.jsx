@@ -16,6 +16,7 @@ const Upload = () => {
   const [isPost, setIsPost] = useState(true);
   const [user, setUser] = useState();
   const [picker, setPicker] = useState();
+  const [topic, setTopic] = useState();
 
   const pickerRef = useRef();
 
@@ -59,6 +60,33 @@ const Upload = () => {
     </svg>
   );
 
+  const topics = [
+    {
+      title: "General",
+      value: "general",
+    },
+    {
+      title: "Random",
+      value: "random",
+    },
+    {
+      title: "Anime",
+      value: "anime",
+    },
+    {
+      title: "Movies",
+      value: "movies",
+    },
+    {
+      title: "Games",
+      value: "games",
+    },
+    {
+      title: "Questions",
+      value: "questions",
+    },
+  ];
+
   const getUser = async () => {
     try {
       setLoading(true);
@@ -89,6 +117,7 @@ const Upload = () => {
         isPublic: isPublic,
         user: user?._id,
         username: user?.username,
+        topic: topic,
       });
 
       if (data.success) {
@@ -174,7 +203,6 @@ const Upload = () => {
             className="textarea textarea-bordered h-40 max-w-lg w-full"
             placeholder="Body..."
           ></textarea>
-
           <CldUploadWidget
             uploadPreset="cf72ckgk"
             onSuccess={(results) => {
@@ -194,9 +222,7 @@ const Upload = () => {
               );
             }}
           </CldUploadWidget>
-
           <h1 className="w-full max-w-lg">File is optional</h1>
-
           <div className="w-full flex justify-center items-center">
             <select
               className="select select-bordered w-full max-w-lg"
@@ -206,7 +232,16 @@ const Upload = () => {
               <option value="false">Private</option>
             </select>
           </div>
-
+          <div className="w-full flex justify-center items-center">
+            <select
+              className="select select-bordered w-full max-w-lg"
+              onChange={(e) => setTopic(e.target.value)}
+            >
+              {topics.map((topic) => (
+                <option value={topic.value}>{topic.title}</option>
+              ))}
+            </select>
+          </div>
           <button className="btn max-w-lg w-full" type="submit">
             Upload
           </button>

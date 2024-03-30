@@ -1,9 +1,9 @@
-import React from "react";
+import FetchTopicPosts from "./fetchTopicPosts";
 
 const Topic = () => {
   return (
     <div>
-      <h1>Comming Soon!</h1>
+      <FetchTopicPosts />
     </div>
   );
 };
