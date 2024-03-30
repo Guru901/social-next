@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
-import { FaArrowLeft, FaGear, FaUser } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
 
@@ -18,17 +18,17 @@ const Profile = () => {
     {
       lable: "Public Posts",
       selectedOption: "publicPosts",
-      selected:true
+      selected: true,
     },
     {
       lable: "Private Posts",
-      selectedOption: "privatePosts"
+      selectedOption: "privatePosts",
     },
     {
       lable: "Liked Posts",
-      selectedOption: "likedPosts"
+      selectedOption: "likedPosts",
     },
-  ]
+  ];
 
   const getUserPost = async () => {
     setLoading(true);
@@ -76,7 +76,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav username={user?.username} avatar={user?.avatar}/>
+      <Nav username={user?.username} avatar={user?.avatar} />
       <div className="flex gap-8 items-center px-8 justify-evenly">
         <div className="flex flex-col gap-2">
           {user?.avatar ? (
@@ -122,7 +122,7 @@ const Profile = () => {
         {/* Radio buttons section */}
         <div className="flex justify-center w-[100svw] max-x-[26rem]">
           <div className="join w-[26rem]">
-            {PostItems.map(postItem => (
+            {PostItems.map((postItem) => (
               <input
                 className="join-item btn max-w-[8.66rem] w-[33%]"
                 name="options"
@@ -131,8 +131,7 @@ const Profile = () => {
                 checked={selectedOption === postItem.selectedOption}
                 onChange={() => setSelectedOption(postItem.selectedOption)}
               />
-            ))
-            }
+            ))}
           </div>
         </div>
         <div className="flex justify-center items-center">
@@ -146,7 +145,7 @@ const Profile = () => {
                   <div className="h-52">
                     <Link href={`/post/${post._id}`}>
                       {post.image.endsWith(".mp4") ||
-                        post.image.endsWith(".mkv") ? (
+                      post.image.endsWith(".mkv") ? (
                         <video
                           className="object-cover w-full h-full rounded-md"
                           src={post.image}

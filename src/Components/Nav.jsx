@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { FaGear, FaUser, FaMusic, FaR } from "react-icons/fa6";
+import { FaGear, FaUser, FaMusic } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { IoHome } from "react-icons/io5";
 import { CgGames } from "react-icons/cg";
 import { SiMyanimelist } from "react-icons/si";
@@ -152,12 +153,22 @@ const Nav = ({ username, avatar }) => {
                     <h2 className="card-title">{navItem.icon}</h2>
                     <h2 className="card-title">{navItem.title}</h2>
                   </div>
-                  {navItem.title === "Post" && (
-                    <div className="divider" style={{ margin: 0 }}></div>
-                  )}
                 </Link>
+                {navItem.title === "Post" && (
+                  <div className="divider" style={{ margin: 0 }}></div>
+                )}
               </div>
             ))}
+            {username === "Admin" && (
+              <Link href={"/admin/dashboard"}>
+                <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
+                  <h2 className="card-title">
+                    <MdAdminPanelSettings />{" "}
+                  </h2>
+                  <h2 className="card-title">Admin</h2>
+                </div>
+              </Link>
+            )}
           </div>
         )}
         <div className="flex gap-4 items-center">
