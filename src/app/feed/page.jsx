@@ -207,15 +207,18 @@ const Feed = () => {
                     post.image.endsWith(".mkv")) ? (
                     <VidPlayer videoUrl={post.image} autoPlay={false} />
                   ) : (
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width={256}
-                      height={128}
-                      className="w-full max-h-60 object-cover"
-                    />
+                    post.image.endsWith(".png") ||
+                    (post.image.endsWith(".jpg") && (
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        width={256}
+                        height={128}
+                        className="w-full max-h-60 object-cover"
+                      />
+                    ))
                   )}
-                </figure>{" "}
+                </figure>
                 <div className="card-body gap-1 p-4 flex-row justify-between">
                   <div className="w-[14rem]">
                     <h2 className="card-title text-white font-bold">
