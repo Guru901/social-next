@@ -8,9 +8,13 @@ export async function POST(request) {
 
     const req = await request.json();
 
-    const { keyWord } = req;
+    let { keyWord } = req;
 
-    const posts = await Post.find({ isPublic: true, topic: keyWord });
+    if (!keyWord) {
+      keyWord = "general";
+    }
+
+    const posts = await Post.find({ isPublic: true, topic: keyWord || "" });
     const response = NextResponse.json(posts);
     return response;
   } catch (e) {

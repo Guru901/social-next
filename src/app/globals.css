@@ -126,7 +126,6 @@ a {
 .meme-toast > span {
   font-size: 14px;
 }
-
 .vidIcon {
   padding-top: 0.5rem;
 }
@@ -154,6 +153,11 @@ a {
   background: #232a33;
 }
 
-.dropDownItem:hover {
+.dropDownItem:hover,
+.navItem:hover {
   background: #181e23;
+}
+
+.navCard {
+  box-shadow: none;
 }

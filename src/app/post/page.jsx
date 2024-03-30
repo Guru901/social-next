@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/Components/Spinner";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import Nav from "@/Components/Nav";
 
 const Upload = () => {
   const [form, setForm] = useState({});
@@ -150,6 +151,7 @@ const Upload = () => {
 
   return (
     <div>
+      <Nav username={user?.username} avatar={user?.avatar} />
       <div className="w-screen max h-screen flex flex-col items-center py-14 px-0 gap-8">
         <h1 className="text-xl text-center">Share Your Memories</h1>
         <div className="join w-11/12  flex max-w-lg ">

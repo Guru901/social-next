@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaGear, FaUser, FaMusic, FaR } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
+import { IoHome } from "react-icons/io5";
 import { CgGames } from "react-icons/cg";
 import { SiMyanimelist } from "react-icons/si";
-import { FaRandom, FaUserFriends } from "react-icons/fa";
+import { FaRandom, FaUserFriends, FaPlus, FaSearch } from "react-icons/fa";
 import { LiaQuestionSolid } from "react-icons/lia";
 import Image from "next/image";
 
@@ -47,6 +48,21 @@ const Nav = ({ username, avatar }) => {
   ];
 
   const navItems = [
+    {
+      title: "Home",
+      icon: <IoHome size={20} />,
+      path: "/feed",
+    },
+    {
+      title: "Search",
+      icon: <FaSearch size={20} />,
+      path: "/search",
+    },
+    {
+      title: "Post",
+      icon: <FaPlus size={20} />,
+      path: "/post",
+    },
     {
       title: "Random",
       icon: <FaRandom size={20} />,
@@ -123,25 +139,33 @@ const Nav = ({ username, avatar }) => {
               zIndex: 20,
               width: "15rem",
               paddingTop: "4rem",
-              background: "#1D232A",
+              background: "#232A33",
             }}
           >
             {navItems.map((navItem) => (
               <div
-                className="card w-full shadow-xl rounded-none"
+                className="card w-full shadow-xl rounded-none navCard"
                 key={navItem.title}
               >
                 <Link href={navItem.path}>
-                  <div className="card-body gap-2 flex-row p-2 ">
+                  <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
                     <h2 className="card-title">{navItem.icon}</h2>
                     <h2 className="card-title">{navItem.title}</h2>
                   </div>
+                  {navItem.title === "Post" && (
+                    <div className="divider" style={{ margin: 0 }}></div>
+                  )}
                 </Link>
               </div>
             ))}
           </div>
         )}
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-4 items-center">
+          <Link href={"/post"}>
+            <button>
+              <FaPlus size={25} />
+            </button>
+          </Link>
           <Link href={"/notifications"}>
             <button>
               <IoMdNotifications size={25} />
