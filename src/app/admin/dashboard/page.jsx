@@ -1,17 +1,15 @@
-import Nav from "@/Components/Nav";
-import Link from "next/link";
 import React from "react";
+import Sidebar from "./sidebar/sidebar";
+import Navbar from "./navbar/navbar";
 
 const Dashboard = () => {
   return (
     <div>
-      <Nav username={"Admin"} />
-      <Link href="/admin/dashboard/posts">
-        <h1>Posts</h1>
-      </Link>
-      <Link href="/admin/dashboard/users">
-        <h1>Users</h1>
-      </Link>
+      <div className="flex relative min-h-screen min-w-screen">
+        <Sidebar />
+        <div className="min-h-screen px-40 h-full"></div>
+        <Navbar />
+      </div>
     </div>
   );
 };

@@ -315,10 +315,27 @@ const Post = () => {
                       <div>
                         <button
                           className="btn min-h-10 h-10"
-                          onClick={deletePost}
+                          onClick={() =>
+                            document.getElementById("my_modal_1").showModal()
+                          }
                         >
                           Delete Post
                         </button>
+                        <dialog id="my_modal_1" className="modal">
+                          <div className="modal-box">
+                            <p className="py-4">
+                              Are you sure you want to delete this post
+                            </p>
+                            <div className="modal-action flex">
+                              <button className="btn" onClick={deletePost}>
+                                Yes
+                              </button>
+                              <form method="dialog">
+                                <button className="btn">No</button>
+                              </form>
+                            </div>
+                          </div>
+                        </dialog>
                       </div>
                     )}
                   </div>
