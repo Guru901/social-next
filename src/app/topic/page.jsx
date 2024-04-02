@@ -1,6 +1,7 @@
 "use client";
 
 import Nav from "@/Components/Nav";
+import Spinner from "@/Components/Spinner";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -40,6 +41,8 @@ const Topics = () => {
     getTopics();
     getLoggedInUser();
   }, []);
+
+  if (loading) return <Spinner />;
 
   return (
     <div className="flex flex-col gap-3">
