@@ -17,6 +17,7 @@ const Upload = () => {
   const [isPost, setIsPost] = useState(true);
   const [user, setUser] = useState();
   const [picker, setPicker] = useState();
+  const [topics, setTopics] = useState();
   const [topic, setTopic] = useState();
 
   const pickerRef = useRef();
@@ -61,36 +62,17 @@ const Upload = () => {
     </svg>
   );
 
-  const topics = [
-    {
-      title: "General",
-      value: "general",
-    },
-    {
-      title: "Random",
-      value: "random",
-    },
-    {
-      title: "Anime",
-      value: "anime",
-    },
-    {
-      title: "Movies",
-      value: "movies",
-    },
-    {
-      title: "Games",
-      value: "games",
-    },
-    {
-      title: "Questions",
-      value: "questions",
-    },
-    {
-      title: "Music",
-      value: "music",
-    },
-  ];
+  const getTopics = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/topics/getTopics");
+      setTopics(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   const getUser = async () => {
     try {
@@ -100,6 +82,7 @@ const Upload = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   const handleChange = (e) => {
@@ -149,6 +132,7 @@ const Upload = () => {
 
   useEffect(() => {
     getUser();
+    getTopics();
   }, []);
 
   if (loading) return <Spinner />;
@@ -243,8 +227,8 @@ const Upload = () => {
               className="select select-bordered w-full max-w-lg"
               onChange={(e) => setTopic(e.target.value)}
             >
-              {topics.map((topic) => (
-                <option value={topic.value}>{topic.title}</option>
+              {topics?.map((topic) => (
+                <option value={topic.value}>{topic.name}</option>
               ))}
             </select>
           </div>

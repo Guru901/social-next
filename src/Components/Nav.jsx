@@ -1,24 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaGear, FaUser, FaMusic } from "react-icons/fa6";
+import { FaGear, FaUser } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoHome } from "react-icons/io5";
-import { CgGames } from "react-icons/cg";
-import { SiMyanimelist } from "react-icons/si";
-import { FaRandom, FaUserFriends, FaPlus, FaSearch } from "react-icons/fa";
-import { LiaQuestionSolid } from "react-icons/lia";
+import { IoIosCreate } from "react-icons/io";
+import { FaUserFriends, FaPlus, FaSearch } from "react-icons/fa";
 import Image from "next/image";
-
-import { MdLogout, MdLocalMovies } from "react-icons/md";
+import { MdTopic } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Nav = ({ username, avatar }) => {
   const [showNav, setShowNav] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [topics, setTopics] = useState();
 
   const router = useRouter();
 
@@ -65,44 +64,34 @@ const Nav = ({ username, avatar }) => {
       path: "/post",
     },
     {
-      title: "Random",
-      icon: <FaRandom size={20} />,
-      path: "/topic/random",
+      title: "Create Topic",
+      icon: <IoIosCreate size={20} />,
+      path: "/createTopic",
     },
     {
-      title: "Music",
-      icon: <FaMusic />,
-      path: "/topic/music",
-    },
-    {
-      title: "Anime",
-      icon: <SiMyanimelist size={20} />,
-      path: "/topic/anime",
-    },
-    {
-      title: "Movies",
-      icon: <MdLocalMovies size={20} />,
-      path: "/topic/movies",
-    },
-    {
-      title: "Games",
-      icon: <CgGames size={20} />,
-      path: "/topic/games",
-    },
-    {
-      title: "Questions",
-      icon: <LiaQuestionSolid size={20} />,
-      path: "/topic/questions",
+      title: "All Topics",
+      icon: <MdTopic size={20} />,
+      path: "/topic",
     },
   ];
+
+  const getTopics = async () => {
+    const { data } = await axios.post("/api/topics/getTopics");
+    console.log(data);
+    setTopics(data);
+  };
 
   const logOut = async () => {
     await axios.post("/api/user/logout");
     router.push("/login");
   };
 
+  useEffect(() => {
+    getTopics();
+  }, []);
+
   return (
-    <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-clip px-4">
+    <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-clip px-4 z-[9999999]">
       <div className="flex justify-between items-center w-full">
         <div style={{ zIndex: 50 }}>
           <button onClick={ToogleNav}>
@@ -137,7 +126,7 @@ const Nav = ({ username, avatar }) => {
             className="h-screen pt-12 absolute left-0 top-0 z-20 flex flex-col justify-start gap-2"
             style={{
               top: 0,
-              zIndex: 20,
+              zIndex: 22,
               width: "15rem",
               paddingTop: "4rem",
               background: "#232A33",
@@ -154,21 +143,40 @@ const Nav = ({ username, avatar }) => {
                     <h2 className="card-title">{navItem.title}</h2>
                   </div>
                 </Link>
-                {navItem.title === "Post" && (
-                  <div className="divider" style={{ margin: 0 }}></div>
-                )}
               </div>
             ))}
             {username === "Admin" && (
               <Link href={"/admin/dashboard"}>
                 <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
                   <h2 className="card-title">
-                    <MdAdminPanelSettings />{" "}
+                    <MdAdminPanelSettings />
                   </h2>
                   <h2 className="card-title">Admin</h2>
                 </div>
               </Link>
             )}
+            <div className="divider" style={{ margin: 0 }}></div>
+            {topics?.map((topic, index) => (
+              <div
+                className={`card w-full shadow-xl rounded-none navCard ${
+                  index > 2 && "hidden"
+                }`}
+                key={topic.name}
+              >
+                <Link href={`/topic/${topic.name.toLowerCase()}`}>
+                  <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
+                    {topic.icon && (
+                      <img
+                        src={topic.icon}
+                        style={{ width: 20, height: 20 }}
+                        className="object-cover"
+                      />
+                    )}
+                    <h2 className="card-title">{topic.name}</h2>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
         )}
         <div className="flex gap-4 items-center">
