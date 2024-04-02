@@ -228,7 +228,7 @@ const Upload = () => {
               onChange={(e) => setTopic(e.target.value)}
             >
               {topics?.map((topic) => (
-                <option value={topic.value}>{topic.name}</option>
+                <option value={topic.name.toLowerCase()}>{topic.name}</option>
               ))}
             </select>
           </div>

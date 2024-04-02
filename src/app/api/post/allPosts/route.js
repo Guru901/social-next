@@ -14,7 +14,10 @@ export async function POST(request) {
       keyWord = "general";
     }
 
-    const posts = await Post.find({ isPublic: true, topic: keyWord || "" });
+    const posts = await Post.find({
+      isPublic: true,
+      topic: keyWord.toLowerCase() || "",
+    });
     const response = NextResponse.json(posts);
     return response;
   } catch (e) {

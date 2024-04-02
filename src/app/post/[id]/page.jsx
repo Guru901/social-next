@@ -226,9 +226,9 @@ const Post = () => {
   return (
     <div className="w-full flex flex-col justify-center pl-1">
       <Nav username={user?.username} avatar={user?.avatar} />
-      <div className="flex flex-col items-center p-2 gap-4">
-        <div className="flex flex-col gap-4">
-          <div className="px-2">
+      <div className="flex flex-col items-center p-2 gap-4 w-screen">
+        <div className="flex flex-col gap-4 w-sreen">
+          <div className="w-screen px-2">
             {post.map((x) => (
               <div
                 key={x._id}
@@ -359,7 +359,7 @@ const Post = () => {
                     }
                     ref={inpRef}
                     name="comment"
-                    className="w-xl bg-transparent"
+                    className="w-[90%] bg-transparent"
                     placeholder="Enter Your Comment.."
                   />
                   <button onClick={selectEmoji}>{emojiSvg}</button>
