@@ -1,8 +1,11 @@
-import { Open_Sans } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import UserContextProvider from "./Context/UserContextProvider";
 
-const inter = Open_Sans({ subsets: ["latin"] });
+const inter = Ubuntu({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Ni Batu 🤐",
