@@ -49,6 +49,61 @@ const FetchTopicPosts = () => {
     }
   };
 
+  
+  const handleLike = async (id) => {
+    try {
+      await axios.put("/api/likes/like", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
+
+  const handleUnLike = async (id) => {
+    try {
+      await axios.put("/api/likes/unlike", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
+
+  const handleDisLike = async (id) => {
+    try {
+      await axios.put("/api/likes/dislike", {
+        id: id,
+        user: user._id,
+      });
+
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
+
+
+  const handleDisUnlike = async (id) => {
+    try {
+      await axios.put("/api/likes/disunlike", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
+
   useEffect(() => {
     fetchPosts();
     getLoggedInUser();
