@@ -1,6 +1,8 @@
 import React from "react";
 import Sidebar from "./sidebar/sidebar";
 import Navbar from "./navbar/navbar";
+import Posts from "../posts/page";
+import Comments from "./comments/page";
 
 const Dashboard = () => {
   return (
@@ -8,7 +10,13 @@ const Dashboard = () => {
       <div className="flex relative min-h-screen min-w-screen">
         <Sidebar />
         <div className="min-h-screen px-40 h-full"></div>
-        <Navbar />
+        <div className="flex flex-col">
+          <Navbar />
+          <div className="flex gap-2">
+            <Posts />
+            <Comments />
+          </div>
+        </div>
       </div>
     </div>
   );

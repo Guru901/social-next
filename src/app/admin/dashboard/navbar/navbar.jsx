@@ -9,7 +9,7 @@ const Navbar = () => {
   const title = pathName.split("/")[2];
 
   return (
-    <div className="w-full m-1 bg-neutral h-min py-4 rounded-md">
+    <div className="w-full m-1 bg-neutral h-min py-6 rounded-md">
       <div>
         <h1 className="capitalize text-2xl font-bold pl-2">{title}</h1>
       </div>
