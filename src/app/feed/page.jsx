@@ -47,7 +47,7 @@ const Feed = () => {
 
         // Sort posts with createdAt in descending order of createdAt
         postsWithCreatedAt.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 
         // Concatenate sorted posts with createdAt and posts without createdAt
@@ -104,6 +104,18 @@ const Feed = () => {
     }
   };
 
+  const handleDisUnlike = async (id) => {
+    try {
+      await axios.put("/api/likes/disunlike", {
+        id: id,
+        user: user._id,
+      });
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
   const getUser = async () => {
     try {
       setLoading(true);
@@ -117,19 +129,6 @@ const Feed = () => {
       console.error(error);
     }
   };
-  const handleDisUnlike = async (id) => {
-    try {
-      await axios.put("/api/likes/disunlike", {
-        id: id,
-        user: user._id,
-      });
-      fetchPostForLikes();
-    } catch (error) {
-      console.log(error);
-      setError("An error occurred. Try logging in again.");
-    }
-  };
-
   const fetchPostForLikes = async () => {
     try {
       const { data } = await axios.post("/api/post/allPosts", {
@@ -350,7 +349,7 @@ const Feed = () => {
                 </div>
               </div>
             </div>
-          ),
+          )
         )}
       </div>
     </>

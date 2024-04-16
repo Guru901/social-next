@@ -14,6 +14,7 @@ import Link from "next/link";
 import { getDateDifference } from "@/functions/getDate";
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
+import VidPlayer from "@/Components/VidPlayer";
 
 const FetchTopicPosts = () => {
   const [user, setUser] = useState();
@@ -34,6 +35,17 @@ const FetchTopicPosts = () => {
       setLoading(false);
     }
   };
+
+  const fetchPostForLikes = async () => {
+    try {
+      const { data } = await axios.post("/api/post/allPosts", {
+        keyWord,
+      });
+      setPost(data.reverse());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchPosts = async () => {
     setLoading(true);
     try {
@@ -49,7 +61,6 @@ const FetchTopicPosts = () => {
     }
   };
 
-  
   const handleLike = async (id) => {
     try {
       await axios.put("/api/likes/like", {
@@ -59,7 +70,6 @@ const FetchTopicPosts = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -72,7 +82,6 @@ const FetchTopicPosts = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -86,10 +95,8 @@ const FetchTopicPosts = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occurred. Try logging in again.");
     }
   };
-
 
   const handleDisUnlike = async (id) => {
     try {
@@ -100,7 +107,6 @@ const FetchTopicPosts = () => {
       fetchPostForLikes();
     } catch (error) {
       console.log(error);
-      setError("An error occurred. Try logging in again.");
     }
   };
 
@@ -272,7 +278,7 @@ const FetchTopicPosts = () => {
                   </div>
                 </div>
               </div>
-            ),
+            )
           )}
         </div>
       </>
