@@ -228,7 +228,7 @@ const Post = () => {
       <Nav username={user?.username} avatar={user?.avatar} />
       <div className="flex flex-col items-center p-2 gap-4 w-screen">
         <div className="flex flex-col gap-4 w-sreen">
-          <div className="w-screen px-2">
+          <div className="w-screen px-2 flex justify-center pt-4">
             {post.map((x) => (
               <div
                 key={x._id}
@@ -347,10 +347,15 @@ const Post = () => {
             ))}
           </div>
           <div className="flex flex-col gap-4">
-            <h1 className="text-xl">Comments - </h1>
+            <div className="pl-[4vw]">
+              <h1 className="text-xl font-semibold">
+                Comments - {comments.length}{" "}
+              </h1>
+            </div>
+
             <div className="flex flex-col items-center">
               <form className="flex gap-2" onSubmit={handleSubmit}>
-                <label className="relative w-[60vw] max-w-xl input input-bordered flex items-center gap-2 justify-between">
+                <label className="relative w-[69vw] max-w-xl input input-bordered flex items-center gap-2 justify-between">
                   <input
                     type="text"
                     value={form.comment}
@@ -382,34 +387,43 @@ const Post = () => {
                 )}
               </div>
             </div>
-            {comments.map((comment, index) => (
-              <div
-                className="flex border-solid border-white p-2 gap-4 items-center"
-                key={comment._id || index}
-              >
-                <div className="flex items-start">
-                  <div className="w-16 h-16 rounded-full overflow-hidden">
-                    {comment.avatar ? (
-                      <img
-                        src={comment.avatar}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full ">
-                        <FaUser size={60} />
+            <div className="flex flex-col gap-2 items-center">
+              <div className="w-[96vw] max-w-xl">
+                {comments.map((comment, index) => (
+                  <div
+                    className="flex border-solid border-white p-2 gap-4 items-center justify-start"
+                    key={comment._id || index}
+                  >
+                    <div className="flex items-start">
+                      <div className="w-16 h-16 rounded-full overflow-hidden">
+                        {comment.avatar ? (
+                          <img
+                            src={comment.avatar}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full ">
+                            <FaUser size={60} />
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
+                    <div className="flex flex-col w-full">
+                      <div className="flex items-center justify-between w-full">
+                        <h1 className="font-bold text-xl break-words">
+                          {comment.user ? comment.user : "Ni Batu :)"}
+                        </h1>
+                        <h1 className="text-sm font-semibold">
+                          {getDateDifference(comment?.createdAt)}
+                        </h1>
+                      </div>
+                      <h1 className=" break-words">{comment.text}</h1>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col">
-                  <h1 className="font-bold text-xl w-[70vw] break-words">
-                    {comment.user ? comment.user : "Ni Batu :)"}
-                  </h1>
-                  <h1 className="w-[70vw] break-words">{comment.text}</h1>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
