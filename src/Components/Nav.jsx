@@ -77,7 +77,6 @@ const Nav = ({ username, avatar }) => {
 
   const getTopics = async () => {
     const { data } = await axios.post("/api/topics/getTopics");
-    console.log(data);
     setTopics(data);
   };
 

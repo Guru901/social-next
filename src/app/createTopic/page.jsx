@@ -39,7 +39,6 @@ const CreateTopic = () => {
           topic: form.title,
           createdBy: loggedInUser.username,
         });
-        console.log(data);
         router.push("/feed");
         setLoading(false);
       } else {

@@ -18,7 +18,6 @@ const Posts = () => {
   const getPosts = async () => {
     try {
       const { data } = await axios.post("/api/post/getPosts");
-      console.log(data);
       setPosts(data.reverse());
     } catch (error) {
       console.log(error);
