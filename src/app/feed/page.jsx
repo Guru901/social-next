@@ -7,6 +7,7 @@ import {
   AiFillLike,
   AiOutlineDislike,
   AiOutlineLike,
+  AiOutlineQuestionCircle,
 } from "react-icons/ai";
 import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
@@ -47,7 +48,7 @@ const Feed = () => {
 
         // Sort posts with createdAt in descending order of createdAt
         postsWithCreatedAt.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
         );
 
         // Concatenate sorted posts with createdAt and posts without createdAt
@@ -347,7 +348,7 @@ const Feed = () => {
                 </div>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </>

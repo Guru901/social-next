@@ -155,27 +155,6 @@ const Nav = ({ username, avatar }) => {
               </Link>
             )}
             <div className="divider" style={{ margin: 0 }}></div>
-            {topics?.map((topic, index) => (
-              <div
-                className={`card w-full shadow-xl rounded-none navCard ${
-                  index > 2 && "hidden"
-                }`}
-                key={topic.name}
-              >
-                <Link href={`/topic/${topic.name.toLowerCase()}`}>
-                  <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
-                    {topic.icon && (
-                      <img
-                        src={topic.icon}
-                        style={{ width: 20, height: 20 }}
-                        className="object-cover"
-                      />
-                    )}
-                    <h2 className="card-title">{topic.name}</h2>
-                  </div>
-                </Link>
-              </div>
-            ))}
           </div>
         )}
         <div className="flex gap-4 items-center">
