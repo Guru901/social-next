@@ -1,6 +1,5 @@
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/react";
 import ReactQueryProvider from "../functions/reactQueryProvider";
 
 const inter = Ubuntu({
@@ -24,7 +23,6 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className}`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
-        <Analytics />
       </body>
     </html>
   );
