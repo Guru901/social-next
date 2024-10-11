@@ -49,7 +49,11 @@ const Post = () => {
     });
   };
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data,
+    isLoading: isPostLoading,
+    isError,
+  } = useQuery({
     queryKey: ["get-post"],
     queryFn: async () => {
       const { data } = await axios.post(`/api/post/getPost/${postID}`, {
@@ -58,7 +62,6 @@ const Post = () => {
       setPost(data);
       return data;
     },
-    enabled: !!postID,
   });
 
   const {
@@ -76,11 +79,11 @@ const Post = () => {
   });
 
   const deletePost = async () => {
-    await axios.post("/api/post/delete", {
+    const { data } = await axios.post("/api/post/delete", {
       id: post._id,
     });
 
-    if (post.success) {
+    if (data.success) {
       router.push("/feed");
     }
   };
@@ -174,7 +177,7 @@ const Post = () => {
     }
   };
 
-  if (isLoading) return <Spinner />;
+  if ((isPostLoading, isCommentsLoading)) return <Spinner />;
   if (isError) return <div>Error</div>;
 
   return (
@@ -185,7 +188,7 @@ const Post = () => {
           <div className="w-screen px-2 flex justify-center pt-4">
             <div className="flex flex-col gap-4 justify-center w-screen max-w-96 overflow-hidden">
               <h1 className="text-3xl">{post?.title}</h1>
-              {post.image &&
+              {post?.image &&
               (post.image.endsWith(".mp4") || post.image.endsWith(".mkv")) ? (
                 <video
                   controls
@@ -196,7 +199,7 @@ const Post = () => {
                   <source src={post.image} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-              ) : post.image ? (
+              ) : post?.image ? (
                 <Image
                   src={post.image}
                   className="rounded-lg mx-auto"
@@ -208,7 +211,7 @@ const Post = () => {
                 ""
               )}
               <div>
-                <p className="text-base">{post.body}</p>
+                <p className="text-base">{post?.body}</p>
               </div>
 
               <div className="flex gap-4  p-2 rounded-xl">
@@ -291,7 +294,7 @@ const Post = () => {
                 </div>
               </div>
               <h1 className="text-sm font-bold">
-                {getDateDifference(post.createdAt)?.toLocaleString()}
+                {getDateDifference(post?.createdAt)?.toLocaleString()}
               </h1>
             </div>
           </div>
@@ -339,7 +342,9 @@ const Post = () => {
             <div className="flex flex-col gap-2 items-center">
               <div className="w-[96vw] max-w-xl">
                 {isCommentsLoading ? (
-                  <div>Loading..</div>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Spinner />
+                  </div>
                 ) : (
                   comments.map((comment, index) => (
                     <div
