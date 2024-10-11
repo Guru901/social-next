@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className}`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Analytics />
       </body>
     </html>
   );
