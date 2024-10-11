@@ -7,7 +7,6 @@ import {
   AiFillLike,
   AiOutlineDislike,
   AiOutlineLike,
-  AiOutlineQuestionCircle,
 } from "react-icons/ai";
 import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
@@ -75,7 +74,7 @@ const Feed = () => {
         id: id,
         user: user._id,
       });
-      fetchPostForLikes();
+      refetch();
     } catch (error) {
       console.log(error);
       setError("An error occurred. Try logging in again.");
@@ -88,7 +87,7 @@ const Feed = () => {
         id: id,
         user: user._id,
       });
-      fetchPostForLikes();
+      refetch();
     } catch (error) {
       console.log(error);
       setError("An error occurred. Try logging in again.");

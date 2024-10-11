@@ -24,6 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 const Post = () => {
   const [form, setForm] = useState({});
   const [picker, setPicker] = useState(false); // set initial state for picker
+  const [post, setPost] = useState({});
 
   const inpRef = useRef();
   const pickerRef = useRef();
@@ -48,16 +49,13 @@ const Post = () => {
     });
   };
 
-  const {
-    data: post,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: "get-post",
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["get-post"],
     queryFn: async () => {
       const { data } = await axios.post(`/api/post/getPost/${postID}`, {
         postid: postID,
       });
+      setPost(data);
       return data;
     },
     enabled: !!postID,
@@ -78,7 +76,7 @@ const Post = () => {
   });
 
   const deletePost = async () => {
-    const { data } = await axios.post("/api/post/delete", {
+    await axios.post("/api/post/delete", {
       id: post[0]?._id,
     });
 
@@ -106,36 +104,66 @@ const Post = () => {
   };
 
   const handleLike = async (id) => {
-    await axios.put("/api/likes/like", {
-      id: id,
-      user: user?._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/like", {
+        id: id,
+        user: user?._id,
+      });
+      // Update likes/dislikes count after successful like
+      setPost((prevPost) => ({
+        ...prevPost,
+        likes: [...(prevPost?.likes || []), user?._id],
+      }));
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
   };
 
   const handleUnLike = async (id) => {
-    await axios.put("/api/likes/unlike", {
-      id: id,
-      user: user?._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/unlike", {
+        id: id,
+        user: user?._id,
+      });
+      setPost((prevPost) => ({
+        ...prevPost,
+        likes: prevPost?.likes?.filter((like) => like !== user?._id),
+      }));
+    } catch (error) {
+      console.error("Error unliking post:", error);
+    }
   };
 
   const handleDisLike = async (id) => {
-    await axios.put("/api/likes/dislike", {
-      id: id,
-      user: user?._id,
-    });
-
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/dislike", {
+        id: id,
+        user: user?._id,
+      });
+      setPost((prevPost) => ({
+        ...prevPost,
+        dislikes: [...(prevPost?.dislikes || []), user?._id],
+      }));
+    } catch (error) {
+      console.error("Error disliking post:", error);
+    }
   };
 
   const handleDisUnlike = async (id) => {
-    await axios.put("/api/likes/disunlike", {
-      id: id,
-      user: user?._id,
-    });
-    fetchPostForLikes();
+    try {
+      await axios.put("/api/likes/disunlike", {
+        id: id,
+        user: user?._id,
+      });
+      setPost((prevPost) => ({
+        ...prevPost,
+        dislikes: prevPost?.dislikes?.filter(
+          (dislike) => dislike !== user?._id
+        ),
+      }));
+    } catch (error) {
+      console.error("Error removing dislike from post:", error);
+    }
   };
 
   const copyUrlToClipboard = async () => {
@@ -143,17 +171,6 @@ const Post = () => {
       await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
       console.error("Failed to copy: ", err);
-    }
-  };
-
-  const fetchPostForLikes = async () => {
-    try {
-      const { data } = await axios.post(`/api/post/getPost/${postID}`, {
-        postid: postID,
-      });
-      setPost([data]);
-    } catch (error) {
-      console.error("Error fetching post:", error);
     }
   };
 
