@@ -7,10 +7,10 @@ export async function POST(request) {
 
   const req = await request.json();
 
-  const { createdBy, title } = req;
+  const { createdBy, topic } = req;
 
   await Topic.create({
-    name: title,
+    name: topic,
     createdBy: createdBy,
   });
 

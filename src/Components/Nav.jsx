@@ -13,13 +13,11 @@ import { MdTopic } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/userStore";
 
-const Nav = () => {
+const Nav = ({ username, avatar }) => {
   const [showNav, setShowNav] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-
-  const { user } = useUserStore();
+  const [topics, setTopics] = useState();
 
   const router = useRouter();
 
@@ -77,10 +75,19 @@ const Nav = () => {
     },
   ];
 
+  const getTopics = async () => {
+    const { data } = await axios.post("/api/topics/getTopics");
+    setTopics(data);
+  };
+
   const logOut = async () => {
     await axios.post("/api/user/logout");
     router.push("/login");
   };
+
+  useEffect(() => {
+    getTopics();
+  }, []);
 
   return (
     <div className="navbar flex items-center flex-col w-[90svw] relative overflow-x-clip px-4 z-[9999999]">
@@ -115,12 +122,13 @@ const Nav = () => {
 
         {showNav && (
           <div
-            className="h-screen pt-12 absolute left-0 top-0 z-20 flex flex-col justify-start gap-2 bg-base-200"
+            className="h-screen pt-12 absolute left-0 top-0 z-20 flex flex-col justify-start gap-2"
             style={{
               top: 0,
               zIndex: 22,
               width: "15rem",
               paddingTop: "4rem",
+              background: "#232A33",
             }}
           >
             {navItems.map((navItem) => (
@@ -136,7 +144,7 @@ const Nav = () => {
                 </Link>
               </div>
             ))}
-            {user.username === "Admin" && (
+            {username === "Admin" && (
               <Link href={"/admin/dashboard"}>
                 <div className="card-body navItem gap-2 flex-row p-2 hover:bg-[#181e23]">
                   <h2 className="card-title">
@@ -165,18 +173,16 @@ const Nav = () => {
             onClick={dropDownToggle}
           >
             <div className="w-10 h-10 overflow-hidden rounded-full">
-              {user?.avatar ? (
+              {avatar ? (
                 <Image
                   width={40}
                   height={40}
-                  src={user.avatar}
+                  src={avatar}
                   className="object-cover"
-                  alt="avatar"
                 />
               ) : (
                 <div className="h-full w-full flex justify-center items-center">
                   <FaUser size={35} />
-                  {user?.username}
                 </div>
               )}
             </div>
@@ -185,14 +191,14 @@ const Nav = () => {
       </div>
       <div className="flex w-full justify-end">
         {showDropDown && (
-          <div className="dropDown bg-base-200 absolute right-0 flex flex-col">
-            <div className="dropDownItem  rounded-lg p-4">
+          <div className="dropDown absolute right-0 rounded-md flex flex-col">
+            <div className="dropDownItem border-[1px] border-solid border-white bg-neutral-700 p-4">
               <Link href={"/profile"}>
                 <div className="flex items-center justify-end gap-2 ">
                   <div className="rounded-full overflow-hidden">
-                    {user?.avatar ? (
+                    {avatar ? (
                       <Image
-                        src={user?.avatar}
+                        src={avatar}
                         width={55}
                         height={55}
                         className="object-cover"
@@ -205,7 +211,7 @@ const Nav = () => {
                   </div>
                   <div>
                     <h1 className="text-lg font-bold">View Profile</h1>
-                    <h1 className="text-sm">{user?.username}</h1>
+                    <h1 className="text-sm">{username}</h1>
                   </div>
                 </div>
               </Link>
@@ -213,6 +219,7 @@ const Nav = () => {
             {dropDownMenu.map((x) => (
               <div
                 key={x.path}
+                className="border-[1px] border-solid border-white"
                 onClick={x.title === "Logout" ? logOut : undefined}
               >
                 <Link href={x.path}>

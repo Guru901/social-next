@@ -5,11 +5,9 @@ import axios from "axios";
 import Spinner from "@/Components/Spinner";
 import { useRouter } from "next/navigation";
 import Nav from "@/Components/Nav";
-import { useUserStore } from "@/store/userStore";
 
 const ChangePassword = () => {
-  const { user } = useUserStore();
-
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [avatar, setAvatar] = useState("");
   const [form, setForm] = useState();
@@ -34,16 +32,16 @@ const ChangePassword = () => {
     });
   };
 
-  // const getUser = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await axios.post("/api/user/me");
-  //     setUser(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,14 +69,14 @@ const ChangePassword = () => {
   };
 
   useEffect(() => {
-    // getUser();
+    getUser();
   }, []);
 
   if (loading) return <Spinner />;
 
   return (
     <div>
-      <Nav username={user?.username} avatar={user?.avatar} />
+      <Nav username={user?.username} avatar={user?.avatar}/>
       <div className="py-6">
         <div className="max-w-screen flex items-center justify-center flex-col gap-2">
           <div className="w-52 h-52 rounded-full overflow-hidden flex justify-center items-center">

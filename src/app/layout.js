@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
           content="p1l8Nhq2jG8pkqLggUFBoHIfYIRF5viAkZ_0qrsp-18"
         />
       </head>
-      <body className={`${inter.className}`}>
+      <body className={inter.className}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

@@ -15,32 +15,27 @@ import Spinner from "@/Components/Spinner";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
 import { getDateDifference } from "@/functions/getDate";
-import { useUserStore } from "@/store/userStore";
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 
 const Feed = () => {
+  const [posts, setPosts] = useState([]);
+  const [byLiked, setByLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [user, setUser] = useState();
   const [selectedOption, setSelectedOption] = useState("global");
 
-  const { user } = useUserStore();
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
 
-  const params = useSearchParams();
-
-  const {
-    isLoading,
-    data: posts,
-    refetch,
-  } = useQuery({
-    queryKey: ["posts", selectedOption],
-    queryFn: async () => {
       if (selectedOption === "global") {
         const { data } = await axios.post("/api/post/allPosts", {
           isPublic: true,
           topic: "general",
         });
-        return data.reverse();
+
+        setPosts(data.reverse());
       } else {
         const { data } = await axios.post("/api/post/friendsPost", {
           user: user._id,
@@ -53,21 +48,20 @@ const Feed = () => {
 
         // Sort posts with createdAt in descending order of createdAt
         postsWithCreatedAt.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
         );
 
-        // Concatenate sorted posts with and without createdAt
-        return [...postsWithCreatedAt, ...postsWithoutCreatedAt];
+        // Concatenate sorted posts with createdAt and posts without createdAt
+        const sortedPosts = [...postsWithCreatedAt, ...postsWithoutCreatedAt];
+
+        setPosts(sortedPosts);
       }
-    },
-    onSuccess: (data) => {
-      return data;
-    },
-    onError: (err) => {
-      console.log(err);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
       setError(true);
-    },
-  });
+    }
+  };
 
   const handleLike = async (id) => {
     try {
@@ -102,7 +96,7 @@ const Feed = () => {
         user: user._id,
       });
 
-      refetch();
+      fetchPostForLikes();
     } catch (error) {
       console.log(error);
       setError("An error occurred. Try logging in again.");
@@ -115,8 +109,31 @@ const Feed = () => {
         id: id,
         user: user._id,
       });
-
-      refetch();
+      fetchPostForLikes();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred. Try logging in again.");
+    }
+  };
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setUser(data);
+      if (!data.username) {
+        getUser();
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const fetchPostForLikes = async () => {
+    try {
+      const { data } = await axios.post("/api/post/allPosts", {
+        isPublic: true,
+      });
+      setPosts(data.reverse());
     } catch (error) {
       console.log(error);
       setError("An error occurred. Try logging in again.");
@@ -134,26 +151,36 @@ const Feed = () => {
     },
   ];
 
+  useEffect(() => {
+    getUser();
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [selectedOption]);
+
+  useEffect(() => {
+    if (user?.username === undefined) {
+      getUser();
+    }
+  }, [user]);
+
   if (error) {
     return <div>An error occurred</div>;
   }
-  useEffect(() => {
-    if (params.get("from") === "post") {
-      refetch();
-    }
-  }, []);
-  if (isLoading) return <Spinner />;
+
+  if (loading) return <Spinner />;
 
   return (
     <>
       <div className="flex justify-center">
-        <Nav />
+        <Nav username={user?.username} avatar={user?.avatar} />
       </div>
       <div className="mt-2 flex w-screen max-w-96 justify-between items-center mx-auto">
         <div className="join w-[10rem]">
           {PostItems.map((postItem) => (
             <input
-              key={postItem.lable}
               className="join-item btn w-[50%] p-1 h-min"
               name="options"
               type="radio"
@@ -321,7 +348,7 @@ const Feed = () => {
                 </div>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </>

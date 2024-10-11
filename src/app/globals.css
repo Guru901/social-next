@@ -150,12 +150,12 @@ a {
   top: 64px;
   right: 6px;
   transition: 0.2s;
-  border: 1px solid rgba(255, 255, 255, 0.39);
-  border-radius: 10px;
+  background: #232a33;
 }
 
-.dropDownItem:hover {
-  background: #1d232a;
+.dropDownItem:hover,
+.navItem:hover {
+  background: #181e23;
 }
 
 .navCard {
