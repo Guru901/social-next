@@ -53,6 +53,7 @@ const Post = () => {
     data,
     isLoading: isPostLoading,
     isError,
+    isPending,
   } = useQuery({
     queryKey: ["get-post"],
     queryFn: async () => {
@@ -177,7 +178,7 @@ const Post = () => {
     }
   };
 
-  if ((isPostLoading, isCommentsLoading)) return <Spinner />;
+  if ((isPostLoading, isPending, isCommentsLoading)) return <Spinner />;
   if (isError) return <div>Error</div>;
 
   return (
