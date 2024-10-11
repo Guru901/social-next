@@ -8,9 +8,11 @@ import { FaHome, FaUsers } from "react-icons/fa";
 import { IoLogOutSharp, IoSettings } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUserStore } from "@/store/userStore";
 
 const Sidebar = () => {
   const router = useRouter();
+  const { setUser } = useUserStore();
 
   const sideBarItemsPages = [
     {
@@ -45,6 +47,7 @@ const Sidebar = () => {
 
   const logOut = async () => {
     await axios.post("/api/user/logout");
+    setUser({});
     router.push("/login");
   };
 

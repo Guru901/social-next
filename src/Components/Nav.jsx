@@ -19,7 +19,7 @@ const Nav = () => {
   const [showNav, setShowNav] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
 
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
   const router = useRouter();
 
@@ -79,6 +79,7 @@ const Nav = () => {
 
   const logOut = async () => {
     await axios.post("/api/user/logout");
+    setUser({});
     router.push("/login");
   };
 
@@ -123,7 +124,7 @@ const Nav = () => {
               paddingTop: "4rem",
               left: 0,
               background: "#0A1120",
-              paddingLeft: "14px"
+              paddingLeft: "14px",
             }}
           >
             {navItems.map((navItem) => (
