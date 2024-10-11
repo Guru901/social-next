@@ -121,6 +121,7 @@ const Nav = () => {
               zIndex: 22,
               width: "15rem",
               paddingTop: "4rem",
+              background: "#232A33",
             }}
           >
             {navItems.map((navItem) => (
