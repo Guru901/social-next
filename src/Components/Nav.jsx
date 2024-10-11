@@ -123,7 +123,7 @@ const Nav = () => {
               paddingTop: "4rem",
               left: 0,
               background: "#0A1120",
-              padding-left: "14px"
+              paddingLeft: "14px"
             }}
           >
             {navItems.map((navItem) => (
