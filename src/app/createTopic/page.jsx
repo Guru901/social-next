@@ -2,30 +2,33 @@
 
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
+import { useUserStore } from "@/store/userStore";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { CldUploadWidget } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const CreateTopic = () => {
   const [form, setForm] = useState({});
-  const [loggedInUser, setLoggedInUser] = useState();
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
   const router = useRouter();
 
-  const getLoggedInUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setLoggedInUser(data);
-      setLoading(false);
-    } catch (error) {
+  const { user } = useUserStore();
+
+  const mutation = useMutation({
+    mutationKey: ["create-topic"],
+    mutationFn: async (formData) => {
+      const response = await axios.post("/api/topics/createTopic", formData);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      router.push("/feed");
+    },
+    onError: (error) => {
       console.log(error);
-      setLoading(false);
-    }
-  };
+    },
+  });
 
   const submitTopic = async (e) => {
     function hasWhiteSpace(s) {
@@ -34,31 +37,31 @@ const CreateTopic = () => {
     e.preventDefault();
     try {
       if (!hasWhiteSpace(form.title)) {
-        setLoading(true);
-        const { data } = await axios.post("/api/topics/createTopic", {
-          topic: form.title,
-          createdBy: loggedInUser.username,
-        });
-        router.push("/feed");
-        setLoading(false);
+        form.createdBy = user?.username;
+        mutation.mutate(form);
       } else {
         setError("Topic cant contain spaces");
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    getLoggedInUser();
-  }, []);
+  if (mutation.isPending) return <Spinner />;
 
-  if (loading) return <Spinner />;
+  if (mutation.isError)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center text-center">
+        <h1>
+          Some error occurred try again later and if the issue persists contact
+          admin
+        </h1>
+      </div>
+    );
 
   return (
     <div className="flex flex-col h-screen gap-24">
-      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar} />
+      <Nav />
       <div>
         <h1 className="text-[currentColor] text-3xl text-center">
           Create A Custom Topic!!

@@ -1,21 +1,40 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { UserContext } from "../Context/UserContext";
 import Spinner from "@/Components/Spinner";
+import { useUserStore } from "@/store/userStore";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const Login = () => {
   const [form, setForm] = useState({});
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const { setUser } = useContext(UserContext);
-  const { setLogin } = useContext(UserContext);
+  const { setUser, setLogin } = useUserStore();
 
   const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      const response = await axios.post("/api/user/login", formData);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        router.push("/profile");
+        setUser(data.user);
+        setLogin(true);
+      } else {
+        setError(data.msg);
+      }
+    },
+    onError: (error) => {
+      console.error("Login error:", error);
+      setError("An error occurred during login.");
+    },
+  });
 
   const handleChange = (e) => {
     setForm({
@@ -27,24 +46,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      const response = await axios.post("/api/user/login", form);
-
-      if (response.data.success) {
-        router.push("/profile");
-        setUser(response.data.user);
-        setLogin(true);
-      } else {
-        setError(response.data.msg);
-      }
-      setLoading(false);
+      setError("");
+      mutation.mutate(form);
     } catch (error) {
-      console.log(error.response.data);
-      setLoading(false);
+      console.log(error);
     }
   };
 
-  if (loading) return <Spinner />;
+  if (mutation.isPending) return <Spinner />;
 
   return (
     <div className="flex flex-col w-[100svw] h-[100svh] justify-around items-center px-5">

@@ -8,25 +8,16 @@ import { useRouter } from "next/navigation";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa6";
+import { useUserStore } from "@/store/userStore";
 
 const EditProfile = () => {
-  const [user, setUser] = useState();
+  const { user } = useUserStore();
+
   const [loading, setLoading] = useState(true);
   const [avatar, setAvatar] = useState("");
   const [error, setError] = useState("");
 
   const router = useRouter();
-
-  const getUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setUser(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleAvatarChange = async () => {
     try {
@@ -46,14 +37,14 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    getUser();
+    // getUser();
   }, []);
 
   if (loading) return <Spinner />;
 
   return (
     <div>
-      <Nav username={user?.username} avatar={user?.avatar}/>
+      <Nav username={user?.username} avatar={user?.avatar} />
       <div className="py-6">
         <div className="max-w-screen flex items-center justify-center flex-col gap-2">
           {user?.avatar ? (

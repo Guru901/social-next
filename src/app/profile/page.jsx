@@ -1,79 +1,54 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
 import { FaUser } from "react-icons/fa6";
 import Nav from "@/Components/Nav";
 import Image from "next/image";
+import { useUserStore } from "@/store/userStore";
+import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
-  const [publicPosts, setPublicPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState();
+  const { user } = useUserStore();
 
   const PostItems = [
-    {
-      lable: "Public Posts",
-      selectedOption: "publicPosts",
-      selected: true,
-    },
-    {
-      lable: "Private Posts",
-      selectedOption: "privatePosts",
-    },
-    {
-      lable: "Liked Posts",
-      selectedOption: "likedPosts",
-    },
+    { label: "Public Posts", selectedOption: "publicPosts" },
+    { label: "Private Posts", selectedOption: "privatePosts" },
+    { label: "Liked Posts", selectedOption: "likedPosts" },
   ];
 
-  const getUserPost = async () => {
-    setLoading(true);
-
-    if (user && user._id) {
-      const { data } = await axios.post("/api/user/getPosts", {
-        user: user._id,
-        isPublic: selectedOption === "publicPosts",
-      });
-
-      setPublicPosts(data.reverse());
-      setLoading(false);
-    }
-
-    if (selectedOption === "likedPosts") {
-      const { data } = await axios.post("/api/likes/getLikedPosts", {
-        id: user._id,
-      });
-
-      setPublicPosts(data.reverse());
-      setLoading(false);
-    }
-  };
-
-  const getUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setUser(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const {
+    data: posts,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["userPosts", selectedOption],
+    queryFn: async () => {
+      if (selectedOption === "likedPosts") {
+        const { data } = await axios.post("/api/likes/getLikedPosts", {
+          id: user._id,
+        });
+        return data.reverse();
+      } else {
+        const { data } = await axios.post("/api/user/getPosts", {
+          user: user._id,
+          isPublic: selectedOption === "publicPosts",
+        });
+        return data.reverse();
+      }
+    },
+  });
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (user?._id) {
+      refetch();
+    }
+  }, [selectedOption, user, refetch]);
 
-  useEffect(() => {
-    getUserPost();
-  }, [selectedOption, user]);
-
-  if (loading) return <Spinner />;
-
+  if (isLoading) return <Spinner />;
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
       <Nav username={user?.username} avatar={user?.avatar} />
@@ -110,7 +85,7 @@ const Profile = () => {
         </div>
         <div>
           <div>
-            <h1 className="text-center text-lg">{publicPosts?.length}</h1>
+            <h1 className="text-center text-lg">{posts?.length}</h1>
             <h1 className="text-center text-lg">Posts</h1>
           </div>
         </div>
@@ -127,7 +102,8 @@ const Profile = () => {
                 className="join-item btn max-w-[8.66rem] w-[33%]"
                 name="options"
                 type="radio"
-                aria-label={postItem.lable}
+                key={postItem.label}
+                aria-label={postItem.label}
                 checked={selectedOption === postItem.selectedOption}
                 onChange={() => setSelectedOption(postItem.selectedOption)}
               />
@@ -136,7 +112,7 @@ const Profile = () => {
         </div>
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">
-            {publicPosts.map((post, index) => (
+            {posts?.map((post, index) => (
               <div
                 key={post._id}
                 className="h-52 w-32 mt-5 profile-post-img relative"

@@ -2,51 +2,29 @@
 
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const Topics = () => {
-  const [topics, setTopics] = useState();
-  const [loggedInUser, setLoggedInUser] = useState();
-  const [loading, setLoading] = useState(true);
-  const getTopics = async () => {
-    try {
-      setLoading(true);
+  const {
+    isLoading,
+    data: topics,
+    isError,
+  } = useQuery({
+    queryKey: ["get-topics"],
+    queryFn: async () => {
       const { data } = await axios.post("/api/topics/getTopics");
-      setTopics(data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+      return data;
+    },
+  });
 
-      setLoading(false);
-    }
-  };
-
-  const getLoggedInUser = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/user/me");
-      setLoggedInUser(data);
-
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getTopics();
-    getLoggedInUser();
-  }, []);
-
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
+  if (isError) return <div>Error</div>;
 
   return (
     <div className="flex flex-col gap-3">
-      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar} />
+      <Nav />
       <div className="flex flex-wrap gap-2 justify-center">
         {topics?.map((topic) => (
           <Link href={`/topic/${topic.name.toLowerCase()}`}>
