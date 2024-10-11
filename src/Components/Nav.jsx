@@ -115,7 +115,7 @@ const Nav = () => {
 
         {showNav && (
           <div
-            className="h-screen pt-12 absolute left-0 top-0 z-20 flex flex-col justify-start gap-2 bg-base-200"
+            className="h-screen pt-12 absolute left-0 top-0 z-20 flex flex-col justify-start gap-2 bg-[#0A1120]"
             style={{
               top: 0,
               zIndex: 22,
