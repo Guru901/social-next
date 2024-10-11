@@ -71,13 +71,13 @@ const Post = () => {
       const { data } = await axios.post("/api/post/getComments", {
         postID: postID,
       });
-      return data;
+      return data.reverse();
     },
   });
 
   const deletePost = async () => {
     await axios.post("/api/post/delete", {
-      id: post[0]?._id,
+      id: post._id,
     });
 
     if (post.success) {
