@@ -152,6 +152,7 @@ a {
   transition: 0.2s;
   border: 1px solid rgba(255, 255, 255, 0.39);
   border-radius: 10px;
+  background: #0C1425;
 }
 
 .dropDownItem:hover {
