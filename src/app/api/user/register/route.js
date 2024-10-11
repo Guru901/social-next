@@ -32,7 +32,6 @@ export async function POST(request) {
 
     const response = NextResponse.json({
       success: true,
-      data: newUser,
     });
 
     const expires = new Date();
@@ -46,7 +45,7 @@ export async function POST(request) {
   } catch (error) {
     return NextResponse.json(
       { success: false, msg: "Something went wrong" },
-      error.message
+      error.message,
     );
   }
 }

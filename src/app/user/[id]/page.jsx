@@ -9,80 +9,91 @@ import Spinner from "@/Components/Spinner";
 import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa6";
 import Image from "next/image";
-import { useUserStore } from "@/store/userStore";
-import { useMutation, useQuery } from "@tanstack/react-query";
 
 const User = () => {
+  const [user, setUser] = useState();
   const [selectedOption, setSelectedOption] = useState("publicPosts");
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [friend, setFriend] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState();
   const [friendBtn, setFriendBtn] = useState("Add Friend");
 
-  const { user: loggedInUser } = useUserStore();
+  const addBtnRef = useRef();
+
   const pathName = usePathname();
   const router = useRouter();
 
   const PostItems = [
     {
-      label: "Public Posts",
+      lable: "Public Posts",
       selectedOption: "publicPosts",
+      selected: true,
     },
     {
-      label: "Private Posts",
+      lable: "Private Posts",
       selectedOption: "privatePosts",
     },
     {
-      label: "Liked Posts",
+      lable: "Liked Posts",
       selectedOption: "likedPosts",
     },
   ];
 
-  const id = pathName.split("/")[2]; // Keeping this for path-based extraction.
+  const id = pathName.split("/")[2];
 
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["get-user", id],
-    queryFn: async () => {
+  const getLoggedInUser = async () => {
+    try {
+      const { data } = await axios.post("/api/user/me");
+      setLoggedInUser(data);
+    } catch (error) {}
+  };
+
+  const getUserSearch = async () => {
+    try {
+      setLoading(true);
       const { data } = await axios.post("/api/user/getUser", {
         id,
       });
-      return data;
-    },
-  });
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
-  const { data: posts } = useQuery({
-    queryKey: ["userPosts", selectedOption],
-    queryFn: async () => {
-      if (!user) return [];
-      if (selectedOption === "likedPosts") {
-        const { data } = await axios.post("/api/likes/getLikedPosts", {
-          id: user._id,
-        });
-        return data.reverse();
-      } else {
-        const { data } = await axios.post("/api/user/getPosts", {
-          user: user._id,
-          isPublic: selectedOption === "publicPosts",
-        });
-        return data.reverse();
-      }
-    },
-  });
+  const getUserPosts = async () => {
+    setLoading(true);
 
-  const mutation = useMutation({
-    mutationKey: ["add-friendsd"],
-    mutationFn: async () => {
-      await axios.post("/api/user/addFriend", {
-        from: loggedInUser?.username,
-        fromAvatar: loggedInUser?.avatar,
-        userId: user._id,
-        type: "friendAdd",
+    if (user && user._id) {
+      const { data } = await axios.post("/api/user/getPosts", {
+        user: user._id,
+        isPublic: selectedOption === "publicPosts",
       });
 
-      setFriendBtn("Request Sent!");
-    },
-  });
+      setPosts(data.reverse());
+      setLoading(false);
+    }
 
-  const addFriend = () => {
-    mutation.mutate();
+    if (selectedOption === "likedPosts") {
+      const { data } = await axios.post("/api/likes/getLikedPosts", {
+        id: user._id,
+      });
+
+      setPosts(data.reverse());
+      setLoading(false);
+    }
+  };
+
+  const addFriend = async () => {
+    const { data } = await axios.post("/api/user/addFriend", {
+      from: loggedInUser?.username,
+      fromAvatar: loggedInUser?.avatar,
+      userId: user._id,
+      type: "friendAdd",
+    });
+    setFriendBtn("Friend Added!");
   };
 
   const checkFriend = async () => {
@@ -101,16 +112,25 @@ const User = () => {
   };
 
   useEffect(() => {
+    getLoggedInUser();
+    getUserSearch();
+  }, []);
+
+  useEffect(() => {
     checkFriend();
   }, [loggedInUser]);
 
-  if (isLoading) {
+  useEffect(() => {
+    getUserPosts();
+  }, [selectedOption, user]);
+
+  if (loading) {
     return <Spinner />;
   }
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar} />
+      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar}/>
       <div>
         <div className="flex gap-8 items-center px-8">
           <div className="flex flex-col gap-2">
@@ -138,7 +158,7 @@ const User = () => {
           </div>
         </div>
         <div className="flex max-w-md w-screen justify-end translate-y-[-20px] gap-2">
-          {isFriend ? (
+          {friend ? (
             <button className="btn" disabled>
               {friendBtn}
             </button>
@@ -146,13 +166,14 @@ const User = () => {
             <button
               className="btn"
               onClick={addFriend}
+              ref={addBtnRef}
               disabled={friendBtn === "Friends Already"}
             >
               {friendBtn}
             </button>
           )}
           <Link href={`/chat/${user?._id}`}>
-            <button className="btn mr-5" disabled={!isFriend}>
+            <button className="btn  mr-5" disabled={true}>
               Message
             </button>
           </Link>
@@ -163,15 +184,14 @@ const User = () => {
         <div className="divider m-0"></div>
 
         {isFriend && (
-          <div className="flex justify-center w-[100svw] max-w-[26rem]">
+          <div className="flex justify-center w-[100svw] max-x-[26rem]">
             <div className="join w-[26rem]">
-              {PostItems.map((postItem, index) => (
+              {PostItems.map((postItem) => (
                 <input
-                  key={index}
                   className="join-item btn max-w-[8.66rem] w-[33%]"
                   name="options"
                   type="radio"
-                  aria-label={postItem.label}
+                  aria-label={postItem.lable}
                   checked={selectedOption === postItem.selectedOption}
                   onChange={() => setSelectedOption(postItem.selectedOption)}
                 />
@@ -182,7 +202,7 @@ const User = () => {
 
         <div className="flex justify-center items-center">
           <div className="flex flex-wrap justify-start items-center gap-2 w-[26rem] px-2">
-            {posts?.map((post) => (
+            {posts.map((post) => (
               <div key={post._id} className="h-52 w-32 mt-5 profile-post-img">
                 <Link href={`/post/${post._id}`}>
                   {post.image?.endsWith(".mp4") ||
@@ -200,7 +220,7 @@ const User = () => {
                     />
                   ) : (
                     <div className="object-cover w-full h-full rounded-md border-2 border-solid border-white flex justify-center items-center text-center">
-                      <h1>Post Doesn't have an image</h1>
+                      <h1>Post Doesnt have image</h1>
                     </div>
                   )}
                 </Link>

@@ -13,6 +13,7 @@ import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
 import Image from "next/image";
 const Posts = () => {
+  const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState();
   const getPosts = async () => {
     try {

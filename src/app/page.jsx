@@ -5,19 +5,20 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
+import { useContext } from "react";
+import { UserContext } from "./Context/UserContext";
 import Spinner from "@/Components/Spinner";
-import { useUserStore } from "@/store/userStore";
-import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const [form, setForm] = useState({});
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [pswd, setPswd] = useState("");
   const [avatar, setAvatar] = useState();
 
   const router = useRouter();
 
-  const { setUser, setLogin } = useUserStore();
+  const { setLogin } = useContext(UserContext);
 
   const handleChange = (e) => {
     setForm({
@@ -38,36 +39,32 @@ const Home = () => {
     e.preventDefault();
 
     try {
-      if (pswdCheck()) {
-        const { data, isLoading, isError, error } = useQuery({
-          queryKey: ["register"],
-          queryFn: async () => {
-            const { data } = await axios.get("/api/user/checkUsername", {
-              params: {
-                username: form.username,
-              },
-            });
-            return data;
-          },
-          enabled: false,
-        });
+      setLoading(true);
 
-        if (isLoading) return <Spinner />;
-        if (isError) return <div>Error</div>;
+      if (pswdCheck()) {
+        const { data } = await axios.post("/api/user/register", {
+          username: form.username,
+          password: form.password,
+          file: avatar,
+        });
 
         if (data.success) {
           router.push("/profile");
           setLogin(true);
-          setUser(data.user);
+          setLoading(false);
         } else {
           setError(data.msg);
           router.push("/");
+          setLoading(false);
         }
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <div className="flex flex-col w-[100svw] h-[100svh] justify-evenly items-center px-5">

@@ -2,16 +2,26 @@
 
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
-import { useUserStore } from "@/store/userStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const AllNotifications = () => {
+  const [loggedInUser, setLoggedInUser] = useState();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState();
 
-  const { user } = useUserStore();
+  const getLoggedInUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/user/me");
+      setLoggedInUser(data);
+      setLoading(false);
+    } catch (error) {
+      setError("An error occured :/");
+      setLoading(false);
+    }
+  };
 
   const getAllNotifications = async () => {
     try {
@@ -19,7 +29,7 @@ const AllNotifications = () => {
       const { data } = await axios.post(
         "/api/notifications/getAllNotifications",
         {
-          id: user?._id,
+          id: loggedInUser?._id,
         }
       );
       setNotifications(data.reverse());
@@ -33,7 +43,7 @@ const AllNotifications = () => {
     try {
       const { data } = await axios.post("/api/notifications/accept", {
         notificationType: notificationType,
-        to: user?._id,
+        to: loggedInUser?._id,
         from: from,
         notificationId: notificationId,
       });
@@ -43,14 +53,18 @@ const AllNotifications = () => {
   };
 
   useEffect(() => {
+    getLoggedInUser();
+  }, []);
+
+  useEffect(() => {
     getAllNotifications();
-  }, [user]);
+  }, [loggedInUser]);
 
   if (loading) return <Spinner />;
 
   return (
     <div>
-      <Nav />
+      <Nav username={loggedInUser?.username} avatar={loggedInUser?.avatar}/>
       <div>
         {notifications?.length > 0 ? (
           <div>
