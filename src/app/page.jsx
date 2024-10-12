@@ -8,6 +8,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import Spinner from "@/Components/Spinner";
 import { useUserStore } from "@/store/userStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const Home = () => {
   const [form, setForm] = useState({});
@@ -56,12 +57,12 @@ const Home = () => {
         if (mutation.isLoading) return <Spinner />;
         if (mutation.isError) return <div>Error</div>;
 
-        if (mutation.data.success) {
+        if (mutation.data?.success) {
           router.push("/profile");
           setLogin(true);
-          setUser(mutation.data.user);
+          setUser(mutation.data?.user);
         } else {
-          setError(mutation.data.msg);
+          setError(mutation.data?.msg);
           router.push("/");
         }
       }
@@ -130,8 +131,15 @@ const Home = () => {
           </Link>
           <h2 className="text-center text-[#ef4c53]">{error}</h2>
         </div>
-        <button type="submit" className="btn">
-          Submit
+        <button type="submit" className="btn" disabled={mutation.isPending}>
+          {mutation.isPending ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Please wait
+            </>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
     </div>

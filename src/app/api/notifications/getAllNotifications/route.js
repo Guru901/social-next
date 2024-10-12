@@ -21,7 +21,7 @@ export async function POST(request) {
       return response;
     }
 
-    const response = NextResponse.json("NICE");
+    const response = NextResponse.json({});
     return response;
   } catch (e) {
     console.error(e);

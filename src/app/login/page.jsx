@@ -6,7 +6,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Spinner from "@/Components/Spinner";
 import { useUserStore } from "@/store/userStore";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [form, setForm] = useState({});
@@ -17,6 +18,7 @@ const Login = () => {
   const router = useRouter();
 
   const mutation = useMutation({
+    mutationKey: ["login"],
     mutationFn: async (formData) => {
       const response = await axios.post("/api/user/login", formData);
       return response.data;
@@ -52,8 +54,6 @@ const Login = () => {
       console.log(error);
     }
   };
-
-  if (mutation.isPending) return <Spinner />;
 
   return (
     <div className="flex flex-col w-[100svw] h-[100svh] justify-around items-center px-5">
@@ -93,8 +93,15 @@ const Login = () => {
             </Link>
             <h2 className="text-center text-[#ef4c53]">{error}</h2>
           </div>
-          <button type="submit" className="btn">
-            Submit
+          <button type="submit" className="btn" disabled={mutation.isPending}>
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Please wait
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </>

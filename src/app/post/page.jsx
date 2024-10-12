@@ -10,13 +10,13 @@ import Picker from "@emoji-mart/react";
 import Nav from "@/Components/Nav";
 import { useUserStore } from "@/store/userStore";
 import { emojiSvg } from "./emojiSVG";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const Upload = () => {
   const [form, setForm] = useState({});
   const [image, setImage] = useState();
   const [isPublic, setIsPublic] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [isPost, setIsPost] = useState(true);
   const [picker, setPicker] = useState();
   const [topics, setTopics] = useState();
   const [topic, setTopic] = useState("general");
@@ -29,13 +29,10 @@ const Upload = () => {
 
   const getTopics = async () => {
     try {
-      setLoading(true);
       const { data } = await axios.post("/api/topics/getTopics");
       setTopics(data);
-      setLoading(false);
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
@@ -46,13 +43,10 @@ const Upload = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const url = isPost ? "/api/post/upload" : "/api/videos/upload";
-
-      setLoading(true);
-      const { data } = await axios.post(url, {
+  const mutation = useMutation({
+    mutationKey: ["upload"],
+    mutationFn: async () => {
+      const response = await axios.post("/api/post/upload", {
         title: form.title,
         body: form.body,
         image: image,
@@ -61,14 +55,24 @@ const Upload = () => {
         username: user?.username,
         topic: topic,
       });
-
+      return response.data;
+    },
+    onSuccess: (data) => {
       if (data.success) {
         router.push("/feed?from=post");
       }
-      setLoading(false);
+    },
+    onError: (error) => {
+      console.error("Error uploading post:", error);
+    },
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      mutation.mutate();
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
@@ -88,31 +92,12 @@ const Upload = () => {
     getTopics();
   }, []);
 
-  if (loading) return <Spinner />;
-
   return (
     <div>
       <Nav username={user?.username} avatar={user?.avatar} />
       <div className="w-screen max h-screen flex flex-col items-center py-14 px-0 gap-8">
         <h1 className="text-xl text-center">Share Your Memories</h1>
-        <div className="join w-11/12  flex max-w-lg ">
-          <input
-            className="join-item btn w-1/2"
-            type="radio"
-            name="options"
-            aria-label="Post on Feed"
-            checked={isPost}
-            onChange={() => setIsPost(true)}
-          />
-          <input
-            className="join-item btn w-1/2"
-            type="radio"
-            name="options"
-            aria-label="Post on Short videos"
-            checked={!isPost}
-            onChange={() => setIsPost(false)}
-          />
-        </div>
+        <div className="join w-11/12  flex max-w-lg "></div>
         <form
           className="flex flex-col gap-3 w-11/12 justify-center items-center text-start"
           onSubmit={handleSubmit}
@@ -188,8 +173,19 @@ const Upload = () => {
               ))}
             </select>
           </div>
-          <button className="btn max-w-lg w-full" type="submit">
-            Upload
+          <button
+            className="btn max-w-lg w-full"
+            type="submit"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Please wait
+              </>
+            ) : (
+              "Upload"
+            )}
           </button>
         </form>
       </div>

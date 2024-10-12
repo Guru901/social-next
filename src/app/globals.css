@@ -176,3 +176,9 @@ a {
 .loading-lg {
   width: 2.5rem;
 }
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  width: 20px;
+  height: 20px;
+}

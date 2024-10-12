@@ -9,12 +9,12 @@ export async function POST(request) {
 
     const req = await request.json();
 
-    const { comment, postID, user, avatar } = req;
+    const { comment, postID, username, avatar } = req;
 
     const newComment = await Comment.create({
       text: comment,
       post: postID,
-      user: user.username,
+      user: username,
       avatar: avatar ? avatar : "",
     });
     await newComment.save();

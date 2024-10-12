@@ -10,6 +10,7 @@ const AllNotifications = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState();
+  const [notificationStatus, setNotificationStatus] = useState("Accept");
 
   const { user } = useUserStore();
 
@@ -31,12 +32,13 @@ const AllNotifications = () => {
 
   const acceptNotification = async (notificationType, from, notificationId) => {
     try {
-      const { data } = await axios.post("/api/notifications/accept", {
+      await axios.post("/api/notifications/accept", {
         notificationType: notificationType,
         to: user?._id,
         from: from,
         notificationId: notificationId,
       });
+      setNotificationStatus("Accepted");
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +76,10 @@ const AllNotifications = () => {
                       <div className="flex gap-2 justify-end">
                         <button
                           className="btn"
-                          disabled={notification.isAccepted}
+                          disabled={
+                            notification.isAccepted ||
+                            notificationStatus === "Accepted"
+                          }
                           onClick={() => {
                             acceptNotification(
                               notification.notificationType,
@@ -83,7 +88,7 @@ const AllNotifications = () => {
                             );
                           }}
                         >
-                          Accept
+                          {notificationStatus}
                         </button>
 
                         <button

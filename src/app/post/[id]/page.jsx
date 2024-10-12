@@ -19,7 +19,8 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { getDateDifference } from "@/functions/getDate";
 import { useUserStore } from "@/store/userStore";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const Post = () => {
   const [form, setForm] = useState({});
@@ -88,18 +89,23 @@ const Post = () => {
       router.push("/feed");
     }
   };
+  const mutation = useMutation({
+    mutationKey: ["comment"],
+    mutationFn: async (comment) => {
+      await axios.post("/api/post/comment", {
+        comment: comment,
+        postID: postID,
+        username: user?.username,
+        avatar: user?.avatar ? user?.avatar : "",
+      });
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setPicker(false);
-
-      await axios.post("/api/post/comment", {
-        comment: form.comment,
-        postID: postID,
-        user: user,
-        avatar: user?.avatar ? user?.avatar : "",
-      });
+      mutation.mutate(form.comment);
       setForm({ comment: "" });
       refetch();
     } catch (error) {
@@ -177,6 +183,12 @@ const Post = () => {
       console.error("Failed to copy: ", err);
     }
   };
+
+  useEffect(() => {
+    setInterval(() => {
+      refetch();
+    }, 1000);
+  }, []);
 
   if ((isPostLoading, isPending, isCommentsLoading)) return <Spinner />;
   if (isError) return <div>Error</div>;
@@ -322,8 +334,19 @@ const Post = () => {
                   />
                   <button onClick={selectEmoji}>{emojiSvg}</button>
                 </label>
-                <button className="btn" type="submit">
-                  Comment
+                <button
+                  className="btn"
+                  type="submit"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      Please wait
+                    </>
+                  ) : (
+                    "Comment"
+                  )}
                 </button>
               </form>
 
