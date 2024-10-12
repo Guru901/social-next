@@ -16,6 +16,7 @@ import {
   AiOutlineDislike,
   AiOutlineLike,
 } from "react-icons/ai";
+import VidPlayer from "@/Components/VidPlayer";
 
 export default function CardWithMedia({ post, refetch }) {
   const { user } = useUserStore();
