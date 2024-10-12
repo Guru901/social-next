@@ -53,7 +53,6 @@ const Home = () => {
     try {
       if (pswdCheck()) {
         mutation.mutate();
-        console.log(mutation.data);
         if (mutation.isLoading) return <Spinner />;
         if (mutation.isError) return <div>Error</div>;
 
