@@ -16,6 +16,5 @@ export async function POST(request) {
     return response;
   } catch (error) {
     console.log(error);
-    // It's a good practice to return an error response in case of failure
   }
 }

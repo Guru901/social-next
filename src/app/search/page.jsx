@@ -16,11 +16,9 @@ const Search = () => {
         user: search,
       });
 
-      // Ensure that data.users is an array before updating state
       setUsers(data.users);
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setUsers([]); // Set to empty array in case of an error
     }
   };
 
@@ -30,7 +28,7 @@ const Search = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Nav username={""}/>
+      <Nav username={""} />
       <div className="max-w-96 flex flex-col items-center py-5 gap-2">
         <h1 className="w-full flex self-start text-xl">Search</h1>
         <div className="w-screen flex justify-center mt-4">

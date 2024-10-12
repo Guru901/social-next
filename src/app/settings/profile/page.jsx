@@ -36,10 +36,6 @@ const EditProfile = () => {
     }
   };
 
-  useEffect(() => {
-    // getUser();
-  }, []);
-
   if (loading) return <Spinner />;
 
   return (

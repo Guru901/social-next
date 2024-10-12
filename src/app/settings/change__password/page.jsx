@@ -34,17 +34,6 @@ const ChangePassword = () => {
     });
   };
 
-  // const getUser = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await axios.post("/api/user/me");
-  //     setUser(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pswdCheck()) {
@@ -69,10 +58,6 @@ const ChangePassword = () => {
       }
     }
   };
-
-  useEffect(() => {
-    // getUser();
-  }, []);
 
   if (loading) return <Spinner />;
 
