@@ -6,9 +6,12 @@ import jwt from "jsonwebtoken";
 export async function POST(request) {
   try {
     await connect();
+    const req = await request.json();
 
-    const { username, password, file } = await request.json();
+    const { username, password, file } = req.params;
+
     const existingUser = await User.findOne({ username: username });
+
     if (existingUser) {
       return NextResponse.json({
         success: false,

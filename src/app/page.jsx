@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
 import Spinner from "@/Components/Spinner";
 import { useUserStore } from "@/store/userStore";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const [form, setForm] = useState({});
@@ -33,34 +33,36 @@ const Home = () => {
     }
     return true;
   };
-
+  const mutation = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async () => {
+      const { data } = await axios.post("/api/user/register", {
+        params: {
+          username: form.username,
+          password: form.password,
+          file: avatar,
+        },
+      });
+      return data;
+    },
+    enabled: false,
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (pswdCheck()) {
-        const { data, isLoading, isError, error } = useQuery({
-          queryKey: ["register"],
-          queryFn: async () => {
-            const { data } = await axios.get("/api/user/checkUsername", {
-              params: {
-                username: form.username,
-              },
-            });
-            return data;
-          },
-          enabled: false,
-        });
+        mutation.mutate();
+        console.log(mutation.data);
+        if (mutation.isLoading) return <Spinner />;
+        if (mutation.isError) return <div>Error</div>;
 
-        if (isLoading) return <Spinner />;
-        if (isError) return <div>Error</div>;
-
-        if (data.success) {
+        if (mutation.data.success) {
           router.push("/profile");
           setLogin(true);
-          setUser(data.user);
+          setUser(mutation.data.user);
         } else {
-          setError(data.msg);
+          setError(mutation.data.msg);
           router.push("/");
         }
       }
