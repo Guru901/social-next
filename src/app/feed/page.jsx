@@ -31,6 +31,7 @@ const Feed = () => {
     isLoading,
     data: posts,
     refetch,
+    isPending,
   } = useQuery({
     queryKey: ["posts", selectedOption],
     queryFn: async () => {
@@ -141,7 +142,7 @@ const Feed = () => {
       refetch();
     }
   }, []);
-  if (isLoading) return <Spinner />;
+  if (isLoading && isPending) return <Spinner />;
 
   return (
     <>
