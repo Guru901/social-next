@@ -50,50 +50,60 @@ const Profile = () => {
 
   if (isLoading) return <Spinner />;
   return (
-    <div className="flex flex-col gap-8 w-[100svw] min-h-screen">
-      <Nav username={user?.username} avatar={user?.avatar} />
-      <div className="flex gap-8 items-center px-8 justify-evenly">
-        <div className="flex flex-col gap-2">
+    <div className="flex flex-col w-[100svw] min-h-screen">
+      <div>
+        <Nav username={user?.username} avatar={user?.avatar} />
+        <div className="flex gap-8 items-center justify-evenly">
           {user?.avatar ? (
-            <div className="avatar">
-              <div className="w-24 rounded-full">
-                <Image
-                  src={user?.avatar ? user.avatar : ""}
-                  width={96}
-                  height={96}
-                  alt={user?.username}
-                />
+            <img
+              src={user?.avatar}
+              className="w-screen h-52 object-cover"
+              alt={user?.username}
+            />
+          ) : (
+            <div className="w-screen h-52"></div>
+          )}
+          <div
+            className={`w-screen flex justify-center gap-20 items-center h-52 absolute ${user?.avatar ? "bg-[#000000]/[0.5]" : ""}`}
+          >
+            <div className="flex flex-col justify-center items-center">
+              <div className="flex gap-2 flex-col justify-center items-center">
+                {user?.avatar ? (
+                  <Image
+                    src={user?.avatar}
+                    width={110}
+                    height={110}
+                    alt={user?.username}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <FaUser size={70} />
+                )}
+                <h1 className="text-xl font-bold">
+                  {user?.username ? user.username : "User"}
+                </h1>
+              </div>
+              <div className="flex gap-4">
+                <div>
+                  <div className="flex gap-1 text-sm text-gray-200">
+                    <h1 className="text-center">{user?.friends?.length}</h1>
+                    <h1 className="text-center">Friends</h1>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex gap-1 text-sm text-gray-200">
+                    <h1 className="text-center">{posts?.length}</h1>
+                    <h1 className="text-center">Posts</h1>
+                  </div>
+                </div>
               </div>
             </div>
-          ) : (
-            <div className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden">
-              <FaUser size={70} />
-            </div>
-          )}
-
-          <div>
-            <h1 className="text-2xl">
-              {user?.username ? user.username : "User"}
-            </h1>
-          </div>
-        </div>
-        <div>
-          <div>
-            <h1 className="text-center text-lg">{user?.friends?.length}</h1>
-            <h1 className="text-center text-lg">Frnds</h1>
-          </div>
-        </div>
-        <div>
-          <div>
-            <h1 className="text-center text-lg">{posts?.length}</h1>
-            <h1 className="text-center text-lg">Posts</h1>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col gap-4 w-full overflow-hidden">
         <div className="divider m-0"></div>
-
         {/* Radio buttons section */}
         <div className="flex justify-center w-[100svw] max-x-[26rem]">
           <div className="join w-[26rem]">

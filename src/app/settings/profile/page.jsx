@@ -11,9 +11,9 @@ import { FaUser } from "react-icons/fa6";
 import { useUserStore } from "@/store/userStore";
 
 const EditProfile = () => {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState();
   const [avatar, setAvatar] = useState("");
   const [error, setError] = useState("");
 
@@ -27,6 +27,10 @@ const EditProfile = () => {
       });
 
       if (data.success) {
+        setUser({
+          ...user,
+          avatar,
+        });
         router.push("/profile");
         setLoading(false);
       }
@@ -88,13 +92,7 @@ const EditProfile = () => {
                 <div className="flex gap-2">
                   <h1 className="text-xl">Role</h1>
                   <h1 className="font-bold text-xl">
-                    {`- ${
-                      user?.username === "Phoenix"
-                        ? "Chhotu"
-                        : user.isAdmin
-                        ? "Admin"
-                        : "User"
-                    }`}
+                    {`- ${user?.username === "Phoenix" ? "Chhotu" : "User"}`}
                   </h1>
                 </div>
                 <button className="btn" onClick={handleAvatarChange}>
