@@ -15,7 +15,11 @@ const AllFriends = () => {
   const dummyAvatar =
     "https://imgs.search.brave.com/TwVw7arJQxAwQvyjdplJ7bVbGqyaUDjZ0SV5ZqqTwx0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMubmV3czlsaXZl/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMy8xMS9CaHVw/ZW5kcmEtSm9naS5w/bmc_dz04MDImZW5s/YXJnZT10cnVl";
 
-  const { data: friends, isLoading } = useQuery({
+  const {
+    data: friends,
+    isLoading,
+    isPending,
+  } = useQuery({
     queryKey: ["get-friends", user?._id],
     queryFn: async () => {
       const { data } = await axios.post("/api/user/getFriends", {
@@ -25,7 +29,7 @@ const AllFriends = () => {
     },
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isPending) return <Spinner />;
   return (
     <div>
       <Nav />

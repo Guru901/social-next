@@ -59,7 +59,7 @@ const Post = () => {
     }, 1000);
   }, []);
 
-  if ((isPostLoading, isPending, isCommentsLoading)) return <Spinner />;
+  if (isPostLoading || isCommentsLoading || isPending) return <Spinner />;
   if (isError) return <div>Error</div>;
 
   return (

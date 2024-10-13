@@ -7,13 +7,12 @@ import Nav from "@/Components/Nav";
 import { useUserStore } from "@/store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import CardWithoutImage from "./postCards/cardWithoutImage";
-import CardWithMedia from "./postCards/cardWithMedia";
+import PostCardWithoutMedia from "@/Components/PostCardWithoutMedia";
+import PostCardWithMedia from "@/Components/PostCardWithMedia";
 import { FetchOptions } from "./fetchOptions";
 
 const Feed = () => {
   const [error, setError] = useState(false);
-  const [liked, setLiked] = useState(false);
   const [selectedOption, setSelectedOption] = useState("global");
 
   const { user } = useUserStore();
@@ -71,7 +70,7 @@ const Feed = () => {
     }
   }, []);
 
-  if (isLoading && isPending) return <Spinner />;
+  if (isLoading || isPending) return <Spinner />;
 
   return (
     <>
@@ -87,13 +86,9 @@ const Feed = () => {
       <div className="flex feedContainer flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
         {posts?.map((post) =>
           post.image ? (
-            <CardWithMedia post={post} refetch={refetch} />
+            <PostCardWithMedia post={post} refetch={refetch} />
           ) : (
-            <CardWithoutImage
-              post={post}
-              refetch={refetch}
-              setLiked={setLiked}
-            />
+            <PostCardWithoutMedia post={post} refetch={refetch} />
           )
         )}
       </div>

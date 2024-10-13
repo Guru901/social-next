@@ -23,6 +23,7 @@ const Profile = () => {
   const {
     data: posts,
     isLoading,
+    isPending,
     refetch,
   } = useQuery({
     queryKey: ["userPosts", selectedOption],
@@ -48,7 +49,7 @@ const Profile = () => {
     }
   }, [selectedOption, user, refetch]);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isPending) return <Spinner />;
   return (
     <div className="flex flex-col w-[100svw] min-h-screen">
       <div>
@@ -64,7 +65,9 @@ const Profile = () => {
             <div className="w-screen h-52"></div>
           )}
           <div
-            className={`w-screen flex justify-center gap-20 items-center h-52 absolute ${user?.avatar ? "bg-[#000000]/[0.5]" : ""}`}
+            className={`w-screen flex justify-center gap-20 items-center h-52 absolute ${
+              user?.avatar ? "bg-[#000000]/[0.5]" : ""
+            }`}
           >
             <div className="flex flex-col justify-center items-center">
               <div className="flex gap-2 flex-col justify-center items-center">

@@ -38,7 +38,11 @@ const User = () => {
 
   const id = pathName.split("/")[2]; // Keeping this for path-based extraction.
 
-  const { data: user, isLoading } = useQuery({
+  const {
+    data: user,
+    isLoading: userLoading,
+    isPending: userPending,
+  } = useQuery({
     queryKey: ["get-user", id],
     queryFn: async () => {
       const { data } = await axios.post("/api/user/getUser", {
@@ -48,7 +52,11 @@ const User = () => {
     },
   });
 
-  const { data: posts } = useQuery({
+  const {
+    data: posts,
+    isLoading: postsLoading,
+    isPending: postsPending,
+  } = useQuery({
     queryKey: ["userPosts", selectedOption],
     queryFn: async () => {
       if (!user) return [];
@@ -104,9 +112,8 @@ const User = () => {
     checkFriend();
   }, [loggedInUser]);
 
-  if (isLoading) {
+  if (userLoading || userPending || postsLoading || postsPending)
     return <Spinner />;
-  }
 
   return (
     <div className="flex flex-col gap-8 w-[100svw] min-h-screen">

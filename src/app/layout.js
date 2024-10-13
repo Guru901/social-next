@@ -1,9 +1,8 @@
-import { Ubuntu } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/react";
 import ReactQueryProvider from "../functions/reactQueryProvider";
 
-const inter = Ubuntu({
+const inter = Inter({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
