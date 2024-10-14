@@ -38,18 +38,7 @@ const Feed = () => {
           user: user._id,
         });
 
-        const postsWithCreatedAt = data.posts.filter((post) => post.createdAt);
-        const postsWithoutCreatedAt = data.posts
-          .filter((post) => !post.createdAt)
-          .reverse();
-
-        // Sort posts with createdAt in descending order of createdAt
-        postsWithCreatedAt.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-
-        // Concatenate sorted posts with and without createdAt
-        return [...postsWithCreatedAt, ...postsWithoutCreatedAt];
+        return data.reverse();
       }
     },
     onSuccess: (data) => {
@@ -89,7 +78,7 @@ const Feed = () => {
             <PostCardWithMedia post={post} refetch={refetch} />
           ) : (
             <PostCardWithoutMedia post={post} refetch={refetch} />
-          )
+          ),
         )}
       </div>
     </>

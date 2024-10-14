@@ -1,8 +1,8 @@
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "../functions/reactQueryProvider";
 
-const inter = Inter({
+const inter = Roboto({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });

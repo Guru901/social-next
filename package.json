@@ -21,7 +21,7 @@
     "gsap": "^3.12.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.451.0",
-    "mongoose": "^8.1.1",
+    "mongoose": "^8.7.1",
     "next": "14.1.0",
     "next-cloudinary": "^5.20.0",
     "react": "^18",
