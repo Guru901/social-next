@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("publicPosts");
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
   const PostItems = [
     { label: "Public Posts", selectedOption: "publicPosts" },
