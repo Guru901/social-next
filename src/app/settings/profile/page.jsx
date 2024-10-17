@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Spinner from "@/Components/Spinner";
 import { CldUploadWidget } from "next-cloudinary";
@@ -15,7 +15,6 @@ const EditProfile = () => {
 
   const [loading, setLoading] = useState();
   const [avatar, setAvatar] = useState("");
-  const [error, setError] = useState("");
 
   const router = useRouter();
 

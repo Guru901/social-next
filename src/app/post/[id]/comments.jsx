@@ -1,4 +1,5 @@
 import { getDateDifference } from "@/functions/getDate";
+import { Loader2 } from "lucide-react";
 import { FaUser } from "react-icons/fa6";
 
 export default function Comments({ comments, isCommentsLoading }) {
@@ -6,7 +7,7 @@ export default function Comments({ comments, isCommentsLoading }) {
     <div className="w-[96vw] max-w-xl">
       {isCommentsLoading ? (
         <div className="w-full h-full flex justify-center items-center">
-          <span class="loading loading-ball loading-lg"></span>
+          <Loader2 className="animate-spin" />
         </div>
       ) : (
         comments.map((comment, index) => (

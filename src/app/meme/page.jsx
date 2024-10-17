@@ -1,6 +1,5 @@
 "use client";
 
-import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
 import axios from "axios";
 import { useEffect, useState } from "react";

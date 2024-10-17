@@ -19,7 +19,6 @@ const User = () => {
 
   const { user: loggedInUser } = useUserStore();
   const pathName = usePathname();
-  const router = useRouter();
 
   const PostItems = [
     {

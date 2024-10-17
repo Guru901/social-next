@@ -2,19 +2,9 @@
 
 import axios from "axios";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import {
-  AiFillDislike,
-  AiFillLike,
-  AiOutlineDislike,
-  AiOutlineLike,
-} from "react-icons/ai";
-import Link from "next/link";
-import { getDateDifference } from "@/functions/getDate";
+import React, { useState } from "react";
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
-import VidPlayer from "@/Components/VidPlayer";
 import PostCardWithoutMedia from "@/Components/PostCardWithoutMedia";
 import PostCardWithMedia from "@/Components/PostCardWithMedia";
 import { useQuery } from "@tanstack/react-query";
@@ -33,7 +23,6 @@ const FetchTopicPosts = () => {
       const { data } = await axios.post("/api/post/allPosts", {
         keyWord: keyWord,
       });
-      console.log(data);
       setPosts(data);
       return data;
     },

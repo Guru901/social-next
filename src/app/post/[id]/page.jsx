@@ -2,12 +2,11 @@
 
 import axios from "axios";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
 import Image from "next/image";
 import { getDateDifference } from "@/functions/getDate";
-import { useUserStore } from "@/store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import AddComment from "./addComment";
 import Comments from "./comments";
@@ -18,13 +17,10 @@ const Post = () => {
 
   const pathname = usePathname();
 
-  const { user } = useUserStore();
-
   const postIDArray = pathname.split("/post/");
   const postID = postIDArray.length > 1 ? postIDArray[1] : null;
 
   const {
-    data,
     isLoading: isPostLoading,
     isError,
     isPending,
@@ -51,20 +47,15 @@ const Post = () => {
       });
       return data.reverse();
     },
+    refetchInterval: 1250,
   });
-
-  useEffect(() => {
-    setInterval(() => {
-      refetch();
-    }, 1000);
-  }, []);
 
   if (isPostLoading || isCommentsLoading || isPending) return <Spinner />;
   if (isError) return <div>Error</div>;
 
   return (
     <div className="w-full flex flex-col justify-center pl-1">
-      <Nav username={user?.username} avatar={user?.avatar} />
+      <Nav />
       <div className="flex flex-col items-center p-2 gap-4 w-screen">
         <div className="flex flex-col gap-4 w-sreen">
           <div className="w-screen px-2 flex justify-center pt-4">
@@ -104,12 +95,6 @@ const Post = () => {
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="pl-[4vw]">
-              <h1 className="text-xl font-semibold">
-                Comments - {comments?.length}
-              </h1>
-            </div>
-
             <AddComment refetch={refetch} postID={postID} />
             <div className="flex flex-col gap-2 items-center">
               <Comments

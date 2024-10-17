@@ -15,6 +15,7 @@ const postSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
+      index: true,
     },
     username: {
       type: String,
@@ -26,6 +27,7 @@ const postSchema = new mongoose.Schema(
     isPublic: {
       type: Boolean,
       default: true,
+      index: true,
     },
     topic: {
       type: String,
@@ -34,7 +36,7 @@ const postSchema = new mongoose.Schema(
       index: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const Post = mongoose.models.Post || mongoose.model("Post", postSchema);

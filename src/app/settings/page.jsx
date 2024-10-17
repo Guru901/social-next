@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Nav from "../../Components/Nav";
 import { FaBell, FaFeather, FaGears, FaUser } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -11,7 +11,6 @@ export async function POST() {
     });
     return response;
   } catch (error) {
-    console.log(error.message);
     return NextResponse.json({ msg: "Error logging out" });
   }
 }

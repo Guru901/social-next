@@ -6,7 +6,6 @@ import Nav from "@/Components/Nav";
 import Link from "next/link";
 
 const Search = () => {
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
 
