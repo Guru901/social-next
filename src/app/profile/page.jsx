@@ -49,6 +49,15 @@ const Profile = () => {
     }
   }, [selectedOption, user, refetch]);
 
+  useEffect(() => {
+    (async () => {
+      if (!user) {
+        const { data } = await axios.post("/api/user/me");
+        setUser(data);
+      }
+    })();
+  }, []);
+
   if (isLoading || isPending) return <Spinner />;
   return (
     <div className="flex flex-col w-[100svw] min-h-screen">
