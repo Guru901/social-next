@@ -9,20 +9,36 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
 
+  const controller = new AbortController();
+
   const findUser = async () => {
     try {
-      const { data } = await axios.post("/api/user/findUser", {
-        user: search,
-      });
+      const { data } = await axios.post(
+        "/api/user/findUser",
+        {
+          user: search,
+        },
+        {
+          signal: controller.signal,
+        }
+      );
 
       setUsers(data.users);
     } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled: ", error.message);
+        return;
+      }
       console.error("Error fetching user data:", error);
     }
   };
 
   useEffect(() => {
     findUser();
+
+    return () => {
+      controller.abort();
+    };
   }, [search]);
 
   return (

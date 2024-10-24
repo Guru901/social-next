@@ -1,32 +1,9 @@
 "use client";
 
-import Spinner from "@/Components/Spinner";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
-const Memes = () => {
-  const [meme, setMeme] = useState();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const getMeme = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get("https://meme-api.com/gimme");
-      setMeme(data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setError("An error occured! try to reload");
-    }
-  };
-
-  useEffect(() => {
-    getMeme();
-  }, []);
-
-  if (loading) return <Spinner />;
-  if (error) return error;
+const Memes = async () => {
+  const { data: meme } = await axios.get("https://meme-api.com/gimme");
 
   return (
     <div className="flex flex-col gap-4">

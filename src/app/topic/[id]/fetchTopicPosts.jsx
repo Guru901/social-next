@@ -33,13 +33,17 @@ const FetchTopicPosts = () => {
   return (
     <div>
       <>
-        <Nav username={user?.username} avatar={user?.avatar} />
+        <Nav />
         <div className="flex feedContainer flex-col justify-center items-center gap-5 p-6 pb-16 w-screen">
           {posts?.map((post) =>
             post.image ? (
-              <PostCardWithMedia post={post} refetch={refetch} />
+              <PostCardWithMedia post={post} refetch={refetch} key={post._id} />
             ) : (
-              <PostCardWithoutMedia post={post} refetch={refetch} />
+              <PostCardWithoutMedia
+                post={post}
+                refetch={refetch}
+                key={post._id}
+              />
             )
           )}
         </div>

@@ -1,31 +1,17 @@
-"use client";
-
 import { getDateDifference } from "@/functions/getDate";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  AiFillDislike,
-  AiFillLike,
-  AiOutlineDislike,
-  AiOutlineLike,
-} from "react-icons/ai";
+import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import Post from "@/models/postModel";
 import Link from "next/link";
 import VidPlayer from "@/Components/VidPlayer";
 import Image from "next/image";
-const Posts = () => {
-  const [posts, setPosts] = useState();
-  const getPosts = async () => {
-    try {
-      const { data } = await axios.post("/api/post/getPosts");
-      setPosts(data.reverse());
-    } catch (error) {
-      console.log(error);
-    }
-  };
+import { connect } from "@/dbconfig/connect";
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+const AllPosts = async () => {
+  await connect();
+  const posts = await Post.find();
+
+  if (!posts) return;
+
   return (
     <div className="flex feedContainer flex-col justify-start gap-5 p-6 pb-16">
       {posts?.map((post) =>
@@ -101,7 +87,7 @@ const Posts = () => {
 
               <div className="card-actions justify-between items-center">
                 <div className="flex gap-2 text-xl mt-4">
-                  <button onClick={(prev) => setLiked(!prev)}>
+                  <button>
                     <div className="flex flex-col items-center justify-center">
                       <div className="flex flex-col items-center justify-center">
                         <AiOutlineLike size={24} />
@@ -136,4 +122,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default AllPosts;

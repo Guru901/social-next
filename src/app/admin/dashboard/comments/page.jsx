@@ -1,18 +1,13 @@
-"use client";
+import { connect } from "@/dbconfig/connect";
+import Comments from "@/models/commentModel";
 import Link from "next/link";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa6";
 
-const Comments = () => {
-  const [comments, setComments] = useState();
-  const getComments = async () => {
-    const { data } = await axios.post("/api/post/getAllComments");
-    setComments(data.reverse());
-  };
-  useEffect(() => {
-    getComments();
-  }, []);
+const AllComments = async () => {
+  await connect();
+  const comments = await Comments.find({});
+
+  if (!comments) return;
 
   return (
     <div className="flex flex-col gap-4 pt-2">
@@ -51,4 +46,4 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+export default AllComments;

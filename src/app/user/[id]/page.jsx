@@ -6,7 +6,6 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Spinner from "@/Components/Spinner";
-import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa6";
 import Image from "next/image";
 import { useUserStore } from "@/store/userStore";

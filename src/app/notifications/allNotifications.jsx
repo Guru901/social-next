@@ -4,31 +4,14 @@ import Nav from "@/Components/Nav";
 import Spinner from "@/Components/Spinner";
 import { useUserStore } from "@/store/userStore";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const AllNotifications = () => {
+const AllNotifications = ({ notifications }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [notifications, setNotifications] = useState();
   const [notificationStatus, setNotificationStatus] = useState("Accept");
 
   const { user } = useUserStore();
-
-  const getAllNotifications = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.post(
-        "/api/notifications/getAllNotifications",
-        {
-          id: user?._id,
-        }
-      );
-      setNotifications(data.reverse());
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   const acceptNotification = async (notificationType, from, notificationId) => {
     try {
@@ -43,10 +26,6 @@ const AllNotifications = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    getAllNotifications();
-  }, [user]);
 
   if (loading) return <Spinner />;
 

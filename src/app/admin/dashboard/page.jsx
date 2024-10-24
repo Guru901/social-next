@@ -1,8 +1,8 @@
 import React from "react";
 import Sidebar from "./sidebar/sidebar";
 import Navbar from "./navbar/navbar";
-import Posts from "../posts/page";
-import Comments from "./comments/page";
+import AllComments from "./comments/page";
+import AllPosts from "../posts/page";
 
 const Dashboard = () => {
   return (
@@ -13,8 +13,8 @@ const Dashboard = () => {
         <div className="flex flex-col">
           <Navbar />
           <div className="flex gap-2">
-            <Posts />
-            <Comments />
+            <AllPosts />
+            <AllComments />
           </div>
         </div>
       </div>

@@ -1,11 +1,5 @@
-import { Roboto } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "../functions/reactQueryProvider";
-
-const inter = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "Ni Batu 🤐",
@@ -21,7 +15,7 @@ export default function RootLayout({ children }) {
           content="p1l8Nhq2jG8pkqLggUFBoHIfYIRF5viAkZ_0qrsp-18"
         />
       </head>
-      <body className={`${inter.className}`}>
+      <body>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

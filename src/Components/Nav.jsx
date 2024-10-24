@@ -200,6 +200,7 @@ const Nav = () => {
                         width={55}
                         height={55}
                         className="object-cover"
+                        alt="avatar"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

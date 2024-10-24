@@ -1,6 +1,7 @@
 import { connect } from "@/dbconfig/connect";
 import Post from "@/models/postModel";
 import { NextResponse } from "next/server";
+import {} from "next-cloudinary";
 
 export async function POST(request) {
   try {

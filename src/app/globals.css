@@ -35,11 +35,6 @@ body {
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
 
-.footerbtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .navbar {
   padding: 1rem 1.5rem;
   border-bottom-left-radius: 10px;
@@ -57,13 +52,6 @@ body {
 
 .vidNav svg {
   color: #14191e;
-}
-
-.footerContainer {
-  display: flex;
-  align-items: end;
-  height: 10rem;
-  width: 100vw;
 }
 
 @media (max-width: 425px) {

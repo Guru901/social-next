@@ -1,8 +1,16 @@
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 const getLoggedInUser = async () => {
-  const { data } = await axios.post("/api/user/me");
-  return data;
+  try {
+    const { data } = await axios.post("/api/user/me");
+    if (!data) {
+      redirect("/login");
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default getLoggedInUser;
